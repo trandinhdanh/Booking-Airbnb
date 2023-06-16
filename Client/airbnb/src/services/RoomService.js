@@ -4,6 +4,9 @@ export let roomService = {
   getRoomList: () => {
     return https.get(`/api/v1/rooms`);
   },
+  getRoomById: (id) => {
+    return https.get(`/api/v1/rooms/${id}`);
+  },
   getRoomLocation: (id) => {
     return https.get(`/api/phong-thue/lay-phong-theo-vi-tri?maViTri=${id}`);
   },

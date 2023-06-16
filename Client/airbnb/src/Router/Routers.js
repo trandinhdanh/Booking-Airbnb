@@ -5,6 +5,7 @@ import MainLayout from '../Layout/MainLayout'
 import LoginPage from '../Page/LoginPage/LoginPage'
 import RegisterPage from '../Page/RegisterPage/RegisterPage'
 import NotFoundPage from '../Page/NotFoundPage/NotFoundPage'
+import DetailRoomPage from '../Page/DetailRoomPage/DetailRoomPage'
 
 export default function Routers() {
 
@@ -16,6 +17,8 @@ export default function Routers() {
                 <Route path='/register' element={<RegisterPage/>} /> 
                 <Route path='/' element = {<MainLayout/>}>
                     <Route path='/' element={<HomePage/>} />
+                    <Route path='/detail-room/:id' element={<DetailRoomPage/>} />
+
                 </Route>
             </Routes>
         </BrowserRouter>

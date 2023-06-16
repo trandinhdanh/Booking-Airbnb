@@ -65,7 +65,7 @@ export default function Header() {
       // style={{ borderBottom: `${open ? '1px solid #c5c5c578' : ''}` }}
       className={`${
         bg ? 'lg:bg-transparent ' : 'bg-white border-b-[1px] border-b-[#c5c5c578] '
-      } fixed top-0 z-40 w-full transition duration-300 `}
+      } fixed top-0 z-40 w-screen transition duration-300 `}
     >
       {/* Search Home */}
       <div
