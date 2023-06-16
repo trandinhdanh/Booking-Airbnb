@@ -27,6 +27,24 @@ public class RoomConverter {
 
     }
 
+    public RoomEntity toEntity(RoomDTO roomDTO, RoomEntity roomEntity) {
+        return roomEntity = RoomEntity.builder()
+                .id(roomDTO.getId())
+                .name(roomDTO.getName())
+                .description(roomDTO.getDescription())
+                .price(roomDTO.getPrice())
+                .washingMachine(roomDTO.isWashingMachine())
+                .television(roomDTO.isTelevision())
+                .airConditioner(roomDTO.isAirConditioner())
+                .wifi(roomDTO.isWifi())
+                .kitchen(roomDTO.isKitchen())
+                .parking(roomDTO.isParking())
+                .pool(roomDTO.isPool())
+                .hotAndColdMachine(roomDTO.isHotAndColdMachine())
+                .build();
+
+    }
+
     public RoomDTO toDTO(RoomEntity roomEntity) {
         List<String> images = new ArrayList<>();
         if (roomEntity.getImages() != null) {

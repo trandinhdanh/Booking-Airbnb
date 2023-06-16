@@ -10,4 +10,6 @@ public interface IRoomService {
     RoomDTO findOneById(long id);
 
     RoomDTO save(RoomDTO dto, long idUser);
+
+    RoomDTO update(RoomDTO dto);
 }
