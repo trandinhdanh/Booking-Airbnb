@@ -7,5 +7,9 @@ import java.util.List;
 public interface IRoomService {
     List<RoomDTO> findAll();
 
-    RoomDTO save(RoomDTO dto);
+    RoomDTO findOneById(long id);
+
+    RoomDTO save(RoomDTO dto, long idUser);
+
+    RoomDTO update(RoomDTO dto);
 }

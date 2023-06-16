@@ -13,8 +13,9 @@ public class RoomDTO {
     private Long id;
     private String name;
     private String description;
-    private String price;
+    private double price;
     private List<String> images;
+    private String codeLocation;
     private boolean washingMachine;
     private boolean television;
     private boolean airConditioner;
