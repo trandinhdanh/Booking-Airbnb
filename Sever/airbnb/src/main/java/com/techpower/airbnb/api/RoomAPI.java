@@ -1,7 +1,6 @@
 package com.techpower.airbnb.api;
 
 import com.techpower.airbnb.dto.RoomDTO;
-import com.techpower.airbnb.entity.ImageRoomEntity;
 import com.techpower.airbnb.service.IRoomService;
 import com.techpower.airbnb.service.impl.CloudinaryService;
 import org.springframework.beans.factory.annotation.Autowired;

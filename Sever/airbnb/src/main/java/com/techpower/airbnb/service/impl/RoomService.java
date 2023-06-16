@@ -45,7 +45,7 @@ public class RoomService implements IRoomService {
         roomEntity.setUser(userRepository.findOneById(idUser));
         roomEntity.setLocation(locationRepository.findOneByCode(dto.getCodeLocation()));
 
-        RoomEntity saveRoom = roomRepository.save(roomConverter.toEntity(dto));
+        RoomEntity saveRoom = roomRepository.save(roomEntity);
 
         List<ImageRoomEntity> imageRoomEntities = new ArrayList<>();
         for (String image : dto.getImages()) {
@@ -57,5 +57,10 @@ public class RoomService implements IRoomService {
         }
         saveRoom.setImages(imageRoomEntities);
         return roomConverter.toDTO(saveRoom);
+    }
+
+    @Override
+    public RoomDTO update(RoomDTO dto) {
+        return null;
     }
 }
