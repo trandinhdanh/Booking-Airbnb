@@ -1,7 +1,16 @@
-import React from 'react'
+import React from 'react';
+import { Outlet } from 'react-router-dom';
+import Footer from '../Components/Footer/Footer';
+import Header from '../Components/Header/Header';
 
-export default function MainLayout() {
+function Mainlayout() {
   return (
-    <div>MainLayout</div>
-  )
+    <div>
+      <Header />
+      <Outlet />
+      <Footer />
+    </div>
+  );
 }
+
+export default Mainlayout;

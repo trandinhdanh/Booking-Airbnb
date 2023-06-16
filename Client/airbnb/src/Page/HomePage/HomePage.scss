@@ -1,0 +1,44 @@
+.header-homepage {
+    background-image: url("https://res.cloudinary.com/dvzingci9/image/upload/v1665325149/airBnB/imgheader/unsplash_dBOZ7XL4b_E_lhjffh.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.btn-here-me {
+    box-shadow: rgb(0 0 0 / 0%) 0px 54px 55px, rgb(0 0 0 / 0%) 0px -12px 30px, rgb(0 0 0 / 0%) 0px 4px 6px, rgb(0 0 0 / 44%) 0px 12px 13px, rgb(0 0 0 / 0%) 0px -3px 12px;
+}
+
+.filter-sticky {
+    position: -webkit-sticky;
+    position: sticky!important;
+    top: 72px;
+    z-index: 30;
+    background-color: white;
+    // box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.text-home {
+    font-family: 'Russo One', sans-serif;
+    width: 100%; height: 100%;
+  }
+  .text-home text {
+    text-transform: uppercase;
+    animation: stroke 5s infinite alternate;
+    stroke-width: 2;
+    stroke: #fff;
+    font-size: 180px;
+    font-weight: 700;
+  }
+  @keyframes stroke {
+    0%   {
+      fill: rgba(72,138,20,0); stroke: rgba(256,256,256);
+      stroke-dashoffset: 25%; stroke-dasharray: 0 50%; stroke-width: 2;
+    }
+    70%  {fill: rgba(72,138,20,0); stroke: rgba(256,256,256); }
+    80%  {fill: rgba(72,138,20,0); stroke: rgba(256,256,256); stroke-width: 3; }
+    100% {
+      fill: rgba(256,256,256,1); stroke: rgba(54,95,160,0); 
+      stroke-dashoffset: -25%; stroke-dasharray: 50% 0; stroke-width: 0;
+    }
+  }

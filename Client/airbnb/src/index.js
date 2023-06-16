@@ -6,8 +6,8 @@ import reportWebVitals from './reportWebVitals';
 // import './i18n/i18n';
 import 'animate.css';
 import { Provider } from 'react-redux';
-import store from './Redux/store';
 import { compose } from 'redux';
+import { store } from './Redux/store';
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
