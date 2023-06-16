@@ -10,6 +10,23 @@ import java.util.List;
 
 @Component
 public class RoomConverter {
+    public RoomEntity toEntity(RoomDTO roomDTO) {
+        return RoomEntity.builder()
+                .name(roomDTO.getName())
+                .description(roomDTO.getDescription())
+                .price(roomDTO.getPrice())
+                .washingMachine(roomDTO.isWashingMachine())
+                .television(roomDTO.isTelevision())
+                .airConditioner(roomDTO.isAirConditioner())
+                .wifi(roomDTO.isWifi())
+                .kitchen(roomDTO.isKitchen())
+                .parking(roomDTO.isParking())
+                .pool(roomDTO.isPool())
+                .hotAndColdMachine(roomDTO.isHotAndColdMachine())
+                .build();
+
+    }
+
     public RoomDTO toDTO(RoomEntity roomEntity) {
         List<String> images = new ArrayList<>();
         if (roomEntity.getImages() != null) {
@@ -17,12 +34,13 @@ public class RoomConverter {
                 images.add(image.getUrlImage());
             }
         }
-        RoomDTO roomDTO = RoomDTO.builder()
+        return RoomDTO.builder()
                 .id(roomEntity.getId())
                 .name(roomEntity.getName())
                 .description(roomEntity.getDescription())
                 .price(roomEntity.getPrice())
                 .images(images)
+                .codeLocation(roomEntity.getLocation().getName())
                 .washingMachine(roomEntity.isWashingMachine())
                 .television(roomEntity.isTelevision())
                 .airConditioner(roomEntity.isAirConditioner())
@@ -32,7 +50,7 @@ public class RoomConverter {
                 .pool(roomEntity.isPool())
                 .hotAndColdMachine(roomEntity.isHotAndColdMachine())
                 .build();
-        return roomDTO;
+
     }
 
     public List<RoomDTO> toDTOs(List<RoomEntity> roomEntities) {
