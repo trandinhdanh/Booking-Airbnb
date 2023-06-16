@@ -22,7 +22,7 @@ public class RoomEntity {
     @Column
     private String description;
     @Column
-    private String price;
+    private double price;
     @Column
     private boolean washingMachine;
     @Column

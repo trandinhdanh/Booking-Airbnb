@@ -1,10 +1,10 @@
 package com.techpower.airbnb.repository;
 
-import com.techpower.airbnb.entity.RoomEntity;
+import com.techpower.airbnb.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RoomRepository extends JpaRepository<RoomEntity, Long> {
-    RoomEntity findOneById(long id);
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
+    UserEntity findOneById(long idUser);
 }
