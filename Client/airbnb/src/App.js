@@ -9,7 +9,7 @@ function App() {
   //   dispatch(getAllProduct());
   //   },[dispatch])
   return (
-    <div className="w-screen">
+    <div className="w-screen mb:mx-6">
       <Routers/>
       <ScrollToTop
         smooth

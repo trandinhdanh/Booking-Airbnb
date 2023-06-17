@@ -4,32 +4,31 @@ import { FaSearch } from 'react-icons/fa';
 import { DatePicker, message, Space, Select, notification } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import './Header.modul.scss';
-import { NavLink, useNavigate, useParams } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 export default function Header() {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
-  const [bg, setBg] = useState(true);
+  const [bg, setBg] = useState(false);
+  const [pathName,setPathName] = useState();
   const [idViTri, setIdViTri] = useState(0);
   const { RangePicker } = DatePicker;
   const { Option } = Select;
   const onChange = (value) => {
     setIdViTri(value);
   };
-
   const onSearch = (value) => {};
-  const history = useNavigate();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  let { id } = useParams();
 
   // const allLocation = useSelector((state) => state.room.listLocation.allLocation);
   // useEffect(() => {
   //   dispatch(getLocationList());
   // }, []);
   const closeNav = () => {
-    if (window.scrollY == 0) {
-      setBg(true);
-    }
+    // if (location.pathname === "/") {
+    // }
+    window.scrollY === 0 ? setBg(true) : setBg(false);
     if (window.scrollY >= 100) {
       setOpen(false);
       setBg(false);
@@ -48,7 +47,7 @@ export default function Header() {
   // };
   const searchBtn = () => {
     if (idViTri !== 0) {
-      history(`SearchPage/${idViTri}`);
+      navigate(`SearchPage/${idViTri}`);
     } else {
       openNotificationWithIcon('error');
     }
