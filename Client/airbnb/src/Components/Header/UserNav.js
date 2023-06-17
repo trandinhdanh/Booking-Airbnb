@@ -9,18 +9,17 @@ import { message } from 'antd';
 // import { loginUser, logoutUser } from '../../redux/auth/authSlice';
 // import { userService } from '../../services/userService';
 import { useTranslation } from 'react-i18next';
-import i18next from 'i18next';
 export default function UserNav({ bg }) {
-  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [openLanguage, setOpenLanguage] = useState(false);
   const [isUser, setisUser] = useState();
   const [userAPI, setUserAPI] = useState();
   const [user, setuser] = useState(localStorageService.get('USER'));
-  const [languageSelect, setlanguageSelect] = useState('EN');
-  const handleLanguageSelect = (lang) => {
-    localStorageService.set('lang', lang);
-    i18next.changeLanguage(lang);
+
+  const { t, i18n } = useTranslation();
+  const handleChangeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+    setOpenLanguage(false);
   };
   useEffect(() => {
     if (user) {
@@ -96,17 +95,13 @@ export default function UserNav({ bg }) {
             } animate__animated animate__fadeInUp bg-white dropdownLanguage rounded-xl border border-gray-300 transition duration-500`}
           >
             <li
-              onClick={() => {
-                handleLanguageSelect('VN');
-              }}
+               onClick={() => handleChangeLanguage("vi")}
               className="dropdownItem cursor-pointer  hover:bg-gray-200 transition duration-300"
             >
               <p className="hover:text-black transition duration-100">Tiếng Việt</p>
             </li>
             <li
-              onClick={() => {
-                handleLanguageSelect('EN');
-              }}
+               onClick={() => handleChangeLanguage("en")}
               className="dropdownItem cursor-pointer  hover:bg-gray-200 transition duration-300"
             >
               <p className="hover:text-black transition duration-100">English</p>

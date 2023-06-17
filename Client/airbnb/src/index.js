@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 // import './i18n/i18n';
 import 'animate.css';
+import './i18n/i18n'
 import { Provider } from 'react-redux';
 import { compose } from 'redux';
 import { store } from './Redux/store';
