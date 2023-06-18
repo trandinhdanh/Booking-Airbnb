@@ -9,11 +9,11 @@ import { message } from 'antd';
 // import { loginUser, logoutUser } from '../../redux/auth/authSlice';
 // import { userService } from '../../services/userService';
 import { useTranslation } from 'react-i18next';
+import { logoutUser } from '../../Redux/auth/authSlice';
 export default function UserNav({ bg }) {
   const [open, setOpen] = useState(false);
   const [openLanguage, setOpenLanguage] = useState(false);
   const [isUser, setisUser] = useState();
-  const [userAPI, setUserAPI] = useState();
   const [user, setuser] = useState(localStorageService.get('USER'));
 
   const { t, i18n } = useTranslation();
@@ -29,28 +29,14 @@ export default function UserNav({ bg }) {
   useEffect(() => {
     setisUser(user);
   }, [user]);
-  // useEffect(() => {
-  //   userService
-  //     .getUser(user?.user.id)
-  //     .then((res) => {
-  //       setUserAPI(res.data.content);
-  //     })
-  //     .catch((err) => {
-  //       message.error(err.response.data);
-  //     });
-  // }, []);
+
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
-  const Logout = () => {
-      // setTimeout(() => {
-      //   localStorageService.remove('USER');
-      //   localStorageService.remove('accessToken');
-      //   setuser(null);
-      //   dispatch(logoutUser(null));
-      //   navigate('/');
-      // }, 1000);
-  };
+  const handleLogOut = () => { 
+    dispatch(logoutUser())
+    navigate('/login')
+  }
   const closeDropDown = () => {
     setOpen(false);
     setOpenLanguage(false);
@@ -140,7 +126,7 @@ export default function UserNav({ bg }) {
                   to="/Profile-person"
                   className="hover:text-black font-[700] transition duration-100 text-[#FF385C] text-left overflow-hidden w-full"
                 >
-                  {t('Hello ') + ' ' + userAPI?.name}
+                  {t('Hello ') + ' ' + user?.userDTO?.userName}
                 </Link>
               ) : (
                 <Link
@@ -186,7 +172,7 @@ export default function UserNav({ bg }) {
             <li className="dropdownItem  hover:bg-gray-200 transition duration-300">
               {isUser ? (
                 <button
-                  onClick={Logout}
+                  onClick={handleLogOut}
                   className="w-full block h-full text-left hover:text-black transition duration-100"
                 >
                   {t('Logout')}

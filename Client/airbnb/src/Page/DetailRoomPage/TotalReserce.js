@@ -17,100 +17,100 @@
 // import { roomService } from '../../services/RoomService';
 // function TotalReserce({ mobile, handleIsReserve, isReserve, desktop, roomId, total, setTotal }) {
 //   const { t } = useTranslation();
-//   const isBookingSuccess = useSelector((state) => state.room.bookingRoom.isBookingSuccess);
-//   const [isGuestsSelect, setisGuestsSelect] = useState(false);
-//   const [isCANCELLATIONPOLICES, setisCANCELLATIONPOLICES] = useState(false);
-//   const [isModalOpen, setIsModalOpen] = useState(false);
-//   const [isModalOpenLogin, setIsModalOpenLogin] = useState(false);
-//   const handleIsGuestsSelect = () => {
-//     setisGuestsSelect(!isGuestsSelect);
-//   };
-//   const auth = useSelector((state) => state.auth.isLoggedIn);
-//   const [children, setChildren] = useState(0);
-//   const [adults, setAdults] = useState(1);
-//   const [infants, setInfants] = useState(0);
-//   const [guets, setGuets] = useState(1);
-//   const [dateBooking, setDateBooking] = useState([]);
-//   const [openDateRange, setOpenDateRange] = useState(false);
-//   const dispatch = useDispatch();
-//   const navigate = useNavigate();
-//   const handlePlus = (name) => {
-//     if (name == 'children') {
-//       setChildren(children + 1);
-//       setGuets(guets + 1);
-//       setTotal(total + 50);
-//     } else if (name == 'adults') {
-//       setAdults(adults + 1);
-//       setTotal(total + 100);
-//       setGuets(guets + 1);
-//     } else if (name == 'infants') {
-//       setInfants(infants + 1);
-//       setGuets(guets + 1);
-//       setTotal(total + 10);
-//     }
-//   };
-//   const handleMinus = (name) => {
-//     if (name == 'children') {
-//       setChildren(children - 1);
-//       setGuets(guets - 1);
-//       setTotal(total - 50);
-//     } else if (name == 'adults') {
-//       setAdults(adults - 1);
-//       setGuets(guets - 1);
-//       setTotal(total - 100);
-//     } else if (name == 'infants') {
-//       setInfants(infants - 1);
-//       setGuets(guets - 1);
-//       setTotal(total - 10);
-//     }
-//   };
-//   const handleOpenDateRange = () => {
-//     setOpenDateRange(true);
-//   };
-//   const showModal = () => {
-//     if (auth) {
-//       setIsModalOpen(true);
-//     } else {
-//       setIsModalOpenLogin(true);
-//     }
-//   };
-//   const handleOkLogin = () => {
-//     setIsModalOpenLogin(false);
-//     navigate('/Login');
-//   };
-//   const handleCancelLogin = () => {
-//     setIsModalOpenLogin(false);
-//   };
-//   const handleOk = () => {
-//     setIsModalOpen(false);
-//     const bookRoom = {
-//       maPhong: roomId.roomId,
-//       ngayDen: dateBooking.startDate,
-//       ngayDi: dateBooking.endDate,
-//       soLuongKhach: guets,
-//       maNguoiDung: localStorageService.get('USER').user.id,
-//     };
+// //   const isBookingSuccess = useSelector((state) => state.room.bookingRoom.isBookingSuccess);
+// //   const [isGuestsSelect, setisGuestsSelect] = useState(false);
+// //   const [isCANCELLATIONPOLICES, setisCANCELLATIONPOLICES] = useState(false);
+// //   const [isModalOpen, setIsModalOpen] = useState(false);
+// //   const [isModalOpenLogin, setIsModalOpenLogin] = useState(false);
+// //   const handleIsGuestsSelect = () => {
+// //     setisGuestsSelect(!isGuestsSelect);
+// //   };
+// //   const auth = useSelector((state) => state.auth.isLoggedIn);
+// //   const [children, setChildren] = useState(0);
+// //   const [adults, setAdults] = useState(1);
+// //   const [infants, setInfants] = useState(0);
+// //   const [guets, setGuets] = useState(1);
+// //   const [dateBooking, setDateBooking] = useState([]);
+// //   const [openDateRange, setOpenDateRange] = useState(false);
+// //   const dispatch = useDispatch();
+// //   const navigate = useNavigate();
+// //   const handlePlus = (name) => {
+// //     if (name == 'children') {
+// //       setChildren(children + 1);
+// //       setGuets(guets + 1);
+// //       setTotal(total + 50);
+// //     } else if (name == 'adults') {
+// //       setAdults(adults + 1);
+// //       setTotal(total + 100);
+// //       setGuets(guets + 1);
+// //     } else if (name == 'infants') {
+// //       setInfants(infants + 1);
+// //       setGuets(guets + 1);
+// //       setTotal(total + 10);
+// //     }
+// //   };
+// //   const handleMinus = (name) => {
+// //     if (name == 'children') {
+// //       setChildren(children - 1);
+// //       setGuets(guets - 1);
+// //       setTotal(total - 50);
+// //     } else if (name == 'adults') {
+// //       setAdults(adults - 1);
+// //       setGuets(guets - 1);
+// //       setTotal(total - 100);
+// //     } else if (name == 'infants') {
+// //       setInfants(infants - 1);
+// //       setGuets(guets - 1);
+// //       setTotal(total - 10);
+// //     }
+// //   };
+// //   const handleOpenDateRange = () => {
+// //     setOpenDateRange(true);
+// //   };
+// //   const showModal = () => {
+// //     if (auth) {
+// //       setIsModalOpen(true);
+// //     } else {
+// //       setIsModalOpenLogin(true);
+// //     }
+// //   };
+// //   const handleOkLogin = () => {
+// //     setIsModalOpenLogin(false);
+// //     navigate('/Login');
+// //   };
+// //   const handleCancelLogin = () => {
+// //     setIsModalOpenLogin(false);
+// //   };
+// //   const handleOk = () => {
+// //     setIsModalOpen(false);
+// //     const bookRoom = {
+// //       maPhong: roomId.roomId,
+// //       ngayDen: dateBooking.startDate,
+// //       ngayDi: dateBooking.endDate,
+// //       soLuongKhach: guets,
+// //       maNguoiDung: localStorageService.get('USER').user.id,
+// //     };
 
-//     roomService
-//       .bookingRoom(bookRoom)
-//       .then((res) => {
-//         openNotificationWithIcon('success', 'Hoàn tất', 'Bạn đã đặt chuyến đi thành công!');
-//         setIsOpenModal(false);
-//       })
-//       .catch((err) => {
-//         openNotificationWithIcon('error', 'Thất bại', `${err.response.data.content}`);
-//       });
-//   };
+// //     roomService
+// //       .bookingRoom(bookRoom)
+// //       .then((res) => {
+// //         openNotificationWithIcon('success', 'Hoàn tất', 'Bạn đã đặt chuyến đi thành công!');
+// //         setIsOpenModal(false);
+// //       })
+// //       .catch((err) => {
+// //         openNotificationWithIcon('error', 'Thất bại', `${err.response.data.content}`);
+// //       });
+// //   };
 
 //   const handleCancel = () => {
 //     setIsModalOpen(false);
 //   };
 
-//   useEffect(() => {
-//     if (isBookingSuccess) {
-//       openNotificationWithIcon('success');
-//     }
-//   }, [isBookingSuccess]);
+// //   useEffect(() => {
+// //     if (isBookingSuccess) {
+// //       openNotificationWithIcon('success');
+// //     }
+// //   }, [isBookingSuccess]);
 //   const openNotificationWithIcon = (type) => {
 //     notification[type]({
 //       message: 'Đặt phòng thành công',

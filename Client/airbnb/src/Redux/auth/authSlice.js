@@ -2,10 +2,9 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { message } from 'antd';
 import { https } from '../../services/axiosClient';
 import { localStorageService } from '../../services/localStorageService';
-
+import {openNotificationIcon} from '../../Components/NotificationIcon/NotificationIcon'
 const initialState = {
   accessToken: null,
-  isloading: false,
   isLoggedIn: !!localStorageService.get('USER'),
   registerSuccess: false,
   isRegisterAccountSuccess: false,
@@ -13,26 +12,34 @@ const initialState = {
 
 //LOGIN
 export const loginUser = createAsyncThunk('auth/loginUser', async (user, thunkAPI) => {
-  try {
-    const res = await https.post('/api/auth/signin', user);
-
-    localStorageService.set('accessToken', res.data.content.token);
-    localStorageService.set('USER', res.data.content);
-    message.success('login success');
-
+    try {
+        const res = await https.post(`/api/v1/auth/login`, user);
+    localStorageService.set('accessToken', res.data.token);
+    localStorageService.set('USER', res.data);
+    openNotificationIcon('success', 'Success', 'Login Success!');
+    console.log(res)
     return res.data;
   } catch (error) {
-    message.error(error.response.data);
+    if (error.response && error.response.status === 403) {
+      message.error('Forbidden: Access Denied');
+    } else if (error.response && error.response.status === 401) {
+      message.error('Unauthorized: Invalid credentials');
+    } else {
+      message.error('Login Failed');
+    }
     return thunkAPI.rejectWithValue(error.response.data);
   }
 });
 
-//LOGINOUT
+//LOGOUT
 export const logoutUser = createAsyncThunk('auth/logoutUser', async (user, thunkAPI) => {
   try {
+    localStorageService.remove('USER')
+    localStorageService.remove('accessToken')
+    openNotificationIcon('success', 'Success', 'Logout Success!');
     return user;
   } catch (error) {
-    message.error('Login fail');
+    openNotificationIcon('erorr', 'Erorr', 'Logout Erorr!');
   }
 });
 export const registerUser = createAsyncThunk('auth/registerUser', async (infor, thunkAPI) => {
