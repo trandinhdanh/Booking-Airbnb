@@ -3,25 +3,34 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button, Form, Input, Select } from 'antd';
 import './Login.scss';
 // import { loginUser } from '../../redux/auth/authSlice';
-import DropdownLanguages from './DropdownLanguages';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { loginUser } from '../../Redux/auth/authSlice';
+import { localStorageService } from '../../services/localStorageService';
 function LoginPage() {
-  const dispatch = useDispatch();
+  const {t} = useTranslation();
+  const dispatch = useDispatch()
+  const navigate = useNavigate();
   const onFinish = (values) => {
-    // dispatch(loginUser(values));
+    console.log(values)
+    dispatch(loginUser(values))
+    
   };
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  useEffect(() => {
+    const role = localStorageService.get('USER')?.userDTO?.role?.[0];
+    console.log(role);
+    if (isLoggedIn && role ) {
+      if(role === "CUSTOMER"){
+        navigate("/"); 
+      }else{
+        navigate("/manager")
+      }
+    }
+  }, [isLoggedIn, navigate]);
   const onFinishFailed = (errorInfo) => {};
-  const handleChange = (value) => {};
-  const { Option } = Select;
-  const handleCallBackRespone = (res) => {};
-  const onSuccess = (res) => {};
-  const onFail = (res) => {};
- 
 
-  const navigater = useNavigate();
-  const { t } = useTranslation();
-  const auth = useSelector((state) => state.auth);
+
   return (
     <div className="login flex items-center justify-center h-screen mb:p-0 sm :p-0 lg:p-[24px] ">
       <div className="flex bg-white items-center relative w-[70rem] border rounded-[0.5rem] login-wrapper p-5 mb:h-screen sm:h-screen md:h-screen lg:h-[100%] animate__animated animate__fadeInUp">
@@ -37,7 +46,6 @@ function LoginPage() {
           <div className="animate__delay-1s animate__animated animate__fadeInUp">
             <div className="flex justify-between mb-2 items-center animate__delay-1s animate__animated animate__fadeInUp">
               <h1 className="font-bold text-[20px]">{t('LOGIN')}</h1>
-              <DropdownLanguages />
             </div>
             <Form
               name="basic"
@@ -113,23 +121,6 @@ function LoginPage() {
             </div>
             <div className=""></div>
             <div>
-              {/* <button id="btnGoogle" className="w-full"> */}
-              {/* <img
-                  src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-suite-everything-you-need-know-about-google-newest-0.png"
-                  alt=""
-                  className="w-[22px] mr-2"
-                />
-                Google */}
-              {/* <GoogleLogin
-                className="w-full text-center justify-center"
-                clientId={clientId}
-                buttonText="Login"
-                onSuccess={onSuccess}
-                onFailure={onFail}
-                cookiePolicy={'single_host_origin'}
-                isSignedIn={true}
-              /> */}
-              {/* </button> */}
               <button className="flex mt-5 justify-center items-center text-[16px] w-full border p-3 rounded-[0.5rem]">
                 <img
                   src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/768px-Facebook_Logo_%282019%29.png"

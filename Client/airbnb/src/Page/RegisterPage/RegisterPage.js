@@ -1,52 +1,43 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
-import './Register.scss';
-// import { loginUser, registerUser } from '../../redux/auth/authSlice';
-import { useTranslation } from 'react-i18next';
-import { Link, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Form, Input, Button, Select, DatePicker, Col, Row } from 'antd';
 
-import DropdownLanguages from '../LoginPage/DropdownLanguages';
+import './Register.scss';
+import { useTranslation } from 'react-i18next';
+import { loginUser, registerUser } from '../../Redux/auth/authSlice';
+import { authService } from '../../services/authService';
+
 function RegisterPage() {
   const dispatch = useDispatch();
-  // const registerSuccess = useSelector((state) => state.auth.registerSuccess);
-  const [authLogin, setauthLogin] = useState({});
+  const { t } = useTranslation();
 
-  const onFinish = (values) => {
-    // let birthday = moment(values.birthday).format('dd / mm / yyyy');
-
+  const onFinish = async (values) => {
     const infor = {
       name: values.name,
       email: values.email,
       password: values.password,
       phone: values.phone,
-      // birthday: birthday,
+      birthday: values.birthday.format('DD/MM/YYYY'),
       gender: values.gender,
-      role: 'USER',
     };
-    setauthLogin({
-      email: values.email,
-      password: values.password,
-    });
-
-    // dispatch(registerUser(infor));
+    await authService.registerUser(infor)
+          .then((res) => {
+            console.log(res);
+            dispatch(loginUser({email: infor.email,password : infor.password}))
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+   
   };
 
-  // useEffect(() => {
-  //   if (registerSuccess === true) {
-  //     dispatch(loginUser(authLogin));
-  //   }
-  // }, [registerSuccess]);
   const onFinishFailed = (errorInfo) => {};
 
   const { Option } = Select;
 
-  const { t } = useTranslation();
-  const navigater = useNavigate();
-  const auth = useSelector((state) => state.auth);
   return (
-    <div className="login flex items-center justify-center h-screen mb:p-0 sm :p-0 lg:p-[24px]">
+    <div className="login flex items-center justify-center h-screen mb:p-0 sm:p-0 lg:p-[24px]">
       <div className="flex bg-white items-center relative w-[70rem] border rounded-[0.5rem] login-wrapper p-5 mb:h-screen sm:h-screen md:h-screen lg:h-[100%]  animate__animated animate__fadeInUp">
         <Link className="absolute top-[24px] left-[24px]" to="/">
           <img
@@ -60,7 +51,6 @@ function RegisterPage() {
           <div className="animate__delay-1s animate__animated animate__fadeInUp w-[320px]">
             <div className="flex justify-between mb-2 items-center animate__delay-1s animate__animated animate__fadeInUp">
               <h1 className="font-bold text-[20px]">{t('REGISTER')}</h1>
-              <DropdownLanguages />
             </div>
             <Form
               name="basic"
@@ -85,11 +75,11 @@ function RegisterPage() {
                 rules={[
                   {
                     type: 'email',
-                    message: t('The input is not valid E-mail!'),
+                    message: t('The input is not a valid email!'),
                   },
                   {
                     required: true,
-                    message: t('Please input your Email!'),
+                    message: t('Please input your email!'),
                   },
                 ]}
               >
@@ -108,14 +98,13 @@ function RegisterPage() {
                     required: true,
                     message: t('Please input your password!'),
                   },
-                  { max: 16, message: t('your password must be max 16 characters.') },
-                  { min: 6, message: t('your password must be minimum 6 characters.') },
+                  { max: 16, message: t('Your password must be maximum 16 characters.') },
+                  { min: 6, message: t('Your password must be at least 6 characters.') },
                 ]}
               >
                 <Input.Password
                   style={{ width: '100%' }}
-                  className="border password px-[14px] py-[14px] rounded-[0.5rem] 
-                  "
+                  className="border password px-[14px] py-[14px] rounded-[0.5rem]"
                   placeholder={t('Password')}
                 />
               </Form.Item>
@@ -124,11 +113,6 @@ function RegisterPage() {
                 className="mb-4"
                 name="name"
                 rules={[
-                  // {
-                  //   pattern: new RegExp(/^(?:\d*)$/),
-                  //   message: t('field does not accept numbers or special charactor'),
-                  // },
-
                   {
                     required: true,
                     message: t('Please input your username!'),
@@ -137,8 +121,7 @@ function RegisterPage() {
               >
                 <Input
                   style={{ width: '100%' }}
-                  className="input border px-[14px] py-[14px] rounded-[0.5rem] 
-                  "
+                  className="input border px-[14px] py-[14px] rounded-[0.5rem]"
                   placeholder={t('Full name')}
                 />
               </Form.Item>
@@ -164,8 +147,8 @@ function RegisterPage() {
                     name="gender"
                   >
                     <Select className="w-full dropdowregister " placeholder={t('Gender')}>
-                      <Select.Option value="true">{t('male')}</Select.Option>
-                      <Select.Option value="false">{t('female')}</Select.Option>
+                      <Option value="true">{t('male')}</Option>
+                      <Option value="false">{t('female')}</Option>
                     </Select>
                   </Form.Item>
                 </Col>
@@ -175,15 +158,14 @@ function RegisterPage() {
                 className="mb-4"
                 name="phone"
                 rules={[
-                  { max: 10, message: t('Userphone must be max  9 characters.') },
-
+                  { max: 10, message: t('User phone must be maximum 9 characters.') },
                   {
                     required: true,
-                    message: t('Please input your username!'),
+                    message: t('Please input your phone number!'),
                   },
                   {
                     pattern: /^(?:\d*)$/,
-                    message: t('Please input your number!'),
+                    message: t('Please input a valid phone number!'),
                   },
                 ]}
               >
@@ -194,14 +176,14 @@ function RegisterPage() {
                 />
               </Form.Item>
 
-              <button
+              <Button
                 className="hover:blacks w-full rounded-[0.5rem] bg-slate-500 btn-login text-white py-[6px] px-[12px]"
                 type="primary"
                 size="large"
-                htmltype="submit"
+                htmlType="submit"
               >
                 {t('Register')}
-              </button>
+              </Button>
             </Form>
             <div className="flex justify-center w-full">
               <Link to="/Login" className="mt-5 text-blue text-left text-bold">
@@ -211,17 +193,14 @@ function RegisterPage() {
           </div>
         </div>
         <div className="w-2/4  mb:hidden sm:hidden lg:flex relative bg-[#e86f7d] overflow-hidden h-full flex justify-center items-center rounded-[0.5rem]">
-          <div className="glass h-[80%] relative w-[30rem] rouded-[0.5rem] bg-mainColor z-10 animate__delay-1s animate__animated animate__fadeInUp">
-            <h1 className="text-white text-[30px] text-left p-5">
-              Start your journey by one click, explore beautiful world!
+          <div className="glass h-[80%] relative w-[30rem] rouded-[0.5rem] bg-white p-8">
+            <h1 className="text-[30px] text-center font-bold mb-[20px] text-black">
+              {t('Discover unique places to stay')}
             </h1>
-            <img src="../img/img.png" className="bottom-0 w-[70%] absolute left-20" alt="" />
+            <p className="text-xl text-center text-black">
+              {t('Rent from people in over 65,000 cities and 191 countries.')}
+            </p>
           </div>
-          <img
-            className="absolute right-[9rem] bottom-0 z-none"
-            src="../img/decoration.png"
-            alt=""
-          />
         </div>
       </div>
     </div>
