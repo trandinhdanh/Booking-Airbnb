@@ -16,11 +16,12 @@ import java.util.List;
 public class LocationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "location_id")
     private Long id;
     @Column
     private String code;
     @Column
     private String name;
     @OneToMany(mappedBy = "location")
-    private List<RoomEntity> rooms = new ArrayList<>();
+    private List<HouseEntity> rooms;
 }

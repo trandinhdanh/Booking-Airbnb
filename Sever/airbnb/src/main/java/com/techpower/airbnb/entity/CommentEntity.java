@@ -13,6 +13,7 @@ import lombok.*;
 public class CommentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "comment_id")
     private Long id;
     @Column
     private String content;

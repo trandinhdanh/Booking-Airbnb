@@ -28,7 +28,7 @@ export default function Header() {
   const closeNav = () => {
     // if (location.pathname === "/") {
     // }
-    window.scrollY === 0 ? setBg(true) : setBg(false);
+    // window.scrollY === 0 ? setBg(true) : setBg(false);
     if (window.scrollY >= 100) {
       setOpen(false);
       setBg(false);

@@ -1,4 +1,4 @@
-package com.techpower.airbnb.auth;
+package com.techpower.airbnb.request;
 
 import com.techpower.airbnb.constant.Role;
 import lombok.Getter;
