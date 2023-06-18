@@ -21,7 +21,7 @@ public class RoomAPI {
     @Autowired
     private CloudinaryService cloudinaryService;
 
-    @GetMapping("")
+    @GetMapping
     public ResponseEntity<List<RoomDTO>> findAll() {
         List<RoomDTO> dtos = iRoomService.findAll();
         if (!dtos.isEmpty())
@@ -81,4 +81,6 @@ public class RoomAPI {
         RoomDTO saveRoom = iRoomService.save(roomDTO, idUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(saveRoom);
     }
+
+
 }
