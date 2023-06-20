@@ -28,7 +28,7 @@ function ManagerLayout() {
       <div className="">
         <SideBarManager />
       </div>
-      <div className="pl-[324px] w-full px-7 py-4">
+      <div className=" w-full p-10">
         <Outlet />
       </div>
     </div>

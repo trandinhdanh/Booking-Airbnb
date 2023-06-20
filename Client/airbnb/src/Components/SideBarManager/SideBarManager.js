@@ -18,7 +18,7 @@ export default function SideBarManager() {
     }, 1000);
   };
   return (
-    <div className="fixed ">
+    <div className=" ">
       <div className="w-[300px] h-full ">
         <aside className="w-full " aria-label="Sidebar">
           <div className="overflow-y-auto px-3 bg-gray-50 dark:bg-gray-800 h-screen">
@@ -57,7 +57,7 @@ export default function SideBarManager() {
 
                 <li>
                   <Link
-                    to="/Manager/room"
+                    to="/Manager/house"
                     href="#"
                     className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
                   >
@@ -71,7 +71,7 @@ export default function SideBarManager() {
                       <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
                       <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
                     </svg>
-                    <span className="ml-3">Room</span>
+                    <span className="ml-3">House</span>
                   </Link>
                 </li>
 

@@ -107,7 +107,8 @@ export default function Header() {
                 <RangePicker />
               </Space>
             </div>
-
+            {/* Quantity p */}
+            
             <div className="px-5 py-3 hover:bg-gray-200 transition duration-300 rounded-full h-full flex flex-wrap justify-center items-center">
               <button
                 onClick={searchBtn}
