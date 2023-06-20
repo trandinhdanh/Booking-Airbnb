@@ -3,6 +3,7 @@ package com.techpower.airbnb.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,43 +14,38 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "room")
+// chỉ tính phòng ngủ
 public class RoomEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "room_id")
     private Long id;
-    @Column
-    private String name;
-    @Column
-    private String description;
+//    giá thuê 1 phòng
     @Column
     private double price;
+    @Column(name = "num_beds")
+    private int numBeds;
+    @Column(name = "max_guests")
+    private int maxGuests;
+//    kiểm tra phòng trống
     @Column
-    private boolean washingMachine;
+    private boolean available;
+//    if available is true => startDate and endDate == null
+//    else startDate and endDate == order date
     @Column
-    private boolean television;
+    private LocalDateTime startDate;
     @Column
-    private boolean airConditioner;
-    @Column
-    private boolean wifi;
-    @Column
-    private boolean kitchen;
-    @Column
-    private boolean parking;
-    @Column
-    private boolean pool;
-    @Column
-    private boolean hotAndColdMachine;
+    private LocalDateTime endDate;
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
-    @ManyToOne
-    @JoinColumn(name = "location_id")
-    private LocationEntity location;
+    @JoinColumn(name = "house_id")
+    private HouseEntity house;
     @OneToMany(mappedBy = "room")
     private List<OrderEntity> orders = new ArrayList<>();
     @OneToMany(mappedBy = "room")
     private List<CommentEntity> comments = new ArrayList<>();
     @OneToMany(mappedBy = "room")
     private List<ImageRoomEntity> images = new ArrayList<>();
+
+
 
 }

@@ -9,7 +9,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoomDTO {
+public class HouseDTO {
     private Long id;
     private String name;
     private String description;
@@ -24,4 +24,5 @@ public class RoomDTO {
     private boolean parking;
     private boolean pool;
     private boolean hotAndColdMachine;
+//    thêm số phòng ngủ , phòng khách, phòng tắm
 }

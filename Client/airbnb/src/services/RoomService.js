@@ -1,11 +1,11 @@
 import { https } from './axiosClient';
 
 export let roomService = {
-  getRoomList: () => {
-    return https.get(`/api/v1/rooms`);
+  getHouseList: () => {
+    return https.get(`/api/v1/houses`);
   },
-  getRoomById: (id) => {
-    return https.get(`/api/v1/rooms/${id}`);
+  getHouseById: (id) => {
+    return https.get(`/api/v1/houses/${id}`);
   },
   getRoomLocation: (id) => {
     return https.get(`/api/phong-thue/lay-phong-theo-vi-tri?maViTri=${id}`);

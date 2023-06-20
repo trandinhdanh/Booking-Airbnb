@@ -19,11 +19,12 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "user",uniqueConstraints = @UniqueConstraint(columnNames = "email"))
+@Table(name = "users",uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class UserEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "users_id")
     private Long id;
     @Column
     @Enumerated(EnumType.STRING)
@@ -44,11 +45,11 @@ public class UserEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
     @OneToMany(mappedBy = "user")
-    private List<RoomEntity> rooms = new ArrayList<>();
+    private List<HouseEntity> rooms;
     @OneToMany(mappedBy = "user")
-    private List<OrderEntity> orders = new ArrayList<>();
+    private List<OrderEntity> orders;
     @OneToMany(mappedBy = "user")
-    private List<CommentEntity> comments = new ArrayList<>();
+    private List<CommentEntity> comments ;
 
     @Override
     public int hashCode() {

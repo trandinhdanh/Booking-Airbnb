@@ -13,6 +13,7 @@ import lombok.*;
 public class OrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "orders_id")
     private Long id;
     @Column
     private String receivedDate;

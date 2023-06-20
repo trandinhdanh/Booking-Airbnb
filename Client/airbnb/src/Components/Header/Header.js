@@ -28,7 +28,7 @@ export default function Header() {
   const closeNav = () => {
     // if (location.pathname === "/") {
     // }
-    window.scrollY === 0 ? setBg(true) : setBg(false);
+    // window.scrollY === 0 ? setBg(true) : setBg(false);
     if (window.scrollY >= 100) {
       setOpen(false);
       setBg(false);
@@ -107,7 +107,8 @@ export default function Header() {
                 <RangePicker />
               </Space>
             </div>
-
+            {/* Quantity p */}
+            
             <div className="px-5 py-3 hover:bg-gray-200 transition duration-300 rounded-full h-full flex flex-wrap justify-center items-center">
               <button
                 onClick={searchBtn}

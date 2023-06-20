@@ -1,4 +1,4 @@
-package com.techpower.airbnb.auth;
+package com.techpower.airbnb.request;
 
 public record AuthenticationRequest(
         String email,
