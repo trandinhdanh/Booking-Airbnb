@@ -1,11 +1,9 @@
 package com.techpower.airbnb.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+@Builder
 @Entity
 @Getter
 @Setter
@@ -24,7 +22,7 @@ public class BlogEntity {
 
     private String description;
 
-    private String image;
+    private String urlImage;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
