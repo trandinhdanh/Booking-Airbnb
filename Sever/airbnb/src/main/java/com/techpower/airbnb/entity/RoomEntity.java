@@ -3,7 +3,6 @@ package com.techpower.airbnb.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,38 +13,60 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "room")
-// chỉ tính phòng ngủ
 public class RoomEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "room_id")
     private Long id;
-//    giá thuê 1 phòng
+    @Column
+    private String name;
+    @Column
+    private String description;
+//    giá thuê
     @Column
     private double price;
-    @Column(name = "num_beds")
-    private int numBeds;
+    @Column
+    private boolean washingMachine;
+    @Column
+    private boolean television;
+    @Column
+    private boolean airConditioner;
+    @Column
+    private boolean wifi;
+    @Column
+    private boolean kitchen;
+    @Column
+    private boolean parking;
+    @Column
+    private boolean pool;
+    @Column
+    private boolean hotAndColdMachine;
+    @Column(name = "num_living_rooms")
+    private int numLivingRooms;
+    @Column(name = "num_bathrooms")
+    private int numBathrooms;
+    @Column(name = "num_bedrooms")
+    private int numBedrooms;
     @Column(name = "max_guests")
     private int maxGuests;
-//    kiểm tra phòng trống
-    @Column
-    private boolean available;
-//    if available is true => startDate and endDate == null
-//    else startDate and endDate == order date
-    @Column
-    private LocalDateTime startDate;
-    @Column
-    private LocalDateTime endDate;
     @ManyToOne
-    @JoinColumn(name = "house_id")
-    private HouseEntity house;
-    @OneToMany(mappedBy = "room")
-    private List<OrderEntity> orders = new ArrayList<>();
-    @OneToMany(mappedBy = "room")
-    private List<CommentEntity> comments = new ArrayList<>();
+    @JoinColumn(name = "users_id")
+    private UserEntity user;
+    @ManyToOne
+    @JoinColumn(name = "location_id")
+    private LocationEntity location;
+
+    @OneToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
+
     @OneToMany(mappedBy = "room")
     private List<ImageRoomEntity> images = new ArrayList<>();
 
+    @OneToMany(mappedBy = "room")
+    private List<OrderEntity> orders = new ArrayList<>();
 
+    @OneToMany(mappedBy = "room")
+    private List<CommentEntity> comments = new ArrayList<>();
 
 }

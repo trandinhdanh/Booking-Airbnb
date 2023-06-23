@@ -3,7 +3,6 @@ package com.techpower.airbnb.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Builder
@@ -23,5 +22,14 @@ public class LocationEntity {
     @Column
     private String name;
     @OneToMany(mappedBy = "location")
-    private List<HouseEntity> rooms;
+    private List<RoomEntity> rooms;
+
+    @Override
+    public String toString() {
+        return "LocationEntity{" +
+                "id=" + id +
+                ", code='" + code + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

@@ -15,12 +15,11 @@ public class ImageRoomEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "image_id")
     private Long id;
+
     @ManyToOne
     @JoinColumn(name = "room_id")
     private RoomEntity room;
-    @ManyToOne
-    @JoinColumn(name = "house_id")
-    private HouseEntity house;
+
     @Column
     private String urlImage;
 }
