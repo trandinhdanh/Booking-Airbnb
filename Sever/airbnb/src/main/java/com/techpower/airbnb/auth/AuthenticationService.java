@@ -10,6 +10,7 @@ import com.techpower.airbnb.jwt.JWTUtil;
 import com.techpower.airbnb.repository.UserRepository;
 import com.techpower.airbnb.request.AuthenticationRequest;
 import com.techpower.airbnb.request.RegisterCustomerRequest;
+import com.techpower.airbnb.request.RegisterOwnerRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -61,4 +62,24 @@ private final UserRepository userRepository;
                 .userDTO(userDTOMapper.apply(user))
                 .build();
     }
+
+    public AuthenticationResponse register(RegisterOwnerRequest request) {
+        var user = UserEntity.builder()
+                .phone(request.getPhone())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(Role.OWNER)
+                .status(Status.ACTIVE)
+                .build();
+        userRepository.save(user);
+
+        String token = jwtUtil.issueToken(user.getUsername(), user.getRole().toString());
+
+        return AuthenticationResponse.builder()
+                .token(token)
+                .userDTO(userDTOMapper.apply(user))
+                .build();
+    }
+
+
 }

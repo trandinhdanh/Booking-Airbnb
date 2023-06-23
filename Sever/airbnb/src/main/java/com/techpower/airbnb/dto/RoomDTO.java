@@ -9,13 +9,14 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class HouseDTO {
+public class RoomDTO {
     private Long id;
     private String name;
     private String description;
     private double price;
     private List<String> images;
     private String codeLocation;
+    private boolean available;
     private boolean washingMachine;
     private boolean television;
     private boolean airConditioner;
@@ -24,5 +25,5 @@ public class HouseDTO {
     private boolean parking;
     private boolean pool;
     private boolean hotAndColdMachine;
-//    thêm số phòng ngủ , phòng khách, phòng tắm
+    private int maxGuests;
 }

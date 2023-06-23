@@ -3,6 +3,8 @@ package com.techpower.airbnb.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Builder
 @Getter
 @Setter
@@ -16,9 +18,9 @@ public class OrderEntity {
     @Column(name = "orders_id")
     private Long id;
     @Column
-    private String receivedDate;
+    private LocalDate receivedDate;
     @Column
-    private String checkoutDate;
+    private LocalDate checkoutDate;
     @Column
     private int quantity;
     @ManyToOne
