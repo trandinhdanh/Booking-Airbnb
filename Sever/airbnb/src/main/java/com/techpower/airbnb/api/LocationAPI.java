@@ -18,7 +18,7 @@ import java.util.List;
 @RequestMapping("/api/v1/locations")
 public class LocationAPI {
     @Autowired
-    private LocationService locationService;
+    private ILocationService locationService;
 
     @GetMapping
     public ResponseEntity<?> getAllLocation() {

@@ -48,6 +48,7 @@ public class RoomAPI {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không có kết quả");
     }
 
+
 //    dung de test chức năng search
 @GetMapping("/trungNgay")
 public ResponseEntity<?> searchTrungNgay(@RequestParam("start") LocalDate start,
