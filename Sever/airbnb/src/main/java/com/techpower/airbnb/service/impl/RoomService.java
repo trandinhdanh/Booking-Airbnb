@@ -21,13 +21,13 @@ public class RoomService implements IRoomService {
     @Autowired
     private RoomRepository roomRepository;
     @Autowired
+    private UserRepository userRepository;
+    @Autowired
     private RoomConverter roomConverter;
     @Autowired
     private ImageRoomRepository imageRoomRepository;
     @Autowired
     private LocationRepository locationRepository;
-    @Autowired
-    private UserRepository userRepository;
     @Autowired
     private OrderRepository orderRepository;
 

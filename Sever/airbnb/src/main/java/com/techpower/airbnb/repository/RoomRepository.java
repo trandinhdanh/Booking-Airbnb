@@ -11,6 +11,10 @@ import java.util.List;
 public interface RoomRepository extends JpaRepository<RoomEntity, Long> {
     RoomEntity findOneById(long id);
 
+
+    List<RoomEntity> findAllByUserId(Long id);
+
+
     List<RoomEntity> findAllByLocationId(long id);
 
     @Query("select r from RoomEntity r where r.location.id = ?1")
