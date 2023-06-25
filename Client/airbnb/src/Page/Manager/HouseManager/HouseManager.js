@@ -40,7 +40,7 @@ export default function HouseManager() {
     <div className="w-full">
        <div className="headerManager font-roboto mb-5 flex justify-between">
         <h1 className="font-bold text-[20px] uppercase ">
-        Product Management
+        Rooms Management
         </h1>
         <button onClick={() => { navigate('/manager/house-add') }} className="text-white bg-primary font-medium rounded-lg text-sm px-4 py-2 flex items-center hover:scale-110 transition-all">Add <IoIosAddCircleOutline className='ml-2 text-[20px]'/> </button>
       </div>
