@@ -1,6 +1,5 @@
 import React from 'react';
 import { Badge, Calendar } from 'antd';
-import moment from 'moment';
 
 const BookingCalendar = () => {
   const roomBookings = [
@@ -8,12 +7,12 @@ const BookingCalendar = () => {
       roomNumber: 101,
       bookings: [
         {
-          start: moment('2023-06-27T10:30:00'),
-          end: moment('2023-06-30T12:30:00'),
+          start: '2023-06-27T10:30:00',
+          end: '2023-06-30T12:30:00',
         },
         {
-          start: moment('2023-06-03T09:00:00'),
-          end: moment('2023-06-04T11:00:00'),
+          start: '2023-06-03T09:00:00',
+          end: '2023-06-04T11:00:00',
         },
       ],
     },
@@ -21,8 +20,8 @@ const BookingCalendar = () => {
       roomNumber: 102,
       bookings: [
         {
-          start: moment('2023-06-23T14:00:00'),
-          end: moment('2023-06-27T16:00:00'),
+          start: '2023-06-25T14:00:00',
+          end: '2023-06-27T16:00:00',
         },
       ],
     },
@@ -31,9 +30,10 @@ const BookingCalendar = () => {
   const dateFullCellRender = (date) => {
     const bookings = roomBookings.map((room) => {
       const roomBookingsOnDate = room.bookings.filter((booking) => {
-        const startDate = booking.start.clone().subtract(1, 'day').toDate();
-        const endDate = booking.end.toDate();
-        const selectedDate = date.toDate();
+        const startDate = new Date(booking.start);
+        startDate.setDate(startDate.getDate() - 1);
+        const endDate = new Date(booking.end);
+        const selectedDate = new Date(date);
         return selectedDate >= startDate && selectedDate <= endDate;
       });
 
@@ -48,13 +48,6 @@ const BookingCalendar = () => {
         return (
           <div key={room.roomNumber}>
             <Badge status='success' text={`Room ${room.roomNumber}`} />
-            <ul>
-              {room.bookings.map((booking,index) => (
-                <li key={booking.start.toString()}>
-                  {booking.start.format('h:mm a')} - {booking.end.format('h:mm a')}
-                </li>
-              ))}
-            </ul>
           </div>
         );
       }
