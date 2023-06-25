@@ -9,6 +9,7 @@ import DetailRoomPage from '../Page/DetailRoomPage/DetailRoomPage'
 import ManagerLayout from '../Layout/ManagerLayout'
 import HouseManager from '../Page/Manager/HouseManager/HouseManager'
 import AddHouseManager from '../Page/Manager/HouseManager/AddHouseManager/AddHouseManager'
+import BookingCalendar from '../Page/Manager/BookingCalendar'
 
 export default function Routers() {
 
@@ -26,6 +27,7 @@ export default function Routers() {
                 <Route path='/manager' element = {<ManagerLayout/>}>
                     <Route path='/manager/house' element={<HouseManager/>} />
                     <Route path='/manager/house-add' element={<AddHouseManager/>} />
+                    <Route path='/manager/calendar' element={<BookingCalendar/>} />
                 </Route>
             </Routes>
         </BrowserRouter>
