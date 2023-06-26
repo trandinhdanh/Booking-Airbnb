@@ -8,7 +8,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -45,7 +44,7 @@ public class UserEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
     @OneToMany(mappedBy = "user")
-    private List<HouseEntity> rooms;
+    private List<RoomEntity> rooms;
     @OneToMany(mappedBy = "user")
     private List<OrderEntity> orders;
     @OneToMany(mappedBy = "user")
