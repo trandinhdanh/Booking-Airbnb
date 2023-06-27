@@ -81,5 +81,19 @@ private final UserRepository userRepository;
                 .build();
     }
 
+    private String buildEmail(String name, String link) {
+        return "<div style=\"text-align: center; margin: 0 auto; max-width: 600px; padding: 20px; border: 1px solid #ccc; box-shadow: 0 0 10px rgba(0,0,0,0.1);\">\n" +
+                "  <img src=\"https://res.cloudinary.com/drn7nawnc/image/upload/v1687899742/unnamed_gssfpv.png\" alt=\"Logo\" style=\"max-width: 50%;\">\n" +
+                "  <h2 style=\"font-size: 24px; margin-bottom: 10px;\">Hi " + name + ",</h2>" +
+                "<p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> Thank you for registering. Please click on the below link to activate your account: </p>" +
+                "<blockquote style=\"Margin:0 0 20px 0;padding:15px 0 0.1px 15px;font-size:19px;line-height:25px\">" +
+                "   <p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> " +
+                "       <a href=\"" + link + "\">Activate Now</a> " +
+                "   </p>" +
+                "</blockquote>" +
+                "<p style=\"font-size: 16px; margin-bottom: 20px;\">Link will expire in 15 minutes. </p>" +
+                "<p style=\"font-size: 16px; margin-bottom: 20px;\">See you soon</p>" +
+                "</div>";
+    }
 
 }
