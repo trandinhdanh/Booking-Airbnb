@@ -14,4 +14,3 @@
 - Back End: Spring Boot
 - Database: MySQL
 - Front End: ReactJS
-

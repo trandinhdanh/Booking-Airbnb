@@ -22,7 +22,6 @@ public class RoomEntity {
     private String name;
     @Column
     private String description;
-//    giá thuê
     @Column
     private double price;
     @Column
