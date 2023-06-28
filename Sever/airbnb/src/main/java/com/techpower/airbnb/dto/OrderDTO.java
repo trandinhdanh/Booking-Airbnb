@@ -16,6 +16,8 @@ public class OrderDTO {
     @NotNull
     private Long idRoom;
     @NotNull
+    private String status;
+    @NotNull
     private LocalDate receivedDate;
     @NotNull
     private LocalDate checkoutDate;

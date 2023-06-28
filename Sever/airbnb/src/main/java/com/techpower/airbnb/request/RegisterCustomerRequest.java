@@ -1,6 +1,5 @@
 package com.techpower.airbnb.request;
 
-import com.techpower.airbnb.constant.Role;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,9 +8,9 @@ import lombok.Setter;
 public class RegisterCustomerRequest {
 
     private String name;
+    private String phone;
     private String email;
-    private  String password;
-    private  String phone;
+    private String password;
     private String birthday;
     private boolean gender;
 

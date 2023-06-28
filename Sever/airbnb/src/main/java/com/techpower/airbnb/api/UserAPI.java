@@ -13,13 +13,12 @@ public class UserAPI {
     private IUserService userService;
 
     @GetMapping("/{idUser}/orders")
-    public ResponseEntity<?> findAllOrders(@PathVariable ("idUser") long idUser) {
+    public ResponseEntity<?> findAllOrders(@PathVariable("idUser") long idUser) {
         return ResponseEntity.ok(userService.findAllOrders(idUser));
     }
 
-//    cua thằng owner
     @GetMapping("/{idUser}/rooms")
-    public ResponseEntity<?> findAllRooms(@PathVariable ("idUser") long idUser) {
+    public ResponseEntity<?> findAllRooms(@PathVariable("idUser") long idUser) {
         return ResponseEntity.ok(userService.findAllRooms(idUser));
     }
 

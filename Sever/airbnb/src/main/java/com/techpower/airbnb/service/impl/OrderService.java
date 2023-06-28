@@ -1,5 +1,6 @@
 package com.techpower.airbnb.service.impl;
 
+import com.techpower.airbnb.constant.Order;
 import com.techpower.airbnb.converter.OrderConverter;
 import com.techpower.airbnb.dto.OrderDTO;
 import com.techpower.airbnb.entity.OrderEntity;
@@ -24,10 +25,11 @@ public class OrderService implements IOrderService {
 
     @Override
     public OrderDTO createOrder(OrderDTO orderDTO) {
+        orderDTO.setStatus(Order.BOOKED.toString());
         OrderEntity orderEntity = orderRepository.save(
                 orderConverter.mapperTOEntity(orderDTO,
-                userRepository.findOneById(orderDTO.getIdUser()),
-                roomRepository.findOneById(orderDTO.getIdRoom())));
+                        userRepository.findOneById(orderDTO.getIdUser()),
+                        roomRepository.findOneById(orderDTO.getIdRoom())));
         return orderConverter.apply(orderEntity);
     }
 }
