@@ -40,28 +40,29 @@ public class RoomAPI {
             return ResponseEntity.notFound().build();
         }
     }
+
     @GetMapping("/search")
     public ResponseEntity<?> search(@RequestBody SearchHouseRequest request) {
-        if (iRoomService.search(request) != null){
+        if (iRoomService.search(request) != null) {
             return ResponseEntity.ok(iRoomService.search(request));
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không có kết quả");
     }
 
 
-//    dung de test chức năng search
-@GetMapping("/trungNgay")
-public ResponseEntity<?> searchTrungNgay(@RequestParam("start") LocalDate start,
-                                         @RequestParam("end") LocalDate end,
-                                         @RequestParam("startSearch") LocalDate startSearch,
-                                         @RequestParam("endSearch") LocalDate endSearch) {
-    if ((startSearch.isAfter(start) && startSearch.isBefore(end)) ||
-            (endSearch.isAfter(start) && endSearch.isBefore(end)) ||
-            (startSearch.isBefore(start) && endSearch.isAfter(end))) {
-        return ResponseEntity.ok("true"); // Trùng lịch
+    //    dung de test chức năng search
+    @GetMapping("/trungNgay")
+    public ResponseEntity<?> searchTrungNgay(@RequestParam("start") LocalDate start,
+                                             @RequestParam("end") LocalDate end,
+                                             @RequestParam("startSearch") LocalDate startSearch,
+                                             @RequestParam("endSearch") LocalDate endSearch) {
+        if ((startSearch.isAfter(start) && startSearch.isBefore(end)) ||
+                (endSearch.isAfter(start) && endSearch.isBefore(end)) ||
+                (startSearch.isBefore(start) && endSearch.isAfter(end))) {
+            return ResponseEntity.ok("true"); // Trùng lịch
+        }
+        return ResponseEntity.ok("false");
     }
-    return ResponseEntity.ok("false");
-}
 
 
     @PostMapping("/{idUser}")
@@ -108,8 +109,46 @@ public ResponseEntity<?> searchTrungNgay(@RequestParam("start") LocalDate start,
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RoomDTO> update(@PathVariable long id) {
-        return null;
+    public ResponseEntity<RoomDTO> update(@PathVariable long id,
+                                          @RequestParam("name") String name,
+                                          @RequestParam("description") String description,
+                                          @RequestParam("price") double price,
+                                          @RequestParam(value = "images", required = false) List<MultipartFile> images,
+                                          @RequestParam("codeLocation") String codeLocation,
+                                          @RequestParam("washingMachine") boolean washingMachine,
+                                          @RequestParam("television") boolean television,
+                                          @RequestParam("airConditioner") boolean airConditioner,
+                                          @RequestParam("wifi") boolean wifi,
+                                          @RequestParam("kitchen") boolean kitchen,
+                                          @RequestParam("parking") boolean parking,
+                                          @RequestParam("pool") boolean pool,
+                                          @RequestParam("hotAndColdMachine") boolean hotAndColdMachine) {
+
+        List<String> imagesDTO = new ArrayList<>();
+        if (images != null && !images.isEmpty()) {
+            for (MultipartFile imageDetail : images) {
+                if (!imageDetail.isEmpty())
+                    imagesDTO.add(cloudinaryService.uploadImage(imageDetail));
+            }
+        }
+        RoomDTO roomDTO = RoomDTO.builder()
+                .id(id)
+                .name(name)
+                .description(description)
+                .price(price)
+                .images(imagesDTO)
+                .codeLocation(codeLocation)
+                .washingMachine(washingMachine)
+                .television(television)
+                .airConditioner(airConditioner)
+                .wifi(wifi)
+                .kitchen(kitchen)
+                .parking(parking)
+                .pool(pool)
+                .hotAndColdMachine(hotAndColdMachine)
+                .build();
+        RoomDTO saveRoom = iRoomService.update(roomDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(saveRoom);
     }
 
 

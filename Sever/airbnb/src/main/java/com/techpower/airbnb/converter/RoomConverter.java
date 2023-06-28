@@ -61,4 +61,20 @@ public class RoomConverter {
         }
         return roomDTOS;
     }
+
+    public RoomEntity toEntity(RoomDTO dto, RoomEntity entity) {
+        entity.setId(dto.getId());
+        entity.setName(dto.getName());
+        entity.setDescription(dto.getDescription());
+        entity.setPrice(dto.getPrice());
+        entity.setWashingMachine(dto.isWashingMachine());
+        entity.setTelevision(dto.isTelevision());
+        entity.setAirConditioner(dto.isAirConditioner());
+        entity.setWifi(dto.isWifi());
+        entity.setKitchen(dto.isKitchen());
+        entity.setParking(dto.isParking());
+        entity.setPool(dto.isPool());
+        entity.setHotAndColdMachine(dto.isHotAndColdMachine());
+        return entity;
+    }
 }

@@ -1,5 +1,6 @@
 package com.techpower.airbnb.entity;
 
+import com.techpower.airbnb.constant.Order;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,6 +22,9 @@ public class OrderEntity {
     private LocalDate receivedDate;
     @Column
     private LocalDate checkoutDate;
+    @Column
+    @Enumerated(EnumType.STRING)
+    private Order status;
     @Column
     private int quantity;
     @ManyToOne
