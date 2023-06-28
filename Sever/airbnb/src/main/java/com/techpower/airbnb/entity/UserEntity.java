@@ -41,6 +41,10 @@ public class UserEntity implements UserDetails {
     @Column
     private boolean gender;
     @Column
+    private boolean confirmed;
+    @Column(name = "code_confirmed",length = 6)
+    private String codeConfirmed;
+    @Column
     @Enumerated(EnumType.STRING)
     private Role role;
     @OneToMany(mappedBy = "user")

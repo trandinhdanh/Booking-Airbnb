@@ -41,6 +41,11 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterOwnerRequest request) {
         return ResponseEntity.ok(authenticationService.register(request));
     }
+  
+    @PutMapping(path = "confirm")
+    public String confirm(@RequestParam("email") String email,  @RequestParam("token") String token) {
+        return authenticationService.confirmToken(email,token);
+    }
 }
 
 
