@@ -8,6 +8,7 @@ import lombok.Setter;
 @Getter
 @Builder
 public class RegisterOwnerRequest {
+    private String name;
     private String phone;
     private String email;
     private String password;
