@@ -1,7 +1,6 @@
 package com.techpower.airbnb.dto;
 
 import lombok.*;
-
 import java.time.LocalDate;
 
 @Setter
@@ -15,5 +14,5 @@ public class FeedbackDTO {
     private LocalDate createDate;
     private int numberOfStars;
     private long idUserCreate;
-    private long idRoom;
+    private long idOrder;
 }

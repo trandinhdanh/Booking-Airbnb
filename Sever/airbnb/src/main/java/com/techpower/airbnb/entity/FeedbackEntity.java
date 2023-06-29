@@ -23,9 +23,9 @@ public class FeedbackEntity {
     private LocalDate createDate;
     @Column
     private int numberOfStars;
-    @ManyToOne
-    @JoinColumn(name = "room_id")
-    private RoomEntity room;
+    @OneToOne
+    @JoinColumn(name = "orders_id")
+    private OrderEntity order;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;

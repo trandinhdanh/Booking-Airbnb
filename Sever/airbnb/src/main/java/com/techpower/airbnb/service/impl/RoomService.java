@@ -113,9 +113,9 @@ public class RoomService implements IRoomService {
         return true; // Không trùng lịch
     }
 
-    private double averageStar(long idRoom) {
+    private double averageStar(long idOrder) {
         double result = 0;
-        List<FeedbackEntity> feedbackEntities = feedbackRepository.findAllByRoomId(idRoom);
+        List<FeedbackEntity> feedbackEntities = feedbackRepository.findAllByOrderId(idOrder);
         for (FeedbackEntity feedbackEntity : feedbackEntities) {
             result += feedbackEntity.getNumberOfStars();
         }
