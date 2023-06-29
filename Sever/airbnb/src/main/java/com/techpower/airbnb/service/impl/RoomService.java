@@ -2,7 +2,7 @@ package com.techpower.airbnb.service.impl;
 
 import com.techpower.airbnb.converter.RoomConverter;
 import com.techpower.airbnb.dto.RoomDTO;
-import com.techpower.airbnb.entity.DayBooking;
+import com.techpower.airbnb.response.DayBooking;
 import com.techpower.airbnb.entity.ImageRoomEntity;
 import com.techpower.airbnb.entity.OrderEntity;
 import com.techpower.airbnb.entity.RoomEntity;
@@ -74,21 +74,24 @@ public class RoomService implements IRoomService {
         List<RoomDTO> roomDTOS = roomConverter.toDTOs(roomRepository.findByLocation_Id(request.getIdLocation()));
         for (RoomDTO roomDTO : roomDTOS) {
             if (request.getGuests() <= roomDTO.getMaxGuests()) {
-                List<DayBooking> bookingDates = getBookingDatesByRoom(roomDTO.getId());
+                List<DayBooking> bookingDates = checkDateOfRoom(roomDTO.getId());
                 roomDTO.setAvailable(isBookingConflict(bookingDates, request.getStartDate(), request.getEndDate()));
             }
         }
         return roomDTOS;
     }
 
-    public List<DayBooking> getBookingDatesByRoom(long idRoom) {
+    @Override
+    public List<DayBooking> checkDateOfRoom(long idRoom) {
+        List<DayBooking> result = new ArrayList<>();
         List<OrderEntity> orderEntities = orderRepository.findAllByRoomId(idRoom);
-        List<DayBooking> bookingDates = new ArrayList<>();
-        for (OrderEntity oder : orderEntities) {
-            bookingDates.add(new DayBooking(oder.getReceivedDate(), oder.getCheckoutDate()));
-
+        for (OrderEntity orderEntity : orderEntities) {
+            result.add(DayBooking.builder()
+                    .startDate(orderEntity.getReceivedDate())
+                    .endDate(orderEntity.getCheckoutDate())
+                    .build());
         }
-        return bookingDates;
+        return result;
     }
 
     public boolean isBookingConflict(List<DayBooking> list, LocalDate startDate, LocalDate endDate) {

@@ -1,5 +1,6 @@
 package com.techpower.airbnb.dto;
 
+import jakarta.persistence.Column;
 import lombok.*;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public class RoomDTO {
     private double price;
     private List<String> images;
     private String codeLocation;
+    private String address;
     private boolean available;
     private boolean washingMachine;
     private boolean television;
@@ -26,4 +28,7 @@ public class RoomDTO {
     private boolean pool;
     private boolean hotAndColdMachine;
     private int maxGuests;
+    private int numLivingRooms;
+    private int numBathrooms;
+    private int numBedrooms;
 }
