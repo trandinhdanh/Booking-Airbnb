@@ -9,7 +9,7 @@ export default function OrderPage() {
 
   useEffect(() => {
     userService
-      .getOder(idUser)
+      .getOrder(idUser)
       .then((res) => {
         console.log(res);
         setOrders(res.data); // Lưu trữ dữ liệu đơn hàng vào state
@@ -23,9 +23,10 @@ export default function OrderPage() {
   const columns = [
    
     {
-      title: 'Room ID',
-      dataIndex: 'idRoom',
-      key: 'idRoom',
+      title: 'Name Room',
+      dataIndex: 'roomDTO',
+      key: 'roomDTO',
+      render: (roomDTO) => roomDTO.name
     },
     {
       title: 'User ID',

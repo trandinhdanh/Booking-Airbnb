@@ -1,15 +1,13 @@
-package com.techpower.airbnb.entity;
+package com.techpower.airbnb.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class DayBooking {
     private LocalDate startDate;
     private LocalDate endDate;

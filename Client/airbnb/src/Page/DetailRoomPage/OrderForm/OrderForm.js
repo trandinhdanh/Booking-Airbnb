@@ -4,7 +4,11 @@ import { InputNumber } from 'antd';
 import { localStorageService } from '../../../services/localStorageService';
 import { orderService } from '../../../services/orderService';
 import { userService } from '../../../services/userService';
+import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
+import moment from 'moment/moment';
 export default function OrderRoom(props) {
+    const {t} = useTranslation()
     const [startDay,setStartDay] = useState();
     const [endDay,setEndDay] = useState();
     const [quantityPerson,setQuantityPerson] = useState(0);
@@ -13,7 +17,7 @@ export default function OrderRoom(props) {
       console.log('changed', value);
       setQuantityPerson(value)
     };
-     
+     console.log(props.date);
     const onChangeRangePicker = (dates, dateStrings) => {
         console.log('Selected Dates:', dateStrings);
         setStartDay(dateStrings[0])
@@ -31,35 +35,47 @@ export default function OrderRoom(props) {
           console.log(orderData);
           orderService.order(orderData)
           .then((res) => {
-                  console.log(res);
-                })
-                .catch((err) => {
-                  console.log(err);
-                });
+            console.log(res);
+            message.success("ORDER SUCCESS")
+          })
+          .catch((err) => {
+            console.log(err);
+            message.error("ORDER ERROR")
+          });
     }
+    const disabledDate = (current) => {
+      const disabledDates = [
+        { startDate: '2023-07-14', endDate: '2023-07-16' },
+        { startDate: '2023-07-24', endDate: '2023-07-26' },
+      ];
+  
+  
+      return disabledDates.some((date) =>
+        moment(current).isBetween(date.startDate, date.endDate, undefined, '[]')
+      );
+    };
   return (
-    <div>              <main className="flex items-center justify-center h-screen">
-    <section className="order-container bg-white border border-gray-300 rounded p-6 shadow">
+    <div className='w-full relative  rounded-lg border-black '>             
+    <section className=" bg-white border border-gray-300 rounded-lg p-6 shadow">
       <div className="flex items-center justify-between">
-        <p><span className="cost">{props.room?.price} $</span> / night</p>
-        <p>4.38 <span className="reviews">(4 reviews)</span></p>
+        <p><span className="font-bold">{props.room?.price} $</span> / night</p>
+        {/* <p>4.38 <span className="reviews">(4 reviews)</span></p> */}
       </div>
-      <div className="order-data border border-gray-200 rounded my-4 p-4">
-        <div className="flex justify-between">
+      <div className="order-data border border-gray-200 rounded-lg my-4 p-4">
+        <div className="">
         <div className="lg:block  md:hidden sm:hidden mb:hidden px-5 py-3 hover:bg-gray-200 transition duration-300 rounded-full h-full flex flex-wrap justify-center items-center">
               <Space direction="vertical" size={12}>
-              <DatePicker.RangePicker onChange={onChangeRangePicker} />
+              <DatePicker.RangePicker   disabledDate={disabledDate}  onChange={onChangeRangePicker} />
               </Space>
-              <div className="input-number-wrapper">
-                  <label htmlFor="guests" className="label">Số lượng người:</label>
+        </div>
+        <div className="items-center ">
                   <InputNumber
                     id="guests"
                     min={1}
-                    max={props.room?.maxGuests}
+                    max={10}
                     defaultValue={3}
                     onChange={onChangeInputNumber}
                   />
-                </div>
         </div>
         
         </div>
@@ -67,11 +83,11 @@ export default function OrderRoom(props) {
       <div className="grid grid-cols-10 grid-rows-10 gap-0 relative btn-container">
         <div className="cell col-span-10 row-span-10" />
         <div className="content col-span-10 row-span-10 flex justify-center items-center rounded">
-         <Button onClick={handleOrder}>Order</Button>
+         <button className='w-full py-3 bg-primary text-white rounded-lg hover:bg-[#fe474d] transition-all' onClick={handleOrder}>{t('Order')}</button>
         </div>
       </div>
     </section>
-  </main></div>
+  </div>
 
   )
 }

@@ -15,6 +15,7 @@ public class RoomConverter {
                 .name(roomDTO.getName())
                 .description(roomDTO.getDescription())
                 .price(roomDTO.getPrice())
+                .address(roomDTO.getAddress())
                 .washingMachine(roomDTO.isWashingMachine())
                 .television(roomDTO.isTelevision())
                 .airConditioner(roomDTO.isAirConditioner())
@@ -23,6 +24,10 @@ public class RoomConverter {
                 .parking(roomDTO.isParking())
                 .pool(roomDTO.isPool())
                 .hotAndColdMachine(roomDTO.isHotAndColdMachine())
+                .maxGuests(roomDTO.getMaxGuests())
+                .numLivingRooms(roomDTO.getNumLivingRooms())
+                .numBathrooms(roomDTO.getNumBathrooms())
+                .numBedrooms(roomDTO.getNumBedrooms())
                 .build();
 
     }
@@ -40,6 +45,7 @@ public class RoomConverter {
                 .description(roomEntity.getDescription())
                 .price(roomEntity.getPrice())
                 .images(images)
+                .address(roomEntity.getAddress())
                 .codeLocation(roomEntity.getLocation().getName())
                 .washingMachine(roomEntity.isWashingMachine())
                 .television(roomEntity.isTelevision())

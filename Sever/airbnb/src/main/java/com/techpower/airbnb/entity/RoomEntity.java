@@ -48,17 +48,14 @@ public class RoomEntity {
     private int numBedrooms;
     @Column(name = "max_guests")
     private int maxGuests;
+    @Column
+    private String address;
     @ManyToOne
     @JoinColumn(name = "users_id")
     private UserEntity user;
     @ManyToOne
     @JoinColumn(name = "location_id")
     private LocationEntity location;
-
-    @OneToOne
-    @JoinColumn(name = "address_id")
-    private Address address;
-
     @OneToMany(mappedBy = "room")
     private List<ImageRoomEntity> images = new ArrayList<>();
 

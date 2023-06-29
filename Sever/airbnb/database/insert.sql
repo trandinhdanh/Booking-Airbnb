@@ -66,3 +66,5 @@ VALUES
     ('VINH-LONG', 'Vĩnh Long'),
     ('VINH-PHUC', 'Vĩnh Phúc'),
     ('YEN-BAI', 'Yên Bái');
+
+INSERT INTO room();

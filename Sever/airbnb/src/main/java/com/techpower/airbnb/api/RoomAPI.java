@@ -2,6 +2,7 @@ package com.techpower.airbnb.api;
 
 import com.techpower.airbnb.dto.RoomDTO;
 import com.techpower.airbnb.request.SearchHouseRequest;
+import com.techpower.airbnb.response.DayBooking;
 import com.techpower.airbnb.service.IRoomService;
 import com.techpower.airbnb.service.impl.CloudinaryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,13 @@ public class RoomAPI {
         }
     }
 
+    @GetMapping("/calendar/{idRoom}")
+    public ResponseEntity<List<DayBooking>> calendar(@PathVariable("idRoom") long idRoom) {
+        List<DayBooking> dayBookings = iRoomService.checkDateOfRoom(idRoom);
+        if (!dayBookings.isEmpty()) return ResponseEntity.ok(dayBookings);
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping("/search")
     public ResponseEntity<?> search(@RequestBody SearchHouseRequest request) {
         if (iRoomService.search(request) != null) {
@@ -72,6 +80,7 @@ public class RoomAPI {
                                         @RequestParam("price") double price,
                                         @RequestParam(value = "images", required = false) List<MultipartFile> images,
                                         @RequestParam("codeLocation") String codeLocation,
+                                        @RequestParam("address") String address,
                                         @RequestParam("washingMachine") boolean washingMachine,
                                         @RequestParam("television") boolean television,
                                         @RequestParam("airConditioner") boolean airConditioner,
@@ -79,7 +88,11 @@ public class RoomAPI {
                                         @RequestParam("kitchen") boolean kitchen,
                                         @RequestParam("parking") boolean parking,
                                         @RequestParam("pool") boolean pool,
-                                        @RequestParam("hotAndColdMachine") boolean hotAndColdMachine) {
+                                        @RequestParam("hotAndColdMachine") boolean hotAndColdMachine,
+                                        @RequestParam("maxGuests") int maxGuests,
+                                        @RequestParam("numLivingRooms") int numLivingRooms,
+                                        @RequestParam("numBathrooms") int numBathrooms,
+                                        @RequestParam("numBedrooms") int numBedrooms) {
 
         List<String> imagesDTO = new ArrayList<>();
         if (images != null && !images.isEmpty()) {
@@ -93,7 +106,8 @@ public class RoomAPI {
                 .name(name)
                 .description(description)
                 .price(price)
-//                .images(imagesDTO)
+                .images(imagesDTO)
+                .address(address)
                 .codeLocation(codeLocation)
                 .washingMachine(washingMachine)
                 .television(television)
@@ -103,6 +117,10 @@ public class RoomAPI {
                 .parking(parking)
                 .pool(pool)
                 .hotAndColdMachine(hotAndColdMachine)
+                .maxGuests(maxGuests)
+                .numLivingRooms(numLivingRooms)
+                .numBathrooms(numBathrooms)
+                .numBedrooms(numBedrooms)
                 .build();
         RoomDTO saveRoom = iRoomService.save(roomDTO, idUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(saveRoom);

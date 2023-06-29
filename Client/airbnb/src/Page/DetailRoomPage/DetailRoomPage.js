@@ -10,10 +10,10 @@ import OrderForm from './OrderForm/OrderForm';
 export default function DetailRoomPage() {
     const {id} = useParams();
     const [roomDetail,setRoomDetail] = useState({})
+    const [dataDate,setDataDate] = useState();
     const [isFetch,setIsFecth] = useState(false) 
     const {t} = useTranslation()
     const navigate = useNavigate()
-    const [total, setTotal] = useState(0);
     useEffect(() => { 
         setIsFecth(true)
         roomService.getHouseById(id)
@@ -27,6 +27,15 @@ export default function DetailRoomPage() {
                 setIsFecth(false)
               });
      },[])
+     useEffect(() => { 
+      roomService.getRoomCalendar(id).then((res) => {
+              console.log(res);
+              setDataDate(res.data)
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+      },[])
      const renderItemUtilities = () => {
       const roomDetails = [
         {
@@ -236,7 +245,7 @@ export default function DetailRoomPage() {
                 {renderItemUtilities()}
               </div>
               <div className="pl-[6rem] mb:hidden sm:hidden md:block w-2/5">
-                  <OrderForm room={roomDetail}/>
+                  <OrderForm room={roomDetail} date = {dataDate}/>
               </div>
             </div>
         </>}

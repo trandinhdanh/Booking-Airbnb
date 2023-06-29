@@ -1,5 +1,6 @@
 package com.techpower.airbnb.api;
 
+import com.techpower.airbnb.constant.Order;
 import com.techpower.airbnb.dto.OrderDTO;
 import com.techpower.airbnb.service.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,15 @@ public class OrderAPI {
     public ResponseEntity<?> createOrder(@RequestBody OrderDTO orderDTO) {
         try {
             return ResponseEntity.ok(orderService.createOrder(orderDTO));
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order failure");
         }
+    }
+
+    @PutMapping("{idOrder}")
+    public ResponseEntity<?> updateStatus(@PathVariable("idOrder") long idOrder,
+                                          @RequestParam("status") Order status) {
+        return ResponseEntity.status(HttpStatus.OK).body(orderService.updateStatus(status, idOrder));
     }
 
 }

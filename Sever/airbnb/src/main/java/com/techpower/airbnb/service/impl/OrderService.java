@@ -29,7 +29,37 @@ public class OrderService implements IOrderService {
         OrderEntity orderEntity = orderRepository.save(
                 orderConverter.mapperTOEntity(orderDTO,
                         userRepository.findOneById(orderDTO.getIdUser()),
-                        roomRepository.findOneById(orderDTO.getIdRoom())));
+                        roomRepository.findOneById(orderDTO.getRoomDTO().getId())));
         return orderConverter.apply(orderEntity);
+    }
+
+    @Override
+    public OrderDTO updateStatus(Order orderStatus, long idOrder) {
+        OrderEntity orderEntity = orderRepository.findOneById(idOrder);
+        switch (orderStatus) {
+            case CANCEL:
+                if (orderEntity.getStatus().equals(Order.BOOKED)) {
+                    orderEntity.setStatus(orderStatus);
+                }
+                break;
+            case CONFIRM:
+                if (orderEntity.getStatus().equals(Order.BOOKED)) {
+                    orderEntity.setStatus(orderStatus);
+                }
+                break;
+            case CHECKED_IN:
+                if (orderEntity.getStatus().equals(Order.CONFIRM)) {
+                    orderEntity.setStatus(orderStatus);
+                }
+                break;
+            case CHECKED_OUT:
+                if (orderEntity.getStatus().equals(Order.CHECKED_IN)) {
+                    orderEntity.setStatus(orderStatus);
+                }
+                break;
+            default:
+                break;
+        }
+        return orderConverter.apply(orderRepository.save(orderEntity));
     }
 }
