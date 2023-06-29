@@ -7,8 +7,10 @@ import { userService } from '../../../services/userService';
 import { t } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment/moment';
+import { useNavigate } from 'react-router-dom';
 export default function OrderRoom(props) {
     const {t} = useTranslation()
+    const navigate = useNavigate()
     const [startDay,setStartDay] = useState();
     const [endDay,setEndDay] = useState();
     const [quantityPerson,setQuantityPerson] = useState(0);
@@ -17,7 +19,7 @@ export default function OrderRoom(props) {
       console.log('changed', value);
       setQuantityPerson(value)
     };
-     console.log(props.date);
+    
     const onChangeRangePicker = (dates, dateStrings) => {
         console.log('Selected Dates:', dateStrings);
         setStartDay(dateStrings[0])
@@ -26,17 +28,17 @@ export default function OrderRoom(props) {
     const handleOrder = () => { 
         const orderData = {
             idUser: idUser, // Thay thế bằng ID của người dùng hiện tại
-            idRoom: props.room?.id, // Thay thế bằng ID của phòng hiện tại
             status: 'pending', // Trạng thái đặt hàng, có thể là 'pending', 'confirmed',...
             receivedDate: startDay, // Ngày nhận phòng
             checkoutDate: endDay, // Ngày trả phòng
-            quantity: quantityPerson, // Số lượng người
+            numGuests: quantityPerson, // Số lượng người
           };
           console.log(orderData);
-          orderService.order(orderData)
+          orderService.order(props.room.id,orderData)
           .then((res) => {
             console.log(res);
             message.success("ORDER SUCCESS")
+            navigate('/order')
           })
           .catch((err) => {
             console.log(err);
@@ -72,7 +74,7 @@ export default function OrderRoom(props) {
                   <InputNumber
                     id="guests"
                     min={1}
-                    max={10}
+                    max={props.room?.maxGuests}
                     defaultValue={3}
                     onChange={onChangeInputNumber}
                   />

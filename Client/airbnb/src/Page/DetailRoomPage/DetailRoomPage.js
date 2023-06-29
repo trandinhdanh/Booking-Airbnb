@@ -147,9 +147,9 @@ export default function DetailRoomPage() {
             <div className="w-full flex">
               <div className="mb:w-full sm:w-full md:w-3/5 lg:w-3/5">
                 <div className="w-full mb:py-[1rem] sm:py-[1rem] md:py-[2.2rem] border-b-[1px] border-[#dadada]">
-                  <h2 className="text-[1.375rem] font-[500]">Dome hosted Dorothy</h2>
-                  <span className="text-[0.8rem] font-[400] text-[#717171]">
-                    3 {t('Guest')} - 1 {t('Bedroom')} - 1 {t('Bed')} - {t('Bathroom')}
+                  <h2 className="text-[1.5rem] font-[500]">{roomDetail?.name}</h2>
+                  <span className="text-[1rem] font-[400] text-[#717171]">
+                    {roomDetail?.maxGuests} {t('Guest')} - {roomDetail?.numBedrooms} {t('Bed Room')} - {roomDetail?.numLivingRooms} {t('Living Room')} -  {roomDetail?.numBathrooms} {t('Bath Room')}
                   </span>
                 </div>
                 <div className=" py-[2.2rem] border-b-[1px] border-[#dadada]">
