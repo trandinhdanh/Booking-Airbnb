@@ -1,5 +1,6 @@
 package com.techpower.airbnb.dto;
 
+import jakarta.persistence.Column;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,12 +16,13 @@ public class OrderDTO {
     private Long idUser;
     @NotNull
     private RoomDTO roomDTO;
-    @NotNull
     private String status;
     @NotNull
     private LocalDate receivedDate;
     @NotNull
     private LocalDate checkoutDate;
     @NotNull
-    private Integer quantity;
+    private int numGuests;
+    private double totalPrice;
+
 }

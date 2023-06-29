@@ -20,7 +20,7 @@ public class CommentEntity {
     @Column
     private String createDate;
     @Column
-    private double numberOfStars;
+    private int numberOfStars;
     @ManyToOne
     @JoinColumn(name = "room_id")
     private RoomEntity room;
