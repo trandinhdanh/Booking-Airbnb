@@ -1,5 +1,6 @@
 package com.techpower.airbnb.service.impl;
 
+import com.techpower.airbnb.constant.Order;
 import com.techpower.airbnb.converter.RoomConverter;
 import com.techpower.airbnb.dto.RoomDTO;
 import com.techpower.airbnb.response.DayBooking;
@@ -86,10 +87,12 @@ public class RoomService implements IRoomService {
         List<DayBooking> result = new ArrayList<>();
         List<OrderEntity> orderEntities = orderRepository.findAllByRoomId(idRoom);
         for (OrderEntity orderEntity : orderEntities) {
-            result.add(DayBooking.builder()
-                    .startDate(orderEntity.getReceivedDate())
-                    .endDate(orderEntity.getCheckoutDate())
-                    .build());
+            if (!orderEntity.getStatus().equals(Order.CANCEL)) {
+                result.add(DayBooking.builder()
+                        .startDate(orderEntity.getReceivedDate())
+                        .endDate(orderEntity.getCheckoutDate())
+                        .build());
+            }
         }
         return result;
     }

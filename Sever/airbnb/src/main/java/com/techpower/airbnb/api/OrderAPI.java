@@ -16,13 +16,14 @@ public class OrderAPI {
     @Autowired
     private IOrderService orderService;
 
-    @PostMapping
-    public ResponseEntity<?> createOrder(@RequestBody OrderDTO orderDTO) {
-        try {
-            return ResponseEntity.ok(orderService.createOrder(orderDTO));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order failure");
-        }
+    @PostMapping("{idRoom}")
+    public ResponseEntity<?> createOrder(@PathVariable("idRoom") long idRoom,
+                                         @RequestBody OrderDTO orderDTO) {
+        OrderDTO result = orderService.createOrder(orderDTO, idRoom);
+        if (result == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order fail");
+        } else
+            return ResponseEntity.ok(result);
     }
 
     @PutMapping("{idOrder}")

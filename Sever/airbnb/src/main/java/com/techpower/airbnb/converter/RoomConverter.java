@@ -55,6 +55,10 @@ public class RoomConverter {
                 .parking(roomEntity.isParking())
                 .pool(roomEntity.isPool())
                 .hotAndColdMachine(roomEntity.isHotAndColdMachine())
+                .maxGuests(roomEntity.getMaxGuests())
+                .numLivingRooms(roomEntity.getNumLivingRooms())
+                .numBedrooms(roomEntity.getNumBedrooms())
+                .numBathrooms(roomEntity.getNumBathrooms())
                 .available(true)
                 .build();
 

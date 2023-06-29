@@ -1,5 +1,7 @@
-package com.techpower.airbnb.auth;
+package com.techpower.airbnb.api;
 
+import com.techpower.airbnb.auth.AuthenticationResponse;
+import com.techpower.airbnb.auth.AuthenticationService;
 import com.techpower.airbnb.request.AuthenticationRequest;
 import com.techpower.airbnb.request.RegisterCustomerRequest;
 import com.techpower.airbnb.request.RegisterOwnerRequest;

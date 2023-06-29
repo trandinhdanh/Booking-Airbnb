@@ -4,12 +4,16 @@ import com.techpower.airbnb.constant.Order;
 import com.techpower.airbnb.converter.OrderConverter;
 import com.techpower.airbnb.dto.OrderDTO;
 import com.techpower.airbnb.entity.OrderEntity;
+import com.techpower.airbnb.entity.RoomEntity;
 import com.techpower.airbnb.repository.OrderRepository;
 import com.techpower.airbnb.repository.RoomRepository;
 import com.techpower.airbnb.repository.UserRepository;
 import com.techpower.airbnb.service.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 @Service
 public class OrderService implements IOrderService {
@@ -24,13 +28,24 @@ public class OrderService implements IOrderService {
     private OrderConverter orderConverter;
 
     @Override
-    public OrderDTO createOrder(OrderDTO orderDTO) {
+    public OrderDTO createOrder(OrderDTO orderDTO, long idRoom) {
+        if (orderDTO.getNumGuests() > roomRepository.findOneById(idRoom).getMaxGuests()) {
+            return null;
+        }
         orderDTO.setStatus(Order.BOOKED.toString());
-        OrderEntity orderEntity = orderRepository.save(
-                orderConverter.mapperTOEntity(orderDTO,
-                        userRepository.findOneById(orderDTO.getIdUser()),
-                        roomRepository.findOneById(orderDTO.getRoomDTO().getId())));
-        return orderConverter.apply(orderEntity);
+        int numDate = countDate(orderDTO.getReceivedDate(), orderDTO.getCheckoutDate());
+        RoomEntity roomEntity = roomRepository.findOneById(idRoom);
+        double totalPrice = numDate * roomEntity.getPrice();
+        OrderEntity orderEntity = orderConverter.mapperTOEntity(orderDTO,
+                userRepository.findOneById(orderDTO.getIdUser()),
+                roomEntity);
+        orderEntity.setTotalPrice(totalPrice);
+        return orderConverter.apply(orderRepository.save(orderEntity));
+    }
+
+    private int countDate(LocalDate start, LocalDate end) {
+        long daysBetween = ChronoUnit.DAYS.between(start, end);
+        return Math.abs((int) daysBetween);
     }
 
     @Override

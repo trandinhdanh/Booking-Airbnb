@@ -26,7 +26,9 @@ public class OrderEntity {
     @Enumerated(EnumType.STRING)
     private Order status;
     @Column
-    private int quantity;
+    private int numGuests;
+    @Column
+    private double totalPrice;
     @ManyToOne
     @JoinColumn(name = "room_id")
     private RoomEntity room;
