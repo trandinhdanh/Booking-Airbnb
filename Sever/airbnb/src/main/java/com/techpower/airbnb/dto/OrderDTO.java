@@ -14,7 +14,7 @@ public class OrderDTO {
     @NotNull
     private Long idUser;
     @NotNull
-    private Long idRoom;
+    private RoomDTO roomDTO;
     @NotNull
     private String status;
     @NotNull
