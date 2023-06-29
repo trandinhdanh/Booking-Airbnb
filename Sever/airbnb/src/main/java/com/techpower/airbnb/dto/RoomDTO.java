@@ -14,6 +14,7 @@ public class RoomDTO {
     private Long id;
     private String name;
     private String description;
+    private double totalStar;
     private double price;
     private List<String> images;
     private String codeLocation;

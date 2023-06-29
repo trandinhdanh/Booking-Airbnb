@@ -3,6 +3,7 @@ package com.techpower.airbnb.service.impl;
 import com.techpower.airbnb.constant.Order;
 import com.techpower.airbnb.converter.RoomConverter;
 import com.techpower.airbnb.dto.RoomDTO;
+import com.techpower.airbnb.entity.FeedbackEntity;
 import com.techpower.airbnb.response.DayBooking;
 import com.techpower.airbnb.entity.ImageRoomEntity;
 import com.techpower.airbnb.entity.OrderEntity;
@@ -32,6 +33,8 @@ public class RoomService implements IRoomService {
     private LocationRepository locationRepository;
     @Autowired
     private OrderRepository orderRepository;
+    @Autowired
+    private FeedbackRepository feedbackRepository;
 
     @Override
     public List<RoomDTO> findAll() {
@@ -41,7 +44,9 @@ public class RoomService implements IRoomService {
 
     @Override
     public RoomDTO findOneById(long id) {
-        return roomConverter.toDTO(roomRepository.findOneById(id));
+        RoomDTO roomDTO = roomConverter.toDTO(roomRepository.findOneById(id));
+        roomDTO.setTotalStar(averageStar(id));
+        return roomDTO;
     }
 
     @Transactional
@@ -108,5 +113,14 @@ public class RoomService implements IRoomService {
             }
         }
         return true; // Không trùng lịch
+    }
+
+    private double averageStar(long idRoom) {
+        double result = 0;
+        List<FeedbackEntity> feedbackEntities = feedbackRepository.findAllByRoomId(idRoom);
+        for (FeedbackEntity feedbackEntity : feedbackEntities) {
+            result += feedbackEntity.getNumberOfStars();
+        }
+        return Math.round((result / feedbackEntities.size()) * 100.0) / 100.0;
     }
 }
