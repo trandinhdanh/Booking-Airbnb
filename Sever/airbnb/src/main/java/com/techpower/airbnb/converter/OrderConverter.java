@@ -1,5 +1,6 @@
 package com.techpower.airbnb.converter;
 
+import com.techpower.airbnb.constant.Order;
 import com.techpower.airbnb.dto.OrderDTO;
 import com.techpower.airbnb.entity.OrderEntity;
 import com.techpower.airbnb.entity.RoomEntity;
@@ -29,6 +30,7 @@ public class OrderConverter implements Function<OrderEntity, OrderDTO> {
         return OrderEntity.builder()
                 .user(userEntity)
                 .room(roomEntity)
+                .status(Order.valueOf(orderDTO.getStatus()))
                 .receivedDate(orderDTO.getReceivedDate())
                 .checkoutDate(orderDTO.getCheckoutDate())
                 .quantity(orderDTO.getQuantity())

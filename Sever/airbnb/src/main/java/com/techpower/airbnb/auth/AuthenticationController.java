@@ -5,10 +5,16 @@ import com.techpower.airbnb.request.RegisterCustomerRequest;
 import com.techpower.airbnb.request.RegisterOwnerRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.List;
+
 @RestController
-//@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*")
 @RequestMapping("api/v1/auth")
 public class AuthenticationController {
 
@@ -27,18 +33,19 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register-customer")
-    public ResponseEntity<AuthenticationResponse> register(
-            @RequestBody RegisterCustomerRequest request
-    ) {
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterCustomerRequest request) {
         return ResponseEntity.ok(authenticationService.register(request));
     }
-@PostMapping("/register-owner")
-public ResponseEntity<AuthenticationResponse> register(
-    @RequestBody RegisterOwnerRequest request
-){
-    return ResponseEntity.ok(authenticationService.register(request));
-}
 
+    @PostMapping("/register-owner")
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterOwnerRequest request) {
+        return ResponseEntity.ok(authenticationService.register(request));
+    }
+  
+    @PutMapping(path = "confirm")
+    public String confirm(@RequestParam("email") String email,  @RequestParam("token") String token) {
+        return authenticationService.confirmToken(email,token);
+    }
 }
 
 

@@ -66,7 +66,9 @@ public class RoomService implements IRoomService {
 
     @Override
     public RoomDTO update(RoomDTO dto) {
-        return null;
+        RoomEntity roomEntityOld = roomRepository.findOneById(dto.getId());
+        RoomEntity roomEntityNew = roomConverter.toEntity(dto, roomEntityOld);
+        return roomConverter.toDTO(roomRepository.save(roomEntityNew));
     }
 
     @Override
@@ -84,7 +86,7 @@ public class RoomService implements IRoomService {
     public List<DayBooking> getBookingDatesByRoom(long idRoom) {
         List<OrderEntity> orderEntities = orderRepository.findAllByRoomId(idRoom);
         List<DayBooking> bookingDates = new ArrayList<>();
-        for (OrderEntity oder: orderEntities) {
+        for (OrderEntity oder : orderEntities) {
             bookingDates.add(new DayBooking(oder.getReceivedDate(), oder.getCheckoutDate()));
 
         }

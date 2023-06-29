@@ -2,7 +2,6 @@ package com.techpower.airbnb.api;
 
 import com.techpower.airbnb.dto.LocationDTO;
 import com.techpower.airbnb.service.ILocationService;
-import com.techpower.airbnb.service.impl.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
