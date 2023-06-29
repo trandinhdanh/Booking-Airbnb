@@ -5,7 +5,7 @@ import java.time.temporal.ChronoUnit;
 
 public class Test {
     public static void main(String[] args) {
-        long daysBetween = ChronoUnit.DAYS.between(LocalDate.of(2023, 7, 1), LocalDate.of(2023, 7, 1));
-        System.out.println(Math.abs((int) daysBetween));
+        double result = 8;
+        System.out.println(Math.round((result/7) * 100.0) / 100.0);
     }
 }
