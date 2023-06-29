@@ -3,13 +3,15 @@ import UserNav from './UserNav';
 import { FaSearch } from 'react-icons/fa';
 import { DatePicker, message, Space, Select, notification } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import './Header.modul.scss';
+import './Header.module.scss';
 import { NavLink, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { locationService } from '../../services/locationService';
 export default function Header() {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [bg, setBg] = useState(false);
+  const [location,setLocation] = useState();
   const [pathName,setPathName] = useState();
   const [idViTri, setIdViTri] = useState(0);
   const { RangePicker } = DatePicker;
@@ -21,10 +23,15 @@ export default function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // const allLocation = useSelector((state) => state.room.listLocation.allLocation);
-  // useEffect(() => {
-  //   dispatch(getLocationList());
-  // }, []);
+  useEffect(() => {
+    locationService.getLocationList().then((res) => {
+            console.log(res);
+            setLocation(res.data)
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+  }, []);
   const closeNav = () => {
     // if (location.pathname === "/") {
     // }
@@ -36,15 +43,15 @@ export default function Header() {
   };
   window.addEventListener('scroll', closeNav);
 
-  // const renderOption = () => {
-  //   return allLocation.map((item, index) => {
-  //     return (
-  //       <Option key={index} value={item.id}>
-  //         {item.tenViTri}
-  //       </Option>
-  //     );
-  //   });
-  // };
+  const renderOption = () => {
+    return location?.map((item, index) => {
+      return (
+        <Option key={index} value={item.id}>
+          {item.name}
+        </Option>
+      );
+    });
+  };
   const searchBtn = () => {
     if (idViTri !== 0) {
       navigate(`SearchPage/${idViTri}`);
@@ -99,7 +106,7 @@ export default function Header() {
                   option.children.toLowerCase().includes(input.toLowerCase())
                 }
               >
-                {/* {renderOption()} */}
+                {renderOption()}
               </Select>
             </div>
             <div className="lg:block  md:hidden sm:hidden mb:hidden px-5 py-3 hover:bg-gray-200 transition duration-300 rounded-full h-full flex flex-wrap justify-center items-center">

@@ -10,6 +10,7 @@ import ManagerLayout from '../Layout/ManagerLayout'
 import HouseManager from '../Page/Manager/HouseManager/HouseManager'
 import AddHouseManager from '../Page/Manager/HouseManager/AddHouseManager/AddHouseManager'
 import BookingCalendar from '../Page/Manager/BookingCalendar'
+import OrderPage from '../Page/OrderPage/OrderPage'
 
 export default function Routers() {
 
@@ -21,7 +22,8 @@ export default function Routers() {
                 <Route path='/register' element={<RegisterPage/>} /> 
                 <Route path='/*' element={<NotFoundPage/>} /> 
                 <Route path='/' element = {<MainLayout/>}>
-                    <Route path='/' element={<HomePage/>} />
+                    <Route path='/' element={<HomePage/>} /> 
+                    <Route path='/order' element={<OrderPage/>} /> 
                     <Route path='/detail-room/:id' element={<DetailRoomPage/>} />
                 </Route>
                 <Route path='/manager' element = {<ManagerLayout/>}>
