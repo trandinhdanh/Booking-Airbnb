@@ -22,7 +22,8 @@ public class OrderConverter implements Function<OrderEntity, OrderDTO> {
                 .status(orderEntity.getStatus().toString())
                 .receivedDate(orderEntity.getReceivedDate())
                 .checkoutDate(orderEntity.getCheckoutDate())
-                .quantity(orderEntity.getQuantity())
+                .numGuests(orderEntity.getNumGuests())
+                .totalPrice(orderEntity.getTotalPrice())
                 .build();
     }
 
@@ -37,7 +38,7 @@ public class OrderConverter implements Function<OrderEntity, OrderDTO> {
                 .status(Order.valueOf(orderDTO.getStatus()))
                 .receivedDate(orderDTO.getReceivedDate())
                 .checkoutDate(orderDTO.getCheckoutDate())
-                .quantity(orderDTO.getQuantity())
+                .numGuests(orderDTO.getNumGuests())
                 .build();
     }
 }
