@@ -52,7 +52,7 @@ public class UserEntity implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<OrderEntity> orders;
     @OneToMany(mappedBy = "user")
-    private List<CommentEntity> comments ;
+    private List<FeedbackEntity> feedbacks ;
 
     @Override
     public int hashCode() {
