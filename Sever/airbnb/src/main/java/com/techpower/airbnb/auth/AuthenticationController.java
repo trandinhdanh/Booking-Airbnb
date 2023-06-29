@@ -25,7 +25,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("login")
-    public ResponseEntity<?> login(@RequestBody AuthenticationRequest request) {
+    public ResponseEntity<?> login(@RequestBody @Valid AuthenticationRequest request) {
         AuthenticationResponse response = authenticationService.login(request);
         return ResponseEntity.ok()
                 .header(HttpHeaders.AUTHORIZATION, response.token())
@@ -33,12 +33,12 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register-customer")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterCustomerRequest request) {
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody @Valid RegisterCustomerRequest request) {
         return ResponseEntity.ok(authenticationService.register(request));
     }
 
     @PostMapping("/register-owner")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterOwnerRequest request) {
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody @Valid RegisterOwnerRequest request) {
         return ResponseEntity.ok(authenticationService.register(request));
     }
   
