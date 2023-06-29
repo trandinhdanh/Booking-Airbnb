@@ -3,7 +3,7 @@ import UserNav from './UserNav';
 import { FaSearch } from 'react-icons/fa';
 import { DatePicker, message, Space, Select, notification } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import './Header.modul.scss';
+import './Header.module.scss';
 import { NavLink, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 export default function Header() {
