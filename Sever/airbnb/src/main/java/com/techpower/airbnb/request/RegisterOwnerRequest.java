@@ -13,6 +13,7 @@ import javax.validation.constraints.Size;
 @Getter
 @Builder
 public class RegisterOwnerRequest {
+    private String name;
     @NotNull(message = "Số điện thoại không được trống")
     private String phone;
     @Email(message = "Email không hợp lệ !!!")
