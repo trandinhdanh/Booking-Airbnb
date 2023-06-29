@@ -9,6 +9,7 @@ import com.techpower.airbnb.entity.RoomEntity;
 import com.techpower.airbnb.repository.*;
 import com.techpower.airbnb.request.SearchHouseRequest;
 import com.techpower.airbnb.service.IRoomService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,6 +43,7 @@ public class RoomService implements IRoomService {
         return roomConverter.toDTO(roomRepository.findOneById(id));
     }
 
+    @Transactional
     @Override
     public RoomDTO save(RoomDTO dto, long idUser) {
         RoomEntity roomEntity = roomConverter.toEntity(dto);

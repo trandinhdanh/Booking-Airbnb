@@ -92,7 +92,7 @@ public ResponseEntity<?> searchTrungNgay(@RequestParam("start") LocalDate start,
                 .name(name)
                 .description(description)
                 .price(price)
-                .images(imagesDTO)
+//                .images(imagesDTO)
                 .codeLocation(codeLocation)
                 .washingMachine(washingMachine)
                 .television(television)
