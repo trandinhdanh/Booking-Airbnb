@@ -13,13 +13,13 @@ import java.util.function.Function;
 
 @Component
 public class FeedbackConverter implements Function<FeedbackEntity, FeedbackDTO> {
-    public FeedbackEntity mapperTOEntity(FeedbackDTO orderDTO, UserEntity userEntity, RoomEntity roomEntity) {
+    public FeedbackEntity mapperTOEntity(FeedbackDTO feedbackDTO, UserEntity userEntity, OrderEntity orderEntity) {
         return FeedbackEntity.builder()
                 .user(userEntity)
-                .room(roomEntity)
-                .content(orderDTO.getContent())
-                .numberOfStars(orderDTO.getNumberOfStars())
-                .createDate(orderDTO.getCreateDate())
+                .order(orderEntity)
+                .content(feedbackDTO.getContent())
+                .numberOfStars(feedbackDTO.getNumberOfStars())
+                .createDate(feedbackDTO.getCreateDate())
                 .build();
     }
 
@@ -30,7 +30,7 @@ public class FeedbackConverter implements Function<FeedbackEntity, FeedbackDTO> 
                 .content(feedbackEntity.getContent())
                 .numberOfStars(feedbackEntity.getNumberOfStars())
                 .createDate(feedbackEntity.getCreateDate())
-                .idRoom(feedbackEntity.getRoom().getId())
+                .idOrder(feedbackEntity.getOrder().getId())
                 .idUserCreate(feedbackEntity.getUser().getId())
                 .build();
     }

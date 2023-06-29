@@ -3,7 +3,9 @@ package com.techpower.airbnb.service.impl;
 import com.techpower.airbnb.converter.FeedbackConverter;
 import com.techpower.airbnb.dto.FeedbackDTO;
 import com.techpower.airbnb.entity.FeedbackEntity;
+import com.techpower.airbnb.entity.OrderEntity;
 import com.techpower.airbnb.repository.FeedbackRepository;
+import com.techpower.airbnb.repository.OrderRepository;
 import com.techpower.airbnb.repository.RoomRepository;
 import com.techpower.airbnb.repository.UserRepository;
 import com.techpower.airbnb.service.IFeedbackService;
@@ -22,6 +24,8 @@ public class FeedbackService implements IFeedbackService {
     private UserRepository userRepository;
     @Autowired
     private RoomRepository roomRepository;
+@Autowired
+private OrderRepository orderRepository;
 
     @Override
     public FeedbackDTO post(FeedbackDTO dto) {
@@ -29,7 +33,7 @@ public class FeedbackService implements IFeedbackService {
         FeedbackEntity feedbackEntity = feedbackConverter.mapperTOEntity(
                 dto,
                 userRepository.findOneById(dto.getIdUserCreate()),
-                roomRepository.findOneById(dto.getIdRoom()));
+                orderRepository.findOneById(dto.getIdOrder()) );
         return feedbackConverter.apply(feedbackRepository.save(feedbackEntity));
     }
 }

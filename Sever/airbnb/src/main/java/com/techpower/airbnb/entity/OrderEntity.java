@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @Getter
@@ -35,5 +37,6 @@ public class OrderEntity {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
+
 
 }
