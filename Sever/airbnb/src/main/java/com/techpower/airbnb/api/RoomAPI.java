@@ -1,16 +1,24 @@
 package com.techpower.airbnb.api;
 
+import com.google.maps.errors.ApiException;
+import com.google.maps.model.LatLng;
+import com.techpower.airbnb.dto.AddressDTO;
 import com.techpower.airbnb.dto.RoomDTO;
 import com.techpower.airbnb.request.SearchHouseRequest;
 import com.techpower.airbnb.response.DayBooking;
+import com.techpower.airbnb.service.IAddressService;
 import com.techpower.airbnb.service.IRoomService;
+import com.techpower.airbnb.service.impl.AddressService;
 import com.techpower.airbnb.service.impl.CloudinaryService;
+import com.techpower.airbnb.service.impl.GeocodingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +31,8 @@ public class RoomAPI {
     private IRoomService iRoomService;
     @Autowired
     private CloudinaryService cloudinaryService;
+    @Autowired
+    private IAddressService addressService;
 
     @GetMapping("")
     public ResponseEntity<List<RoomDTO>> findAll() {
@@ -92,7 +102,7 @@ public class RoomAPI {
                                         @RequestParam("maxGuests") int maxGuests,
                                         @RequestParam("numLivingRooms") int numLivingRooms,
                                         @RequestParam("numBathrooms") int numBathrooms,
-                                        @RequestParam("numBedrooms") int numBedrooms) {
+                                        @RequestParam("numBedrooms") int numBedrooms) throws IOException, InterruptedException, ApiException {
 
         List<String> imagesDTO = new ArrayList<>();
         if (images != null && !images.isEmpty()) {
@@ -102,12 +112,14 @@ public class RoomAPI {
             }
         }
 
+        AddressDTO addressDTO = addressService.addAddress(address);
+
         RoomDTO roomDTO = RoomDTO.builder()
                 .name(name)
                 .description(description)
                 .price(price)
                 .images(imagesDTO)
-                .address(address)
+                .address(addressDTO)
                 .codeLocation(codeLocation)
                 .washingMachine(washingMachine)
                 .television(television)

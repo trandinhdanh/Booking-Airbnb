@@ -3,6 +3,7 @@ package com.techpower.airbnb.converter;
 import com.techpower.airbnb.dto.RoomDTO;
 import com.techpower.airbnb.entity.ImageRoomEntity;
 import com.techpower.airbnb.entity.RoomEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -10,12 +11,15 @@ import java.util.List;
 
 @Component
 public class RoomConverter {
+    @Autowired
+    private AddressConverter addressConverter;
+
     public RoomEntity toEntity(RoomDTO roomDTO) {
         return RoomEntity.builder()
                 .name(roomDTO.getName())
                 .description(roomDTO.getDescription())
                 .price(roomDTO.getPrice())
-                .address(roomDTO.getAddress())
+                .address(addressConverter.toEntity(roomDTO.getAddress()))
                 .washingMachine(roomDTO.isWashingMachine())
                 .television(roomDTO.isTelevision())
                 .airConditioner(roomDTO.isAirConditioner())
@@ -45,7 +49,7 @@ public class RoomConverter {
                 .description(roomEntity.getDescription())
                 .price(roomEntity.getPrice())
                 .images(images)
-                .address(roomEntity.getAddress())
+                .address(addressConverter.apply(roomEntity.getAddress()))
                 .codeLocation(roomEntity.getLocation().getName())
                 .washingMachine(roomEntity.isWashingMachine())
                 .television(roomEntity.isTelevision())

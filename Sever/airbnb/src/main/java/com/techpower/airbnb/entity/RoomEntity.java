@@ -48,8 +48,9 @@ public class RoomEntity {
     private int numBedrooms;
     @Column(name = "max_guests")
     private int maxGuests;
-    @Column
-    private String address;
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "address_id")
+    private AddressEntity address;
     @ManyToOne
     @JoinColumn(name = "users_id")
     private UserEntity user;
