@@ -52,12 +52,7 @@ public class OrderService implements IOrderService {
     public OrderDTO updateStatus(Order orderStatus, long idOrder) {
         OrderEntity orderEntity = orderRepository.findOneById(idOrder);
         switch (orderStatus) {
-            case CANCEL:
-                if (orderEntity.getStatus().equals(Order.BOOKED)) {
-                    orderEntity.setStatus(orderStatus);
-                }
-                break;
-            case CONFIRM:
+            case CANCEL, CONFIRM:
                 if (orderEntity.getStatus().equals(Order.BOOKED)) {
                     orderEntity.setStatus(orderStatus);
                 }

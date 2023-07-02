@@ -65,12 +65,17 @@ public class RoomAPI {
                                              @RequestParam("end") LocalDate end,
                                              @RequestParam("startSearch") LocalDate startSearch,
                                              @RequestParam("endSearch") LocalDate endSearch) {
-        if ((startSearch.isAfter(start) && startSearch.isBefore(end)) ||
+        if ((startSearch.isAfter(start) && startSearch.isBefore(end) ) ||
                 (endSearch.isAfter(start) && endSearch.isBefore(end)) ||
+                (startSearch.equals(start) && endSearch.equals(end)) ||
+                (startSearch.equals(start) && endSearch.isBefore(end)) ||
+                (startSearch.equals(start) && endSearch.isAfter(end)) ||
+                (startSearch.isBefore(start) && endSearch.equals(end)) ||
+                (startSearch.isAfter(start) && endSearch.equals(end)) ||
                 (startSearch.isBefore(start) && endSearch.isAfter(end))) {
-            return ResponseEntity.ok("true"); // Trùng lịch
+            return ResponseEntity.ok("true trùng lịch"); // Trùng lịch
         }
-        return ResponseEntity.ok("false");
+        return ResponseEntity.ok("false khum trunùng");
     }
 
 

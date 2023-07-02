@@ -1,16 +1,23 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom';
 import CardItem from '../../Components/CardItem/CardItem';
-import Map from '../Map'
+import Map from './Map'
 import { Badge } from 'antd';
 import { useTranslation } from 'react-i18next';
 export default function SearchPage() {
+  const [address, setAddress] = useState([]);
     const {t} = useTranslation()
     const location = useLocation();
   const data = location.state?.dataContext;
-  console.log(data);
+
+  useEffect(() => {
+    const addresses = data.map((item) => ({ address: item.address }));
+    setAddress(addresses);
+    
+  }, []);
   const renderRoomLocation = () => {
     return data?.map((item, index) => {
+   
       return (
         <div className="col-span-1 relative" key={index}>
           {!item.available && (
@@ -40,7 +47,7 @@ export default function SearchPage() {
       <div className="col-span-1 h-full lg:block md:hidden sm:hidden mb:hidden ">
         <div className="h-full">
           <div className="w-full h-full">
-            <Map/>
+            <Map address={address}/>
           </div>
         </div>
       </div>
