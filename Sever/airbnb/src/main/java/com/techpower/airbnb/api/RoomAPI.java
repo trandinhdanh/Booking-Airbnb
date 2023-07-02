@@ -52,12 +52,10 @@ public class RoomAPI {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<?> search(@RequestBody SearchHouseRequest request) {
-        if (iRoomService.search(request) != null) {
-            return ResponseEntity.ok(iRoomService.search(request));
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không có kết quả");
+    @PostMapping ("/search")
+    public ResponseEntity<List<RoomDTO>> search(@RequestBody SearchHouseRequest request) {
+            return ResponseEntity.ok().body(iRoomService.search(request));
+
     }
 
 

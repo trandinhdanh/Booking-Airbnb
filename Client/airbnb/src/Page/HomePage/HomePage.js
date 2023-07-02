@@ -54,7 +54,6 @@ function HomePage() {
     return allRoom?.map((roomInfor, index) => {
       return <>
       <CardItem key={index} roomInfor={roomInfor} />
-      <CardItem key={index} roomInfor={roomInfor} />
       </>;
     });
   };
