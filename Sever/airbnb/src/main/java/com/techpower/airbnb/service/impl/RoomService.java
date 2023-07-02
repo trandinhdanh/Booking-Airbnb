@@ -1,13 +1,13 @@
 package com.techpower.airbnb.service.impl;
 
+import com.google.maps.errors.ApiException;
+import com.google.maps.model.LatLng;
 import com.techpower.airbnb.constant.Order;
+import com.techpower.airbnb.converter.AddressConverter;
 import com.techpower.airbnb.converter.RoomConverter;
 import com.techpower.airbnb.dto.RoomDTO;
-import com.techpower.airbnb.entity.FeedbackEntity;
+import com.techpower.airbnb.entity.*;
 import com.techpower.airbnb.response.DayBooking;
-import com.techpower.airbnb.entity.ImageRoomEntity;
-import com.techpower.airbnb.entity.OrderEntity;
-import com.techpower.airbnb.entity.RoomEntity;
 import com.techpower.airbnb.repository.*;
 import com.techpower.airbnb.request.SearchHouseRequest;
 import com.techpower.airbnb.service.IRoomService;
@@ -15,6 +15,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,12 @@ public class RoomService implements IRoomService {
     private OrderRepository orderRepository;
     @Autowired
     private FeedbackRepository feedbackRepository;
+    @Autowired
+    private GeocodingService geocodingService;
+    @Autowired
+    private AddressConverter addressConverter;
+    @Autowired
+    private AddressRepository addressRepository;
 
     @Override
     public List<RoomDTO> findAll() {
@@ -51,10 +58,23 @@ public class RoomService implements IRoomService {
 
     @Transactional
     @Override
-    public RoomDTO save(RoomDTO dto, long idUser) {
+    public RoomDTO save(RoomDTO dto, long idUser) throws IOException, InterruptedException, ApiException {
         RoomEntity roomEntity = roomConverter.toEntity(dto);
         roomEntity.setUser(userRepository.findOneById(idUser));
         roomEntity.setLocation(locationRepository.findOneByCode(dto.getCodeLocation()));
+
+        AddressEntity addressEntity = roomEntity.getAddress();
+        LatLng latLng = geocodingService.getLatLngFromAddress(addressEntity.getFullAddress());
+        if (latLng == null) {
+            addressEntity.setLat(0);
+            addressEntity.setLng(0);
+        }else {
+            // Lưu tọa độ vào đối tượng Address
+            addressEntity.setLat(latLng.lat);
+            addressEntity.setLng(latLng.lng);
+        }
+        // Lưu đối tượng Address vào cơ sở dữ liệu
+        addressRepository.save(addressEntity);
 
         RoomEntity saveRoom = roomRepository.save(roomEntity);
 
