@@ -10,5 +10,7 @@ export let roomService = {
   getRoomCalendar: (idRoom) => {
     return https.get(`/api/v1/rooms/calendar/${idRoom}`);
   },
-  
+  searchRoom: (data) => { 
+    return https.post(`/api/v1/rooms/search`,data);
+   }
 };

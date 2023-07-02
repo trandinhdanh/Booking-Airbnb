@@ -13,8 +13,9 @@ export default function OrderRoom(props) {
     const navigate = useNavigate()
     const [startDay,setStartDay] = useState();
     const [endDay,setEndDay] = useState();
-    const [quantityPerson,setQuantityPerson] = useState(0);
+    const [quantityPerson,setQuantityPerson] = useState(1);
     const [idUser,setIdUser] = useState(localStorageService.get('USER')?.userDTO.id)
+    
     const onChangeInputNumber = (value) => {
       console.log('changed', value);
       setQuantityPerson(value)
@@ -57,7 +58,7 @@ export default function OrderRoom(props) {
       );
     };
   return (
-    <div className='w-full relative  rounded-lg border-black '>             
+    <div className='w-full relative  rounded-lg border-black mt-10'>             
     <section className=" bg-white border border-gray-300 rounded-lg p-6 shadow">
       <div className="flex items-center justify-between">
         <p><span className="font-bold">{props.room?.price} $</span> / night</p>
@@ -70,16 +71,21 @@ export default function OrderRoom(props) {
               <DatePicker.RangePicker   disabledDate={disabledDate}  onChange={onChangeRangePicker} />
               </Space>
         </div>
-        <div className="items-center ">
-                  <InputNumber
+       
+        <div className="px-5 py-3 hover:bg-gray-200 transition duration-300 rounded-full h-full flex flex-wrap justify-center items-center">
+              <label
+                className={`text-black  text-sm   mr-3 lg:block md:block sm:hidden mb:hidden`}
+              >
+                {t('Quantity')}
+              </label>
+              <InputNumber
                     id="guests"
                     min={1}
                     max={props.room?.maxGuests}
-                    defaultValue={3}
+                    defaultValue={1}
                     onChange={onChangeInputNumber}
                   />
-        </div>
-        
+            </div>
         </div>
       </div>
       <div className="grid grid-cols-10 grid-rows-10 gap-0 relative btn-container">

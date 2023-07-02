@@ -54,7 +54,7 @@ export default function UserNav({ bg }) {
             : 'hidden'
         }`}
       ></div>
-      <div className="relative flex items-center lg:flex  md:flex sm:flex  mb:hidden animate__animated animate__fadeInRight">
+      <div className="text-[14px] relative flex items-center lg:flex  md:flex sm:flex  mb:hidden animate__animated animate__fadeInRight">
         <h1
           className={`${
             bg ? 'sm:text-black lg:text-white hover:bg-gray-700' : 'text-black hover:bg-gray-200'

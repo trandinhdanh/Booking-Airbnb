@@ -126,8 +126,13 @@ public class RoomService implements IRoomService {
 
     public boolean isBookingConflict(List<DayBooking> list, LocalDate startDate, LocalDate endDate) {
         for (DayBooking booking : list) {
-            if ((startDate.isAfter(booking.getStartDate()) && startDate.isBefore(booking.getEndDate())) ||
+            if ((startDate.isAfter(booking.getStartDate()) && startDate.isBefore(booking.getEndDate()) ) ||
                     (endDate.isAfter(booking.getStartDate()) && endDate.isBefore(booking.getEndDate())) ||
+                    (startDate.equals(booking.getStartDate()) && endDate.equals(booking.getEndDate())) ||
+                    (startDate.equals(booking.getStartDate()) && endDate.isBefore(booking.getEndDate())) ||
+                    (startDate.equals(booking.getStartDate()) && endDate.isAfter(booking.getEndDate())) ||
+                    (startDate.isBefore(booking.getStartDate()) && endDate.equals(booking.getEndDate())) ||
+                    (startDate.isAfter(booking.getStartDate()) && endDate.equals(booking.getEndDate())) ||
                     (startDate.isBefore(booking.getStartDate()) && endDate.isAfter(booking.getEndDate()))) {
                 return false; // Trùng lịch
             }

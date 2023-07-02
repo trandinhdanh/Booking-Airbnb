@@ -36,32 +36,32 @@ function CardItem({ roomInfor }) {
           modules={[Navigation, Pagination, Mousewheel, Keyboard]}
           className="mySwiper"
         >
-          <SwiperSlide className=" min-h-[260px] rounded-[0.8rem] object-cover h-[270px] w-full">
+          <SwiperSlide className=" max-h-[260px] rounded-[0.8rem] object-cover h-[270px] w-full">
             <img
               src={`${roomInfor.images[0]}`}
               alt=""
-              className="rounded-[0.8rem] min-h-[260px] h-full object-cover max-h-full "
+              className="rounded-[0.8rem] max-h-[260px] h-full object-cover max-h-full "
             />
           </SwiperSlide>
-          <SwiperSlide className=" min-h-[260px] rounded-[0.8rem] object-cover h-[270px] w-full">
+          <SwiperSlide className=" max-h-[260px] rounded-[0.8rem] object-cover h-[270px] w-full">
             <img
               src={`${roomInfor.images[1]}`}
               alt=""
-              className="rounded-[0.8rem] min-h-[260px] object-cover max-h-full"
+              className="rounded-[0.8rem] max-h-[260px] object-cover max-h-full"
             />
           </SwiperSlide>
-          <SwiperSlide className=" min-h-[260px] rounded-[0.8rem] object-cover h-[270px] w-full">
+          <SwiperSlide className=" max-h-[260px] rounded-[0.8rem] object-cover h-[270px] w-full">
             <img
               src={`${roomInfor.images[2]}`}
               alt=""
-              className="rounded-[0.8rem] min-h-[260px] object-cover max-h-full"
+              className="rounded-[0.8rem] max-h-[260px] object-cover max-h-full"
             />
           </SwiperSlide>
-          <SwiperSlide className=" min-h-[260px] rounded-[0.8rem] object-cover h-[270px] w-full">
+          <SwiperSlide className=" max-h-[260px] rounded-[0.8rem] object-cover h-[270px] w-full">
             <img
               src={`${roomInfor.images[3]}`}
               alt=""
-              className="rounded-[0.8rem] min-h-[260px] object-cover w-full"
+              className="rounded-[0.8rem] max-h-[260px] object-cover w-full"
             />
           </SwiperSlide>
         </Swiper>
