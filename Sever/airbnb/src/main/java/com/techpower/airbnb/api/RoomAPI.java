@@ -169,5 +169,8 @@ public class RoomAPI {
         return ResponseEntity.status(HttpStatus.OK).body(saveRoom);
     }
 
-
+    @DeleteMapping("delete/{id}")
+    public void deleteRoom(@PathVariable Long id) {
+        iRoomService.deleteById(id);
+    }
 }

@@ -104,6 +104,11 @@ public class RoomService implements IRoomService {
         return result;
     }
 
+    @Override
+    public void deleteById(Long id) {
+        roomRepository.deleteById(id);
+    }
+
     public boolean isBookingConflict(List<DayBooking> list, LocalDate startDate, LocalDate endDate) {
         for (DayBooking booking : list) {
             if ((startDate.isAfter(booking.getStartDate()) && startDate.isBefore(booking.getEndDate())) ||

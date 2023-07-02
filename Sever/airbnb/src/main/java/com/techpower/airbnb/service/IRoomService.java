@@ -18,4 +18,6 @@ public interface IRoomService {
     List<RoomDTO> search(SearchHouseRequest request);
 
     List<DayBooking> checkDateOfRoom(long idRoom);
+
+    void deleteById(Long id);
 }
