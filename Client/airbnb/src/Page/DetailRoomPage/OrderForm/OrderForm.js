@@ -6,8 +6,15 @@ import { orderService } from '../../../services/orderService';
 import { userService } from '../../../services/userService';
 import { t } from 'i18next';
 import { useTranslation } from 'react-i18next';
-import moment from 'moment/moment';
+import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
+
+// Danh sách daybooking
+const daybooking = [
+  { startDate: '2023-07-10', endDate: '2023-07-15' },
+  { startDate: '2023-07-19', endDate: '2023-07-25' },
+];
+
 export default function OrderRoom(props) {
     const {t} = useTranslation()
     const navigate = useNavigate()
@@ -46,16 +53,18 @@ export default function OrderRoom(props) {
             message.error("ORDER ERROR")
           });
     }
-    const disabledDate = (current) => {
-      const disabledDates = [
-        { startDate: '2023-07-14', endDate: '2023-07-16' },
-        { startDate: '2023-07-24', endDate: '2023-07-26' },
-      ];
-  
-  
-      return disabledDates.some((date) =>
-        moment(current).isBetween(date.startDate, date.endDate, undefined, '[]')
-      );
+    const isDisableDate = (date, daybooking) => {
+      if (date && date.isBefore(moment().startOf('day'))) {
+        return true;
+      }
+      for (let i = 0; i < daybooking.length; i++) {
+        const start = moment(daybooking[i].startDate);
+        const end = moment(daybooking[i].endDate);
+        if (date.isAfter(start) && date.isBefore(end)) {
+          return true;
+        }
+      }
+      return false;
     };
   return (
     <div className='w-full relative  rounded-lg border-black mt-10'>             
@@ -68,7 +77,9 @@ export default function OrderRoom(props) {
         <div className="">
         <div className="lg:block  md:hidden sm:hidden mb:hidden px-5 py-3 hover:bg-gray-200 transition duration-300 rounded-full h-full flex flex-wrap justify-center items-center">
               <Space direction="vertical" size={12}>
-              <DatePicker.RangePicker   disabledDate={disabledDate}  onChange={onChangeRangePicker} />
+              <DatePicker.RangePicker 
+              disabledDate={(date) => isDisableDate(date, daybooking)}
+      onChange={onChangeRangePicker} />
               </Space>
         </div>
        
