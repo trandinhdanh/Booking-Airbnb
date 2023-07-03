@@ -36,7 +36,8 @@ public class OrderService implements IOrderService {
         int numDate = countDate(orderDTO.getReceivedDate(), orderDTO.getCheckoutDate());
         RoomEntity roomEntity = roomRepository.findOneById(idRoom);
         double totalPrice = numDate * roomEntity.getPrice();
-        OrderEntity orderEntity = orderConverter.mapperTOEntity(orderDTO,
+        OrderEntity orderEntity = orderConverter.mapperTOEntity(
+                orderDTO,
                 userRepository.findOneById(orderDTO.getIdUser()),
                 roomEntity);
         orderEntity.setTotalPrice(totalPrice);
