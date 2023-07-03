@@ -15,7 +15,7 @@ public interface IRoomService {
 
     RoomDTO save(RoomDTO dto, long idUser) throws IOException, InterruptedException, ApiException;
 
-    RoomDTO update(RoomDTO dto);
+    RoomDTO update(RoomDTO dto) throws IOException, InterruptedException, ApiException;
 
     List<RoomDTO> search(SearchHouseRequest request);
 

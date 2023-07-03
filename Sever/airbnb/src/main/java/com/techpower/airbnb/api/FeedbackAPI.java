@@ -18,4 +18,10 @@ public class FeedbackAPI {
     public ResponseEntity<?> post(@RequestBody FeedbackDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(iFeedbackService.post(dto));
     }
+    @DeleteMapping("/{idFeedback}")
+    public ResponseEntity<?> delete(@PathVariable("idFeedback") long idFeedback){
+        if (iFeedbackService.remove(idFeedback))
+            return ResponseEntity.status(HttpStatus.OK).body("Xóa thành công");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy !!!");
+    }
 }
