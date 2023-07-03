@@ -42,6 +42,8 @@ public class RoomService implements IRoomService {
     private AddressConverter addressConverter;
     @Autowired
     private AddressRepository addressRepository;
+    @Autowired
+    private CloudinaryService cloudinaryService;
 
     @Override
     public List<RoomDTO> findAll() {
@@ -68,7 +70,7 @@ public class RoomService implements IRoomService {
         if (latLng == null) {
             addressEntity.setLat(0);
             addressEntity.setLng(0);
-        }else {
+        } else {
             // Lưu tọa độ vào đối tượng Address
             addressEntity.setLat(latLng.lat);
             addressEntity.setLng(latLng.lng);
@@ -91,8 +93,39 @@ public class RoomService implements IRoomService {
     }
 
     @Override
-    public RoomDTO update(RoomDTO dto) {
+    public RoomDTO update(RoomDTO dto) throws IOException, InterruptedException, ApiException {
+        //xử lí khi có hình mới, nếu thay thì thay 1 lần 5 hình luôn :))
+        if (dto.getImages().size() == 5) {
+            List<ImageRoomEntity> imageRoomEntities = imageRoomRepository.findAllByRoomId(dto.getId());
+            for (int i = 0; i < imageRoomEntities.size(); i++) {
+                cloudinaryService.deleteImage(imageRoomEntities.get(i).getUrlImage());
+                imageRoomRepository.save(ImageRoomEntity.builder()
+                        .id(imageRoomEntities.get(i).getId())
+                        .urlImage(dto.getImages().get(i))
+                        .room(roomRepository.findOneById(dto.getId()))
+                        .build());
+            }
+        }
+
         RoomEntity roomEntityOld = roomRepository.findOneById(dto.getId());
+        roomEntityOld.setLocation(locationRepository.findOneByCode(dto.getCodeLocation()));
+
+        //xử lí address
+        if (!dto.getAddress().getFullAddress().equalsIgnoreCase(roomEntityOld.getAddress().getFullAddress())) {
+            LatLng latLng = geocodingService.getLatLngFromAddress(dto.getAddress().getFullAddress());
+            AddressEntity addressEntityNew = new AddressEntity();
+            if (latLng == null) {
+                addressEntityNew.setLat(0);
+                addressEntityNew.setLng(0);
+            } else {
+                addressEntityNew.setLat(latLng.lat);
+                addressEntityNew.setLng(latLng.lng);
+            }
+            addressEntityNew.setId(roomEntityOld.getAddress().getId());
+            addressEntityNew.setFullAddress(dto.getAddress().getFullAddress());
+            roomEntityOld.setAddress(addressRepository.save(addressEntityNew));
+        }
+
         RoomEntity roomEntityNew = roomConverter.toEntity(dto, roomEntityOld);
         return roomConverter.toDTO(roomRepository.save(roomEntityNew));
     }
@@ -126,7 +159,7 @@ public class RoomService implements IRoomService {
 
     public boolean isBookingConflict(List<DayBooking> list, LocalDate startDate, LocalDate endDate) {
         for (DayBooking booking : list) {
-            if ((startDate.isAfter(booking.getStartDate()) && startDate.isBefore(booking.getEndDate()) ) ||
+            if ((startDate.isAfter(booking.getStartDate()) && startDate.isBefore(booking.getEndDate())) ||
                     (endDate.isAfter(booking.getStartDate()) && endDate.isBefore(booking.getEndDate())) ||
                     (startDate.equals(booking.getStartDate()) && endDate.equals(booking.getEndDate())) ||
                     (startDate.equals(booking.getStartDate()) && endDate.isBefore(booking.getEndDate())) ||

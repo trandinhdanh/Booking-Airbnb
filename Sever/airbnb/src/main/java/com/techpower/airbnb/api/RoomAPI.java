@@ -135,13 +135,14 @@ public class RoomAPI {
         return ResponseEntity.status(HttpStatus.CREATED).body(saveRoom);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<RoomDTO> update(@PathVariable long id,
+    @PutMapping("/{idRoom}")
+    public ResponseEntity<RoomDTO> update(@PathVariable("idRoom") long idRoom,
                                           @RequestParam("name") String name,
                                           @RequestParam("description") String description,
                                           @RequestParam("price") double price,
                                           @RequestParam(value = "images", required = false) List<MultipartFile> images,
                                           @RequestParam("codeLocation") String codeLocation,
+                                          @RequestParam("address") String address,
                                           @RequestParam("washingMachine") boolean washingMachine,
                                           @RequestParam("television") boolean television,
                                           @RequestParam("airConditioner") boolean airConditioner,
@@ -149,7 +150,11 @@ public class RoomAPI {
                                           @RequestParam("kitchen") boolean kitchen,
                                           @RequestParam("parking") boolean parking,
                                           @RequestParam("pool") boolean pool,
-                                          @RequestParam("hotAndColdMachine") boolean hotAndColdMachine) {
+                                          @RequestParam("hotAndColdMachine") boolean hotAndColdMachine,
+                                          @RequestParam("maxGuests") int maxGuests,
+                                          @RequestParam("numLivingRooms") int numLivingRooms,
+                                          @RequestParam("numBathrooms") int numBathrooms,
+                                          @RequestParam("numBedrooms") int numBedrooms) throws IOException, InterruptedException, ApiException {
 
         List<String> imagesDTO = new ArrayList<>();
         if (images != null && !images.isEmpty()) {
@@ -158,12 +163,17 @@ public class RoomAPI {
                     imagesDTO.add(cloudinaryService.uploadImage(imageDetail));
             }
         }
+
+        AddressDTO addressDTO = new AddressDTO();
+        addressDTO.setFullAddress(address);
+
         RoomDTO roomDTO = RoomDTO.builder()
-                .id(id)
+                .id(idRoom)
                 .name(name)
                 .description(description)
                 .price(price)
                 .images(imagesDTO)
+                .address(addressDTO)
                 .codeLocation(codeLocation)
                 .washingMachine(washingMachine)
                 .television(television)
@@ -173,6 +183,10 @@ public class RoomAPI {
                 .parking(parking)
                 .pool(pool)
                 .hotAndColdMachine(hotAndColdMachine)
+                .maxGuests(maxGuests)
+                .numLivingRooms(numLivingRooms)
+                .numBathrooms(numBathrooms)
+                .numBedrooms(numBedrooms)
                 .build();
         RoomDTO saveRoom = iRoomService.update(roomDTO);
         return ResponseEntity.status(HttpStatus.OK).body(saveRoom);

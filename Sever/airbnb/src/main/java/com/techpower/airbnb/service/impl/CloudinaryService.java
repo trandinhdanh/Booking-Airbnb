@@ -23,4 +23,19 @@ public class CloudinaryService {
             return "";
         }
     }
+
+    public void deleteImage(String imageUrl) {
+        try {
+            String publicId = extractPublicId(imageUrl);
+            cloudinary.uploader().destroy(publicId, ObjectUtils.emptyMap());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String extractPublicId(String imageUrl) {
+        int startIndex = imageUrl.lastIndexOf("/") + 1;
+        int endIndex = imageUrl.lastIndexOf(".");
+        return imageUrl.substring(startIndex, endIndex);
+    }
 }
