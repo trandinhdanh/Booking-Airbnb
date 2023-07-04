@@ -32,6 +32,7 @@ export default function Routers() {
                     <Route path='/manager/house' element={<HouseManager/>} />
                     <Route path='/manager/house-add' element={<AddHouseManager/>} />
                     <Route path='/manager/calendar' element={<BookingCalendar/>} />
+                    <Route path='/manager/order' element={<OrderPage/>} />
                 </Route>
             </Routes>
         </BrowserRouter>
