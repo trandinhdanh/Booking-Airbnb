@@ -44,8 +44,10 @@ public class AuthenticationService {
         );
         UserEntity principal = (UserEntity) authentication.getPrincipal();
         UserDTO userDTO = userDTOMapper.apply(principal);
-        String token = jwtUtil.issueToken(userDTO.userName(), userDTO.role());
-        return new AuthenticationResponse(token, userDTO);
+        if (principal.getStatus().equals(Status.ACTIVE)) {
+            String token = jwtUtil.issueToken(userDTO.userName(), userDTO.role());
+            return new AuthenticationResponse(token, userDTO);
+        } else return new AuthenticationResponse("Status: " + principal.getStatus(), userDTO);
     }
 
     public AuthenticationResponse register(RegisterCustomerRequest request) {

@@ -52,12 +52,11 @@ public class RoomAPI {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping ("/search")
+    @PostMapping("/search")
     public ResponseEntity<List<RoomDTO>> search(@RequestBody SearchHouseRequest request) {
-            return ResponseEntity.ok().body(iRoomService.search(request));
+        return ResponseEntity.ok().body(iRoomService.search(request));
 
     }
-
 
     //    dung de test chức năng search
     @GetMapping("/trungNgay")
@@ -65,7 +64,7 @@ public class RoomAPI {
                                              @RequestParam("end") LocalDate end,
                                              @RequestParam("startSearch") LocalDate startSearch,
                                              @RequestParam("endSearch") LocalDate endSearch) {
-        if ((startSearch.isAfter(start) && startSearch.isBefore(end) ) ||
+        if ((startSearch.isAfter(start) && startSearch.isBefore(end)) ||
                 (endSearch.isAfter(start) && endSearch.isBefore(end)) ||
                 (startSearch.equals(start) && endSearch.equals(end)) ||
                 (startSearch.equals(start) && endSearch.isBefore(end)) ||
