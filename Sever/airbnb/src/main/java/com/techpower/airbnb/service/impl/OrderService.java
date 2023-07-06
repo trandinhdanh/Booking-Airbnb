@@ -49,12 +49,12 @@ public class OrderService implements IOrderService {
 
         if (result != null) {
             String to = userRepository.findOneById(orderDTO.getIdUser()).getEmail();
-            emailSender.sendOrder(to, buildHtml(
+            emailSender.send(to, buildHtml(
                     userRepository.findOneById(orderDTO.getIdUser()).getName(),
                     result,
                     roomEntity.getName(),
                     roomEntity.getAddress().getFullAddress()
-            ));
+            ),"XÁC NHẬN ĐẶT PHÒNG");
         }
 
         return result;

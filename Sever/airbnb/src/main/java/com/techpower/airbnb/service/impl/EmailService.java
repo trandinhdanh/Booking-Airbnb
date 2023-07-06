@@ -26,34 +26,14 @@ public class EmailService implements EmailSender {
 
     @Override
     @Async
-    public void send(String to, String email) {
+    public void send(String to, String email, String subject) {
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper =
                     new MimeMessageHelper(mimeMessage, "utf-8");
             helper.setText(email, true);
             helper.setTo(to);
-            helper.setSubject("Confirm your email");
-            helper.setFrom(new InternetAddress("dacn.airbnb@gmail.com", "EM ĐẸP LẮM"));
-            mailSender.send(mimeMessage);
-        } catch (MessagingException e) {
-            LOGGER.error("failed to send email", e);
-            throw new IllegalStateException("failed to send email");
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    @Async
-    public void sendOrder(String to, String html) {
-        try {
-            MimeMessage mimeMessage = mailSender.createMimeMessage();
-            MimeMessageHelper helper =
-                    new MimeMessageHelper(mimeMessage, "utf-8");
-            helper.setText(html, true);
-            helper.setTo(to);
-            helper.setSubject("XÁC NHẬN ĐẶT PHÒNG");
+            helper.setSubject(subject);//"Confirm your email"
             helper.setFrom(new InternetAddress("dacn.airbnb@gmail.com", "Booking Master"));
             mailSender.send(mimeMessage);
         } catch (MessagingException e) {
