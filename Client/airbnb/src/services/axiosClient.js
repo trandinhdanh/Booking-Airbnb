@@ -9,6 +9,7 @@ export const https = axios.create({
   headers: {
     // TokenCybersoft: TOKEN,
     Token: localStorageService.get('accessToken'),
+    'Content-Type': 'multipart/form-data'
   },
 });
 

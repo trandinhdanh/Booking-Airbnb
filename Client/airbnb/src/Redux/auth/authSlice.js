@@ -44,7 +44,7 @@ export const logoutUser = createAsyncThunk('auth/logoutUser', async (user, thunk
 });
 export const registerUser = createAsyncThunk('auth/registerUser', async (infor, thunkAPI) => {
   try {
-    const res = await https.post('/api/auth/signup', infor);
+    const res = await https.post('/api/v1/auth/register-customer', infor);
     message.success('Register success');
     return res.data;
   } catch (error) {

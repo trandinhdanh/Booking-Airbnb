@@ -1,32 +1,43 @@
 import React, { useState, useEffect } from "react";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 import { Button, Checkbox, Col, Form, Input, InputNumber, Row } from "antd";
 import axios from "axios";
 import { Select } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import Upload from "antd/es/upload/Upload";
+import { locationService } from "../../../../services/locationService";
+import { roomService } from "../../../../services/RoomService";
 
 const PROVINCCES_API_URL = "https://provinces.open-api.vn/api";
 
 export default function AddHouseManager() {
   const { t } = useTranslation();
+  const [form] = Form.useForm();
   const [province, setProvince] = useState([]);
   const [selectedProvince, setSelectedProvince] = useState(null);
   const [districts, setDistricts] = useState([]);
   const [selectedDistrict, setSelectedDistrict] = useState(null);
   const [wards, setWards] = useState([]);
   const [selectedWard, setSelectedWard] = useState(null);
-
+  const [selectedImages, setSelectedImages] = useState([]);
   const [location, setLocation] = useState();
   const [bg, setBg] = useState(false);
   const [idLocation, setIdLocation] = useState();
 
   const { Option } = Select;
-
+  useEffect(() => {
+    locationService.getLocationList().then((res) => {
+            console.log(res);
+            setLocation(res.data)
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+  }, []);
   const renderOption = () => {
     return location?.map((item, index) => {
       return (
-        <Option key={index} value={item.id}>
+        <Option key={index} value={item.codeLocation}>
           {item.name}
         </Option>
       );
@@ -34,7 +45,8 @@ export default function AddHouseManager() {
   };
 
   const onChange = (value) => {
-    setIdLocation(value)
+    setIdLocation(value);
+    console.log(value);
   };
 
   useEffect(() => {
@@ -79,6 +91,7 @@ export default function AddHouseManager() {
         .then((response) => {
           setWards(response.data.wards);
           setSelectedWard(null);
+          console.log(response);
         })
         .catch((err) => {
           console.error(err);
@@ -95,27 +108,80 @@ export default function AddHouseManager() {
     }
     return e?.fileList;
   };
+  const handleImagesChange = (e) => {
+    const files = Array.from(e.target.files);
+    setSelectedImages(files);
+  };
+  const labelCol = { span: 4 };
+  const wrapperCol = { span: 16 };
+  const onFinish = (values) => {
+    console.log('Form submitted:', values);
+    const formData = new FormData();
+    formData.append('codeLocation', idLocation);
+    formData.append('name', values.name);
+    formData.append('description', values.description);
+    formData.append('price', values.price);
+    formData.append('codeLocation', values.codeLocation);
+    formData.append('address', "290 nguyễn văn linh, phường nhơn hòa, thị xã an nhơn, tỉnh bình định");
+    formData.append('washingMachine', values.washingMachine);
+    formData.append('television', values.television);
+    formData.append('airConditioner', values.airConditioner);
+    formData.append('wifi', values.wifi);
+    formData.append('kitchen', values.kitchen);
+    formData.append('parking', values.parking);
+    formData.append('pool', values.pool);
+    formData.append('maxGuests', values.maxGuests);
+    formData.append('numLivingRooms', values.numLivingRooms);
+    formData.append('numBathrooms', values.numBathrooms);
+    formData.append('numBedrooms', values.numBedrooms);
+    formData.append('images', []);
+
+    // selectedImages.forEach((file, index) => {
+    //   formData.append(`images`, file);
+    // });
+    roomService.create(1,formData).then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+  };
   return (
     <div>
       <div className="headerManager font-roboto mb-5 flex justify-between">
         <h1 className="font-bold text-[20px] uppercase ">Add room</h1>
       </div>
 
-      <Form
-        labelCol={{ span: 7 }}
-        wrapperCol={{ span: 15 }}
-        layout="vertical"
-      >
-        <div class="grid grid-cols-12" >
+      <Form form={form} onFinish={onFinish}>
+        <div class="grid grid-cols-12">
           <div class="col-span-6">
-
-            <Form.Item label="Tên">
+            <Form.Item
+              label="Tên"
+              name="name"
+              rules={[{ required: true }]}
+              labelCol={labelCol}
+              wrapperCol={wrapperCol}
+            >
               <Input />
             </Form.Item>
-            <Form.Item label="Mô tả">
-              <TextArea rows={3} />
+            <Form.Item
+              label="Mô tả"
+              name="description"
+              rules={[{ required: true }]}
+              labelCol={labelCol}
+              wrapperCol={wrapperCol}
+            >
+              <Input />
             </Form.Item>
-
+            <Form.Item
+              label="Giá phòng"
+              name="price"
+              rules={[{ required: true }]}
+              labelCol={labelCol}
+              wrapperCol={wrapperCol}
+            >
+              <Input />
+            </Form.Item>
 
             {/* address */}
 
@@ -173,102 +239,140 @@ export default function AddHouseManager() {
                 style={{ width: "31%", marginLeft: "10px" }}
                 disabled={!selectedDistrict}
               />
-              <Input placeholder="Địa chỉ cụ thể" style={{ marginTop: "15px" }} />
-            </Form.Item>
-
-            <Form.Item label="Số phòng khách">
-              <InputNumber
-                id="livingroom"
-                min={1}
-                max={10}
-                defaultValue={1}
-                style={{ width: "100%" }}
+              <Input
+                placeholder="Địa chỉ cụ thể"
+                style={{ marginTop: "15px" }}
               />
             </Form.Item>
-            <Form.Item label="Số phòng tắm">
-              <InputNumber
-                id="livingroom"
-                min={1}
-                max={10}
-                defaultValue={1}
-                style={{ width: "100%" }}
-              />
-            </Form.Item>
-            <Form.Item label="Số phòng ngủ">
-              <InputNumber
-                id="livingroom"
-                min={1}
-                max={10}
-                defaultValue={1}
-                style={{ width: "100%" }}
-              />
-            </Form.Item>
-            <Form.Item label="Số lượng khách">
-              <InputNumber
-                id="livingroom"
-                min={1}
-                max={10}
-                defaultValue={1}
-                style={{ width: "100%" }}
-              />
-            </Form.Item>
-
-
 
             <Form.Item
-              label="Hình ảnh"
-              valuePropName="fileList"
-              getValueFromEvent={normFile}
+              label="Số phòng khách"
+              name="numLivingRooms"
+              rules={[{ required: true }]}
+              labelCol={labelCol}
+              wrapperCol={wrapperCol}
             >
-              <Upload action="/upload.do" listType="picture-card">
-                <div>
-                  {/* <PlusOutlined /> */}
-                  <div
-                    style={{
-                      marginTop: 8,
-                    }}
-                  >
-                    Upload
-                  </div>
-                </div>
-              </Upload>
+              <Input type="number" />
+            </Form.Item>
+            <Form.Item
+              label="Số phòng tắm"
+              name="numBathrooms"
+              rules={[{ required: true }]}
+              labelCol={labelCol}
+              wrapperCol={wrapperCol}
+            >
+              <Input type="number" />
+            </Form.Item>
+            <Form.Item
+              label="Số phòng ngủ"
+              name="numBedrooms"
+              rules={[{ required: true }]}
+              labelCol={labelCol}
+              wrapperCol={wrapperCol}
+            >
+              <Input type="number" />
+            </Form.Item>
+            <Form.Item
+              label="Số lượng khách"
+              name="maxGuests"
+              rules={[{ required: true }]}
+              labelCol={labelCol}
+              wrapperCol={wrapperCol}
+            >
+              <Input type="number" />
             </Form.Item>
 
-
-
+            <Form.Item
+          label="Ảnh khác"
+          name="images"
+          labelCol={labelCol}
+          wrapperCol={wrapperCol}
+        >
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={handleImagesChange}
+          />
+        </Form.Item>
           </div>
           <div class="col-span-6">
-           
-
             <Form.Item label="Tiện nghi">
-              <Checkbox.Group style={{ width: "100%" }}>
                 <Row>
                   <Col span={8}>
-                    <Checkbox value={"Máy giặt"}>Máy giặt</Checkbox>
+                      <Form.Item
+                        name="washingMachine"
+                        valuePropName="checked"
+                        initialValue={false}
+                      >
+                        <Checkbox>Washing Machine</Checkbox>
+                      </Form.Item>
                   </Col>
                   <Col span={8}>
-                    <Checkbox value={"Tivi"}>Tivi</Checkbox>
+                      <Form.Item
+                        name="television"
+                        valuePropName="checked"
+                        initialValue={false}
+                      >
+                        <Checkbox>Tivi</Checkbox>
+                      </Form.Item>
                   </Col>
                   <Col span={8}>
-                    <Checkbox value={"Điều hòa"}>Điều hòa</Checkbox>
+                      <Form.Item
+                        name="airConditioner"
+                        valuePropName="checked"
+                        initialValue={false}
+                      >
+                        <Checkbox>Air Conditioner</Checkbox>
+                      </Form.Item>
                   </Col>
                   <Col span={8}>
-                    <Checkbox value={"Wifi"}>Wifi</Checkbox>
+                      <Form.Item
+                        name="wifi"
+                        valuePropName="checked"
+                        initialValue={false}
+                      >
+                        <Checkbox>Wifi</Checkbox>
+                      </Form.Item>
                   </Col>
                   <Col span={8}>
-                    <Checkbox value={"Bãi đỗ xe"}>Bãi đỗ xe</Checkbox>
+                      <Form.Item
+                        name="kitchen"
+                        valuePropName="checked"
+                        initialValue={false}
+                      >
+                        <Checkbox>Kitchen</Checkbox>
+                      </Form.Item>
                   </Col>
                   <Col span={8}>
-                    <Checkbox value={"Bể bơi"}>Bể bơi</Checkbox>
+                      <Form.Item
+                        name="parking"
+                        valuePropName="checked"
+                        initialValue={false}
+                      >
+                        <Checkbox>Parking</Checkbox>
+                      </Form.Item>
                   </Col>
                   <Col span={8}>
-                    <Checkbox value={"kitchen"}>Dụng cụ bếp</Checkbox>
+                      <Form.Item
+                        name="pool"
+                        valuePropName="checked"
+                        initialValue={false}
+                      >
+                        <Checkbox>Pool</Checkbox>
+                      </Form.Item>
                   </Col>
                   <Col span={8}>
-                    <Checkbox value={"Máy nóng lạnh"}>Máy nóng lạnh</Checkbox>
+                      <Form.Item
+                        name="hotAndColdMachine"
+                        valuePropName="checked"
+                        initialValue={false}
+                      >
+                        <Checkbox>hotAndColdMachine</Checkbox>
+                      </Form.Item>
                   </Col>
+                  
                 </Row>
-              </Checkbox.Group>
             </Form.Item>
             <Form.Item label="Location">
               <Select
@@ -276,7 +380,7 @@ export default function AddHouseManager() {
                   width: "100%",
                 }}
                 showSearch
-                placeholder={t('Location')}
+                placeholder={t("Location")}
                 optionFilterProp="children"
                 className="dropdow-header"
                 onChange={onChange}
@@ -295,23 +399,16 @@ export default function AddHouseManager() {
                 style={{ width: "100%" }}
               />
             </Form.Item>
-            <Form.Item >
-              <Button
-                size="large"
-                style={{
-                  backgroundColor: "#1677ff",
-                  color: "#fff",
-                  width: "100%",
-                }}
-              >
-                Thêm
+            <Form.Item
+              wrapperCol={{ offset: labelCol.span, span: wrapperCol.span }}
+            >
+              <Button type="primary" htmlType="submit">
+                Thêm sản phẩm
               </Button>
             </Form.Item>
           </div>
         </div>
-
       </Form>
-
     </div>
   );
 }

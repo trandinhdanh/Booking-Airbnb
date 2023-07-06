@@ -80,7 +80,7 @@ public class RoomAPI {
 
 
     @PostMapping("/{idUser}")
-    public ResponseEntity<RoomDTO> save(@PathVariable("idUser") long idUser,
+    public ResponseEntity<?> save(@PathVariable("idUser") long idUser,
                                         @RequestParam("name") String name,
                                         @RequestParam("description") String description,
                                         @RequestParam("price") double price,
@@ -132,6 +132,9 @@ public class RoomAPI {
                 .numBedrooms(numBedrooms)
                 .build();
         RoomDTO saveRoom = iRoomService.save(roomDTO, idUser);
+        if (saveRoom == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("lỗiiiiiiiiiiiiiii");
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(saveRoom);
     }
 
