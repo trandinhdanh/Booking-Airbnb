@@ -80,7 +80,8 @@ public class AuthenticationService {
 
         emailSender.send(
                 request.getEmail(),
-                buildEmail(request.getName(), codeConfirmed));
+                buildEmail(request.getName(), codeConfirmed),
+                "Confirm your email");
 
         return AuthenticationResponse.builder()
                 .token(token)
@@ -107,7 +108,8 @@ public class AuthenticationService {
 
         emailSender.send(
                 request.getEmail(),
-                buildEmail(request.getName(), codeConfirmed));
+                buildEmail(request.getName(), codeConfirmed),
+                "Confirm your email");
 
         return AuthenticationResponse.builder()
                 .token(token)
@@ -122,7 +124,7 @@ public class AuthenticationService {
             userRepository.updateConfirmedByEmailAndCodeConfirmed(true, email, token);
             return "confirmed";
         }
-       return "not confirmed";
+        return "not confirmed";
     }
 
     public String generateRandomString() {
