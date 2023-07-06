@@ -152,5 +152,4 @@ public class AuthenticationService {
                 "<p style=\"font-size: 16px; margin-bottom: 20px;\">See you soon</p>" +
                 "</div>";
     }
-
 }
