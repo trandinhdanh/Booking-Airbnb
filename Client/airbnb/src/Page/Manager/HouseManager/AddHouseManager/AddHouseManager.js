@@ -14,10 +14,15 @@ export default function AddHouseManager() {
   const { t } = useTranslation();
   const [form] = Form.useForm();
   const [province, setProvince] = useState([]);
-  const [selectedProvince, setSelectedProvince] = useState(null);
   const [districts, setDistricts] = useState([]);
-  const [selectedDistrict, setSelectedDistrict] = useState(null);
   const [wards, setWards] = useState([]);
+  const [nameProvince, setNameProvince] = useState("");
+  const [nameDistrict, setNameDistrict] = useState("");
+  const [nameWard, setNameWard] = useState("");
+  const [street, setStreet] = useState('');
+  const [address, setAddress] = useState("");
+  const [selectedProvince, setSelectedProvince] = useState(null);
+  const [selectedDistrict, setSelectedDistrict] = useState(null);
   const [selectedWard, setSelectedWard] = useState(null);
   const [selectedImages, setSelectedImages] = useState([]);
   const [location, setLocation] = useState();
@@ -25,6 +30,28 @@ export default function AddHouseManager() {
   const [idLocation, setIdLocation] = useState();
 
   const { Option } = Select;
+
+  const handleProvinceChange = (value, option) => {
+    setSelectedProvince(value);
+    setNameProvince(option?.label ?? "");
+    console.log(option?.label);
+  };
+
+const handleDistrictChange = (value, option) => {
+  setSelectedDistrict(value);
+  setNameDistrict(option?.label ?? "");
+  console.log(option?.label);
+}
+
+const handleWardChange = (value, option) => {
+  setSelectedWard(value);
+  setNameWard(option?.label ?? "");
+  console.log(option?.label);
+}
+const handleStreetChange = (e) => {
+  setStreet(e.target.value);
+  setAddress(street +", " + nameWard +", " +nameDistrict+", " + nameProvince);
+};
   useEffect(() => {
     locationService.getLocationList().then((res) => {
             console.log(res);
@@ -47,10 +74,13 @@ export default function AddHouseManager() {
   const onChange = (value) => {
     setIdLocation(value);
     console.log(value);
+    console.log(address);
   };
 
   useEffect(() => {
     // Fetch the list of provinces
+    setAddress(street +", " + nameWard +", " +nameDistrict+", " + nameProvince);
+  
     axios
       .get(`${PROVINCCES_API_URL}/p`)
       .then((response) => {
@@ -59,7 +89,7 @@ export default function AddHouseManager() {
       .catch((err) => {
         console.error(err);
       });
-  }, []);
+  }, [selectedWard]);
 
   useEffect(() => {
     // Fetch the list of districts when a province is selected
@@ -117,12 +147,11 @@ export default function AddHouseManager() {
   const onFinish = (values) => {
     console.log('Form submitted:', values);
     const formData = new FormData();
-    formData.append('codeLocation', idLocation);
     formData.append('name', values.name);
     formData.append('description', values.description);
     formData.append('price', values.price);
-    formData.append('codeLocation', values.codeLocation);
-    formData.append('address', "290 nguyễn văn linh, phường nhơn hòa, thị xã an nhơn, tỉnh bình định");
+    formData.append('codeLocation', idLocation);
+    formData.append('address', address);
     formData.append('washingMachine', values.washingMachine);
     formData.append('television', values.television);
     formData.append('airConditioner', values.airConditioner);
@@ -139,11 +168,11 @@ export default function AddHouseManager() {
     // selectedImages.forEach((file, index) => {
     //   formData.append(`images`, file);
     // });
-    roomService.create(1,formData).then((res) => {
+    roomService.addRoom(2,formData).then((res) => {
             console.log(res);
           })
           .catch((err) => {
-            console.log(err);
+            console.log("erroo" ,err.response.data.message);
           });
   };
   return (
@@ -173,15 +202,7 @@ export default function AddHouseManager() {
             >
               <Input />
             </Form.Item>
-            <Form.Item
-              label="Giá phòng"
-              name="price"
-              rules={[{ required: true }]}
-              labelCol={labelCol}
-              wrapperCol={wrapperCol}
-            >
-              <Input />
-            </Form.Item>
+           
 
             {/* address */}
 
@@ -191,7 +212,8 @@ export default function AddHouseManager() {
                 placeholder="Tỉnh..."
                 optionFilterProp="children"
                 value={selectedProvince}
-                onChange={(value) => setSelectedProvince(value)}
+                rules={[{ required: true }]}
+                onChange={handleProvinceChange}
                 filterOption={(input, option) =>
                   (option?.label ?? "")
                     .toLowerCase()
@@ -208,7 +230,8 @@ export default function AddHouseManager() {
                 placeholder="Huyện..."
                 optionFilterProp="children"
                 value={selectedDistrict}
-                onChange={(value) => setSelectedDistrict(value)}
+                rules={[{ required: true }]}
+                onChange={handleDistrictChange}
                 filterOption={(input, option) =>
                   (option?.label ?? "")
                     .toLowerCase()
@@ -226,7 +249,8 @@ export default function AddHouseManager() {
                 placeholder="Xã..."
                 optionFilterProp="children"
                 value={selectedWard}
-                onChange={(value) => setSelectedWard(value)}
+                rules={[{ required: true }]}
+                onChange={handleWardChange}
                 filterOption={(input, option) =>
                   (option?.label ?? "")
                     .toLowerCase()
@@ -242,6 +266,8 @@ export default function AddHouseManager() {
               <Input
                 placeholder="Địa chỉ cụ thể"
                 style={{ marginTop: "15px" }}
+                value={street}
+                onChange={handleStreetChange}
               />
             </Form.Item>
 
@@ -391,13 +417,18 @@ export default function AddHouseManager() {
                 {renderOption()}
               </Select>
             </Form.Item>
-            <Form.Item label="Giá">
+            <Form.Item
+              label="Giá phòng"
+              name="price"
+              rules={[{ required: true }]}
+              labelCol={labelCol}
+              wrapperCol={wrapperCol}
+            >
               <InputNumber
-                id="guests"
-                min={1}
-                defaultValue={1}
-                style={{ width: "100%" }}
-              />
+               min={1}
+               defaultValue={1}
+               style={{ width: "100%" }}
+             />
             </Form.Item>
             <Form.Item
               wrapperCol={{ offset: labelCol.span, span: wrapperCol.span }}

@@ -52,9 +52,9 @@ public class RoomAPI {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping ("/search")
+    @PostMapping("/search")
     public ResponseEntity<List<RoomDTO>> search(@RequestBody SearchHouseRequest request) {
-            return ResponseEntity.ok().body(iRoomService.search(request));
+        return ResponseEntity.ok().body(iRoomService.search(request));
 
     }
 
@@ -65,7 +65,7 @@ public class RoomAPI {
                                              @RequestParam("end") LocalDate end,
                                              @RequestParam("startSearch") LocalDate startSearch,
                                              @RequestParam("endSearch") LocalDate endSearch) {
-        if ((startSearch.isAfter(start) && startSearch.isBefore(end) ) ||
+        if ((startSearch.isAfter(start) && startSearch.isBefore(end)) ||
                 (endSearch.isAfter(start) && endSearch.isBefore(end)) ||
                 (startSearch.equals(start) && endSearch.equals(end)) ||
                 (startSearch.equals(start) && endSearch.isBefore(end)) ||
@@ -81,24 +81,24 @@ public class RoomAPI {
 
     @PostMapping("/{idUser}")
     public ResponseEntity<?> save(@PathVariable("idUser") long idUser,
-                                        @RequestParam("name") String name,
-                                        @RequestParam("description") String description,
-                                        @RequestParam("price") double price,
-                                        @RequestParam(value = "images", required = false) List<MultipartFile> images,
-                                        @RequestParam("codeLocation") String codeLocation,
-                                        @RequestParam("address") String address,
-                                        @RequestParam("washingMachine") boolean washingMachine,
-                                        @RequestParam("television") boolean television,
-                                        @RequestParam("airConditioner") boolean airConditioner,
-                                        @RequestParam("wifi") boolean wifi,
-                                        @RequestParam("kitchen") boolean kitchen,
-                                        @RequestParam("parking") boolean parking,
-                                        @RequestParam("pool") boolean pool,
-                                        @RequestParam("hotAndColdMachine") boolean hotAndColdMachine,
-                                        @RequestParam("maxGuests") int maxGuests,
-                                        @RequestParam("numLivingRooms") int numLivingRooms,
-                                        @RequestParam("numBathrooms") int numBathrooms,
-                                        @RequestParam("numBedrooms") int numBedrooms) throws IOException, InterruptedException, ApiException {
+                                  @RequestParam("name") String name,
+                                  @RequestParam("description") String description,
+                                  @RequestParam("price") Double price,
+                                  @RequestParam(value = "images", required = false) List<MultipartFile> images,
+                                  @RequestParam("codeLocation") String codeLocation,
+                                  @RequestParam( "address") String address,
+                                  @RequestParam(value = "washingMachine", required = false) boolean washingMachine,
+                                  @RequestParam(value = "television", required = false) boolean television,
+                                  @RequestParam(value = "airConditioner", required = false) boolean airConditioner,
+                                  @RequestParam(value = "wifi", required = false) boolean wifi,
+                                  @RequestParam(value = "kitchen", required = false) boolean kitchen,
+                                  @RequestParam(value = "parking", required = false) boolean parking,
+                                  @RequestParam(value = "pool", required = false) boolean pool,
+                                  @RequestParam(value = "hotAndColdMachine", required = false) boolean hotAndColdMachine,
+                                  @RequestParam( "maxGuests") Integer maxGuests,
+                                  @RequestParam( "numLivingRooms") Integer numLivingRooms,
+                                  @RequestParam( "numBathrooms") Integer numBathrooms,
+                                  @RequestParam("numBedrooms") Integer numBedrooms) throws IOException, InterruptedException, ApiException {
 
         List<String> imagesDTO = new ArrayList<>();
         if (images != null && !images.isEmpty()) {
@@ -132,7 +132,7 @@ public class RoomAPI {
                 .numBedrooms(numBedrooms)
                 .build();
         RoomDTO saveRoom = iRoomService.save(roomDTO, idUser);
-        if (saveRoom == null){
+        if (saveRoom == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("lỗiiiiiiiiiiiiiii");
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(saveRoom);
