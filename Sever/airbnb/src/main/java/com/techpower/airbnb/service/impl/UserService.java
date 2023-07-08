@@ -79,7 +79,7 @@ public class UserService implements IUserService {
     @Override
     public List<FeedbackDTO> findAllFeedback(Long idUser) {
         return null;
-
+    }
     @Override
     public UserDTO updateStatus(Status status, long idUser) {
         UserEntity userEntity = userRepository.findOneById(idUser);
