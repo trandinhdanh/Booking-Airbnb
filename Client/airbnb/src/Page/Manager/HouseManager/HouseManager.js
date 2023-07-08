@@ -3,7 +3,8 @@ import { Table, Tag, Space, Modal } from 'antd';
 import { AiOutlineDelete,AiOutlineEdit } from 'react-icons/ai';
 import {IoIosAddCircleOutline} from 'react-icons/io'
 import { useNavigate } from 'react-router-dom';
-import { roomService } from '../../../services/RoomService';
+import { userService } from '../../../services/userService';
+import { localStorageService } from '../../../services/localStorageService';
 
 export default function HouseManager() {
   const { Column } = Table;
@@ -12,11 +13,13 @@ export default function HouseManager() {
   const [houses, setHouses] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedHouse, setSelectedHouse] = useState(null);
+  const [idUser, setIdUser] = useState(localStorageService.get('USER')?.userDTO.id);
+  
 
   useEffect(() => {
     const getHouses = async () => {
       try {
-        const items = await roomService.getHouseList();
+        const items = await userService.getOwnersRoom(idUser);
         setHouses(items.data);
       } catch (error) {
         console.log(error);

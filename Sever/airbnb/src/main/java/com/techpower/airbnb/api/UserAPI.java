@@ -17,9 +17,26 @@ public class UserAPI {
         return ResponseEntity.ok(userService.findAllOrders(idUser));
     }
 
+    @GetMapping("/{idUser}/manager-orders")
+    public ResponseEntity<?> getAllOrdersByOwner(@PathVariable("idUser") Long idUser) {
+        return ResponseEntity.ok(userService.getAllOrdersByOwner(idUser));
+    }
+
     @GetMapping("/{idUser}/rooms")
     public ResponseEntity<?> findAllRooms(@PathVariable("idUser") long idUser) {
         return ResponseEntity.ok(userService.findAllRooms(idUser));
     }
 
+    @GetMapping("/{idUser}/bookings-date")
+    public ResponseEntity<?> findAllBookingsDate(@PathVariable("idUser") Long idUser) {
+        return ResponseEntity.ok(userService.findAllBookingsDate(idUser));
+    }
+@GetMapping("/{idUser}/feedback")
+public ResponseEntity<?> findAllFeedback(@PathVariable("idUser") Long idUser){
+    return ResponseEntity.ok(userService.findAllFeedback(idUser));
+}
+@GetMapping("/{idUser}/manager-feedback")
+public ResponseEntity<?> getAllFeedbackByOwner(@PathVariable("idUser") Long idUser){
+    return ResponseEntity.ok(userService.getAllFeedbackByOwner(idUser));
+}
 }

@@ -39,6 +39,11 @@ export default function SideBarManager() {
       Icon: RiAccountCircleFill,
     },
     {
+      name: "Feedback",
+      path: "/manager/feedback",
+      Icon: RiAccountCircleFill,
+    },
+    {
       name: "Order",
       path: "/manager/order",
       Icon: BsFillCartFill,

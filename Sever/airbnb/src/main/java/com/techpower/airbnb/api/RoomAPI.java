@@ -45,7 +45,7 @@ public class RoomAPI {
         }
     }
 
-    @GetMapping("/calendar/{idRoom}")
+    @GetMapping("/{idRoom}/calendar")
     public ResponseEntity<List<DayBooking>> calendar(@PathVariable("idRoom") long idRoom) {
         List<DayBooking> dayBookings = iRoomService.checkDateOfRoom(idRoom);
         if (!dayBookings.isEmpty()) return ResponseEntity.ok(dayBookings);
