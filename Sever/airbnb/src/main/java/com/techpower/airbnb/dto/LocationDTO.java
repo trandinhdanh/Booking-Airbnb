@@ -9,6 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 public class LocationDTO {
     private Long id;
+    private String codeLocation;
     private String name;
 
 }

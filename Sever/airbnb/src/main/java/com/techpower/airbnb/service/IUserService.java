@@ -1,5 +1,8 @@
 package com.techpower.airbnb.service;
 
+
+import com.techpower.airbnb.dto.FeedbackDTO;
+import com.techpower.airbnb.response.RoomBookings;
 import com.techpower.airbnb.constant.Status;
 import com.techpower.airbnb.dto.OrderDTO;
 import com.techpower.airbnb.dto.RoomDTO;
@@ -12,5 +15,14 @@ public interface IUserService {
 
     List<RoomDTO> findAllRooms(long idUser);
 
+    List<RoomBookings> findAllBookingsDate(Long idUser);
+
+    List<OrderDTO> getAllOrdersByOwner(Long idUser);
+
+    List<FeedbackDTO> getAllFeedbackByOwner(Long idUser);
+
+    List<FeedbackDTO> findAllFeedback(Long idUser);
+
     UserDTO updateStatus(Status status, long idUser);
+
 }

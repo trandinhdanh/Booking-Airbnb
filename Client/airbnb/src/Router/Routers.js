@@ -12,6 +12,8 @@ import AddHouseManager from '../Page/Manager/HouseManager/AddHouseManager/AddHou
 import BookingCalendar from '../Page/Manager/BookingCalendar'
 import OrderPage from '../Page/OrderPage/OrderPage'
 import SearchPage from '../Page/SearchPage/SearchPage'
+import OrderManager from '../Page/Manager/OrderManager'
+import FeedbackManager from '../Page/Manager/FeedbackManager'
 
 export default function Routers() {
 
@@ -32,6 +34,8 @@ export default function Routers() {
                     <Route path='/manager/house' element={<HouseManager/>} />
                     <Route path='/manager/house-add' element={<AddHouseManager/>} />
                     <Route path='/manager/calendar' element={<BookingCalendar/>} />
+                    <Route path='/manager/order' element={<OrderManager/>} />
+                    <Route path='/manager/feedback' element={<FeedbackManager/>} />
                 </Route>
             </Routes>
         </BrowserRouter>

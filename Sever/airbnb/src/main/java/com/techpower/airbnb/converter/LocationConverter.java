@@ -10,7 +10,7 @@ import java.util.function.Function;
 public class LocationConverter implements Function<LocationEntity, LocationDTO> {
     @Override
     public LocationDTO apply(LocationEntity locationEntity) {
-        return new LocationDTO(locationEntity.getId(),locationEntity.getName());
+        return new LocationDTO(locationEntity.getId(),locationEntity.getCode(),locationEntity.getName());
     }
 
     public List<LocationDTO> mapperList(List<LocationEntity> locationEntities){

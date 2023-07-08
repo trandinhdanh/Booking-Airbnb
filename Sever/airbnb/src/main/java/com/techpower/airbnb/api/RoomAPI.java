@@ -45,7 +45,7 @@ public class RoomAPI {
         }
     }
 
-    @GetMapping("/calendar/{idRoom}")
+    @GetMapping("/{idRoom}/calendar")
     public ResponseEntity<List<DayBooking>> calendar(@PathVariable("idRoom") long idRoom) {
         List<DayBooking> dayBookings = iRoomService.checkDateOfRoom(idRoom);
         if (!dayBookings.isEmpty()) return ResponseEntity.ok(dayBookings);
@@ -79,25 +79,25 @@ public class RoomAPI {
 
 
     @PostMapping("/{idUser}")
-    public ResponseEntity<RoomDTO> save(@PathVariable("idUser") long idUser,
-                                        @RequestParam("name") String name,
-                                        @RequestParam("description") String description,
-                                        @RequestParam("price") double price,
-                                        @RequestParam(value = "images", required = false) List<MultipartFile> images,
-                                        @RequestParam("codeLocation") String codeLocation,
-                                        @RequestParam("address") String address,
-                                        @RequestParam("washingMachine") boolean washingMachine,
-                                        @RequestParam("television") boolean television,
-                                        @RequestParam("airConditioner") boolean airConditioner,
-                                        @RequestParam("wifi") boolean wifi,
-                                        @RequestParam("kitchen") boolean kitchen,
-                                        @RequestParam("parking") boolean parking,
-                                        @RequestParam("pool") boolean pool,
-                                        @RequestParam("hotAndColdMachine") boolean hotAndColdMachine,
-                                        @RequestParam("maxGuests") int maxGuests,
-                                        @RequestParam("numLivingRooms") int numLivingRooms,
-                                        @RequestParam("numBathrooms") int numBathrooms,
-                                        @RequestParam("numBedrooms") int numBedrooms) throws IOException, InterruptedException, ApiException {
+    public ResponseEntity<?> save(@PathVariable("idUser") long idUser,
+                                  @RequestParam("name") String name,
+                                  @RequestParam("description") String description,
+                                  @RequestParam("price") Double price,
+                                  @RequestParam(value = "images", required = false) List<MultipartFile> images,
+                                  @RequestParam("codeLocation") String codeLocation,
+                                  @RequestParam( "address") String address,
+                                  @RequestParam(value = "washingMachine", required = false) boolean washingMachine,
+                                  @RequestParam(value = "television", required = false) boolean television,
+                                  @RequestParam(value = "airConditioner", required = false) boolean airConditioner,
+                                  @RequestParam(value = "wifi", required = false) boolean wifi,
+                                  @RequestParam(value = "kitchen", required = false) boolean kitchen,
+                                  @RequestParam(value = "parking", required = false) boolean parking,
+                                  @RequestParam(value = "pool", required = false) boolean pool,
+                                  @RequestParam(value = "hotAndColdMachine", required = false) boolean hotAndColdMachine,
+                                  @RequestParam( "maxGuests") Integer maxGuests,
+                                  @RequestParam( "numLivingRooms") Integer numLivingRooms,
+                                  @RequestParam( "numBathrooms") Integer numBathrooms,
+                                  @RequestParam("numBedrooms") Integer numBedrooms) throws IOException, InterruptedException, ApiException {
 
         List<String> imagesDTO = new ArrayList<>();
         if (images != null && !images.isEmpty()) {
@@ -131,6 +131,9 @@ public class RoomAPI {
                 .numBedrooms(numBedrooms)
                 .build();
         RoomDTO saveRoom = iRoomService.save(roomDTO, idUser);
+        if (saveRoom == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("lỗiiiiiiiiiiiiiii");
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(saveRoom);
     }
 

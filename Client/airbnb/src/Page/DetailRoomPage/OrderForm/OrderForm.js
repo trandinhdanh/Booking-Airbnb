@@ -9,11 +9,6 @@ import { useTranslation } from 'react-i18next';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 
-// Danh sách daybooking
-const daybooking = [
-  { startDate: '2023-07-10', endDate: '2023-07-15' },
-  { startDate: '2023-07-19', endDate: '2023-07-25' },
-];
 
 export default function OrderRoom(props) {
     const {t} = useTranslation()
@@ -78,7 +73,7 @@ export default function OrderRoom(props) {
         <div className="lg:block  md:hidden sm:hidden mb:hidden px-5 py-3 hover:bg-gray-200 transition duration-300 rounded-full h-full flex flex-wrap justify-center items-center">
               <Space direction="vertical" size={12}>
               <DatePicker.RangePicker 
-              disabledDate={(date) => isDisableDate(date, daybooking)}
+              disabledDate={(date) => isDisableDate(date, props?.date)}
       onChange={onChangeRangePicker} />
               </Space>
         </div>

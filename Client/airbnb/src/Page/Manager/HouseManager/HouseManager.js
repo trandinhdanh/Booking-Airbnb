@@ -3,7 +3,8 @@ import { Table, Tag, Space, Modal } from 'antd';
 import { AiOutlineDelete,AiOutlineEdit } from 'react-icons/ai';
 import {IoIosAddCircleOutline} from 'react-icons/io'
 import { useNavigate } from 'react-router-dom';
-import { roomService } from '../../../services/RoomService';
+import { userService } from '../../../services/userService';
+import { localStorageService } from '../../../services/localStorageService';
 
 export default function HouseManager() {
   const { Column } = Table;
@@ -12,11 +13,13 @@ export default function HouseManager() {
   const [houses, setHouses] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedHouse, setSelectedHouse] = useState(null);
+  const [idUser, setIdUser] = useState(localStorageService.get('USER')?.userDTO.id);
+  
 
   useEffect(() => {
     const getHouses = async () => {
       try {
-        const items = await roomService.getHouseList();
+        const items = await userService.getOwnersRoom(idUser);
         setHouses(items.data);
       } catch (error) {
         console.log(error);
@@ -53,14 +56,6 @@ export default function HouseManager() {
         }}
       >
         <Column title="Name" dataIndex="name" key="name" />
-        <Column title="Location" dataIndex="codeLocation" key="codeLocation" />
-        <Column title="Description" dataIndex="description" key="description" />
-        <Column
-          title="Price"
-          dataIndex="price"
-          key="price"
-          render={(price) => <Tag color="green">{price.toLocaleString()} VNĐ</Tag>}
-        />
         <Column
           title="Image"
           dataIndex="images"
@@ -69,11 +64,20 @@ export default function HouseManager() {
             <img src={images[0]} className="w-[70px] h-[70px] object-cover rounded-lg" alt="house" />
           )}
         />
+        <Column title="Location" dataIndex="codeLocation" key="codeLocation" />
+        <Column title="Description" dataIndex="description" key="description" />
+        <Column
+          title="Price"
+          dataIndex="price"
+          key="price"
+          render={(price) => <Tag color="green">{price.toLocaleString()} $</Tag>}
+        />
+      
         <Column
           title="Action"
           key="action"
           render={(text, record) => (
-           <>
+           <div className='flex'>
            <Space size="middle" className='mr-3'>
             <AiOutlineEdit
               onClick={() => {
@@ -90,7 +94,7 @@ export default function HouseManager() {
                 className="text-[20px] hover:scale-125 hover:text-red-700 transition-all"
               />
             </Space>
-            </>
+            </div>
           )}
         />
       </Table>
