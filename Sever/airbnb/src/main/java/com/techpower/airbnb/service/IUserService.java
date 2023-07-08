@@ -1,9 +1,12 @@
 package com.techpower.airbnb.service;
 
+
 import com.techpower.airbnb.dto.FeedbackDTO;
+import com.techpower.airbnb.response.RoomBookings;
+import com.techpower.airbnb.constant.Status;
 import com.techpower.airbnb.dto.OrderDTO;
 import com.techpower.airbnb.dto.RoomDTO;
-import com.techpower.airbnb.response.RoomBookings;
+import com.techpower.airbnb.dto.UserDTO;
 
 import java.util.List;
 
@@ -19,4 +22,7 @@ public interface IUserService {
     List<FeedbackDTO> getAllFeedbackByOwner(Long idUser);
 
     List<FeedbackDTO> findAllFeedback(Long idUser);
+
+    UserDTO updateStatus(Status status, long idUser);
+
 }

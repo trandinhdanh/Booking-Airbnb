@@ -1,11 +1,16 @@
 package com.techpower.airbnb.service.impl;
 
+import com.techpower.airbnb.constant.Status;
 import com.techpower.airbnb.converter.OrderConverter;
 import com.techpower.airbnb.converter.RoomConverter;
+
 import com.techpower.airbnb.dto.FeedbackDTO;
+import com.techpower.airbnb.entity.RoomEntity;
+import com.techpower.airbnb.converter.UserDTOMapper;
 import com.techpower.airbnb.dto.OrderDTO;
 import com.techpower.airbnb.dto.RoomDTO;
-import com.techpower.airbnb.entity.RoomEntity;
+import com.techpower.airbnb.dto.UserDTO;
+import com.techpower.airbnb.entity.UserEntity;
 import com.techpower.airbnb.repository.*;
 import com.techpower.airbnb.response.RoomBookings;
 import com.techpower.airbnb.service.IRoomService;
@@ -30,6 +35,11 @@ public class UserService implements IUserService {
     private OrderConverter orderConverter;
     @Autowired
     private IRoomService roomService;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private UserDTOMapper userDTOMapper;
+
 
     @Override
     public List<OrderDTO> findAllOrders(long idUser) {
@@ -69,5 +79,11 @@ public class UserService implements IUserService {
     @Override
     public List<FeedbackDTO> findAllFeedback(Long idUser) {
         return null;
+
+    @Override
+    public UserDTO updateStatus(Status status, long idUser) {
+        UserEntity userEntity = userRepository.findOneById(idUser);
+        userEntity.setStatus(status);
+        return userDTOMapper.apply(userRepository.save(userEntity));
     }
 }

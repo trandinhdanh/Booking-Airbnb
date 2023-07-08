@@ -58,7 +58,6 @@ public class RoomAPI {
 
     }
 
-
     //    dung de test chức năng search
     @GetMapping("/trungNgay")
     public ResponseEntity<?> searchTrungNgay(@RequestParam("start") LocalDate start,
