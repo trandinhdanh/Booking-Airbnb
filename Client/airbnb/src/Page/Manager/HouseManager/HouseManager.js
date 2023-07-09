@@ -5,6 +5,7 @@ import {IoIosAddCircleOutline} from 'react-icons/io'
 import { useNavigate } from 'react-router-dom';
 import { userService } from '../../../services/userService';
 import { localStorageService } from '../../../services/localStorageService';
+import { roomService } from '../../../services/RoomService';
 
 export default function HouseManager() {
   const { Column } = Table;
@@ -20,6 +21,7 @@ export default function HouseManager() {
     const getHouses = async () => {
       try {
         const items = await userService.getOwnersRoom(idUser);
+        console.log(items);
         setHouses(items.data);
       } catch (error) {
         console.log(error);
@@ -35,8 +37,6 @@ export default function HouseManager() {
 
   const handleDeleteHouse = async () => {
     setModalVisible(false);
-    // TODO: Gọi API xóa house theo selectedHouse.id
-    // Sau khi xóa thành công, cập nhật lại danh sách houses bằng cách gọi API getHouses()
   };
 
   return (
@@ -81,7 +81,7 @@ export default function HouseManager() {
            <Space size="middle" className='mr-3'>
             <AiOutlineEdit
               onClick={() => {
-                
+                navigate(`/manager/house-update/${record.id}`)
               }}
               className="text-[20px] hover:scale-125 hover:text-red-700 transition-all"
             />
