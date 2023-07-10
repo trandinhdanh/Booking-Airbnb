@@ -1,10 +1,15 @@
 package com.techpower.airbnb.service.impl;
 
 import com.techpower.airbnb.config.VNPayConfig;
+import com.techpower.airbnb.constant.Order;
+import com.techpower.airbnb.constant.PaymentMethod;
+import com.techpower.airbnb.dto.OrderDTO;
 import com.techpower.airbnb.dto.PaymentDTO;
 import com.techpower.airbnb.request.PaymentTransactionVNPayRequest;
 import com.techpower.airbnb.response.TransactionResponse;
+import com.techpower.airbnb.service.IOrderService;
 import com.techpower.airbnb.service.IPaymentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
@@ -14,9 +19,16 @@ import java.util.*;
 
 @Service
 public class PaymentService implements IPaymentService {
-    @Override
-    public PaymentDTO getPaymentVNPay(int totalAmount) throws UnsupportedEncodingException {
+    @Autowired
+    private IOrderService iOrderService;
 
+    @Override
+    public PaymentDTO getPaymentVNPay(OrderDTO orderDTO, long idRoom) throws UnsupportedEncodingException {
+        OrderDTO order = iOrderService.createOrder(orderDTO, idRoom);
+        iOrderService.freeUpdateStatus(Order.WAITING_PAYMENT_ONLINE, order.getId());
+        iOrderService.updatePaymentMethod(PaymentMethod.VN_PAY, order.getId());
+
+        int amount = (int) Math.round(order.getTotalPrice());
         Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
 
         String vnp_TxnRef = VNPayConfig.getRandomNumber(8);
@@ -28,7 +40,7 @@ public class PaymentService implements IPaymentService {
         vnp_Params.put("vnp_Version", VNPayConfig.VERSION);
         vnp_Params.put("vnp_Command", VNPayConfig.COMMAND);
         vnp_Params.put("vnp_TmnCode", VNPayConfig.TMN_CODE);
-        vnp_Params.put("vnp_Amount", String.valueOf(totalAmount * 100));
+        vnp_Params.put("vnp_Amount", String.valueOf(amount * 100));
         vnp_Params.put("vnp_CreateDate", vnp_CreateDate);
         vnp_Params.put("vnp_ExpireDate", vnp_ExpireDate);
         vnp_Params.put("vnp_CurrCode", VNPayConfig.CURR_CODE);
@@ -68,14 +80,16 @@ public class PaymentService implements IPaymentService {
         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
         String paymentUrl = VNPayConfig.PAY_URL + "?" + queryUrl;
         PaymentDTO paymentDTO = new PaymentDTO();
+        paymentDTO.setIdOrder(order.getId());
         paymentDTO.setUrl(paymentUrl);
         return paymentDTO;
     }
 
     @Override
-    public TransactionResponse transaction(PaymentTransactionVNPayRequest request) {
+    public TransactionResponse transaction(long idOrder, PaymentTransactionVNPayRequest request) {
         TransactionResponse transactionResponse = new TransactionResponse();
         if (request.getResponseCode().equalsIgnoreCase("00")) {
+            iOrderService.freeUpdateStatus(Order.BOOKED, idOrder);
             transactionResponse.setStatus("Thanh toán thành công");
         } else {
             transactionResponse.setStatus("Thanh toán thất bại !!!");

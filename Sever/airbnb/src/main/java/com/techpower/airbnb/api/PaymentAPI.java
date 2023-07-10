@@ -1,13 +1,12 @@
 package com.techpower.airbnb.api;
 
+import com.techpower.airbnb.dto.OrderDTO;
+import com.techpower.airbnb.request.PaymentTransactionVNPayRequest;
 import com.techpower.airbnb.service.IPaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 
@@ -21,8 +20,25 @@ public class PaymentAPI {
     @Autowired
     private IPaymentService iPaymentService;
 
-    @GetMapping("/vnpay")
-    public ResponseEntity<?> create(@RequestParam("totalAmount") int totalAmount) throws UnsupportedEncodingException {
-        return ResponseEntity.status(HttpStatus.OK).body(iPaymentService.getPaymentVNPay(totalAmount));
+    @GetMapping("/vnpay/{idRoom}")
+    public ResponseEntity<?> create(@PathVariable("idRoom") long idRoom,
+                                    @RequestBody OrderDTO orderDTO) throws UnsupportedEncodingException {
+        return ResponseEntity.status(HttpStatus.OK).body(iPaymentService.getPaymentVNPay(orderDTO, idRoom));
+    }
+
+    @GetMapping("/vnpay/transaction")
+    public ResponseEntity<?> transaction(@RequestParam("idOrder") long idOrder,
+                                         @RequestParam("vnp_Amount") String totalAmount,
+                                         @RequestParam("vnp_BankCode") String bankCode,
+                                         @RequestParam("vnp_OrderInfo") String orderInfo,
+                                         @RequestParam("vnp_ResponseCode") String responseCode
+    ) {
+        PaymentTransactionVNPayRequest request = PaymentTransactionVNPayRequest.builder()
+                .amount(totalAmount)
+                .bankCode(bankCode)
+                .orderInfo(orderInfo)
+                .responseCode(responseCode)
+                .build();
+        return ResponseEntity.status(HttpStatus.OK).body(iPaymentService.transaction(idOrder, request));
     }
 }

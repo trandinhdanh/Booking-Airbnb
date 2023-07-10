@@ -8,5 +8,6 @@ import java.io.Serializable;
 @Getter
 @Setter
 public class PaymentDTO implements Serializable {
+    private long idOrder;
     private String url;
 }
