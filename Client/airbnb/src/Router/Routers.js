@@ -15,6 +15,7 @@ import SearchPage from '../Page/SearchPage/SearchPage'
 import OrderManager from '../Page/Manager/OrderManager'
 import FeedbackManager from '../Page/Manager/FeedbackManager'
 import UpdateHouseManager from '../Page/Manager/HouseManager/UpdateHouseManager/UpdateHouseManager'
+import ProfilePage from '../Page/ProfilePage/ProfilePage'
 
 export default function Routers() {
 
@@ -30,6 +31,7 @@ export default function Routers() {
                     <Route path='/order' element={<OrderPage/>} /> 
                     <Route path='/detail-room/:id' element={<DetailRoomPage/>} />
                     <Route path='/search' element={<SearchPage/>} />
+                    <Route path='/profile' element={<ProfilePage/>} />
                 </Route>
                 <Route path='/manager' element = {<ManagerLayout/>}>
                     <Route path='/manager/house' element={<HouseManager/>} />
