@@ -5,5 +5,6 @@ public enum Order {
     CANCEL,
     CONFIRM,
     CHECKED_IN,
-    CHECKED_OUT
+    CHECKED_OUT,
+    WAITING_PAYMENT_ONLINE
 }

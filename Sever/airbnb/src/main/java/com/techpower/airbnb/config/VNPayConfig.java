@@ -20,7 +20,7 @@ public class VNPayConfig {
     public static final String CURR_CODE = "VND";
     public static final String LOCALE = "vn";
     public static final String PAY_URL = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    public static final String RETURN_URL = "http://localhost:8080/api/v1/locations";
+    public static final String RETURN_URL = "http://localhost:8080/api/v1/payment/vnpay/transaction";
     public static final String HASH_SECRET = "AQVTJDWAFXJGXVQLPNSLSMRTBCCVQWFF";
     public static final String API_URL = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
     public static final String ORDER_TYPE = "other";

@@ -17,6 +17,7 @@ public class OrderConverter implements Function<OrderEntity, OrderDTO> {
     @Override
     public OrderDTO apply(OrderEntity orderEntity) {
         return OrderDTO.builder()
+                .id(orderEntity.getId())
                 .idUser(orderEntity.getUser().getId())
                 .roomDTO(roomConverter.toDTO(orderEntity.getRoom()))
                 .status(orderEntity.getStatus().toString())
