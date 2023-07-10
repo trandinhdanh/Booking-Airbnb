@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.net.UnknownHostException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -85,5 +86,17 @@ public class DefaultExceptionHandler {
                 LocalDateTime.now()
         );
         return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(UnknownHostException.class)
+    public ResponseEntity<ApiError> handleException(UnknownHostException e,
+                                                    HttpServletRequest request) {
+        ApiError apiError = new ApiError(
+                request.getRequestURI(),
+                e.getMessage(),
+                HttpStatus.NOT_FOUND.value(),
+                LocalDateTime.now()
+        );
+
+        return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
     }
 }
