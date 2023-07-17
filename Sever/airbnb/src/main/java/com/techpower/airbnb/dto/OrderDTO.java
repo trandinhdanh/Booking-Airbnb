@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @Getter
 @Builder
 public class OrderDTO {
+    private long id;
     @NotNull
     private Long idUser;
     @NotNull
