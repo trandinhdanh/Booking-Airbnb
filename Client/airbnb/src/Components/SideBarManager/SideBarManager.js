@@ -72,7 +72,7 @@ export default function SideBarManager() {
   };
 
   return (
-    <div className="">
+    <div className="fixed top-0 left-0 h-full bg-white dark:bg-gray-900 shadow-lg">
       <div className="w-[300px] h-full ">
         <aside className="w-full " aria-label="Sidebar">
           <div className="overflow-y-auto px-3 bg-gray-50 dark:bg-gray-800 h-screen">
