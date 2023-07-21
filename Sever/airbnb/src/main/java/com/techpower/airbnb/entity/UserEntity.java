@@ -53,6 +53,8 @@ public class UserEntity implements UserDetails {
     private List<OrderEntity> orders;
     @OneToMany(mappedBy = "user")
     private List<FeedbackEntity> feedbacks ;
+    @OneToMany(mappedBy = "user")
+    private List<BlogEntity> blogs ;
 
     @Override
     public int hashCode() {
