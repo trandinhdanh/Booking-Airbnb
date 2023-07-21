@@ -7,7 +7,7 @@
   // import TabsHeader from './TabsHeader';
   import Banner from '../../Components/Banner/Banner';
   import Collection from '../../Components/Collection/Collection';
-  import LiveAnyway from './LiveAnyway';
+  import BlogBanner from './BlogBanner';
   // import { dataIMG } from '../../Data/Data';
   import { useTranslation } from 'react-i18next';
   import BannerVideo from '../../Components/Banner/BannerVideo';
@@ -99,8 +99,8 @@
         <div className="container mx-auto my-10">
           <Collection />
         </div>
-        <div className="container mx-auto my-20">
-          <LiveAnyway />
+        <div className="container mx-auto my-10">
+          <BlogBanner />
         </div>
         <div className="flex relative mb:hidden mt-10 bg-black w-full h-screen">
           <div className="flex relative  bg-black w-full h-screen mb:flex-col sm:flex-col ">

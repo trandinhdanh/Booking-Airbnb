@@ -26,7 +26,7 @@ export default function UpdateHouseManager() {
           description: res.data.description || "",
           price: res.data.price || 0,
           codeLocation: res.data.codeLocation || undefined,
-          address: res.data.address || "",
+          address: res.data.address.fullAddress || "",
           washingMachine: res.data.washingMachine || false,
           television: res.data.television || false,
           airConditioner: res.data.airConditioner || false,
@@ -117,7 +117,7 @@ export default function UpdateHouseManager() {
           <Input.TextArea />
         </Form.Item>
 
-        <Form.Item
+        {/* <Form.Item
           label={t("Location")}
           name="codeLocation"
           rules={[{ required: true, message: t("Please select the location") }]}
@@ -133,10 +133,14 @@ export default function UpdateHouseManager() {
               </Option>
             ))}
           </Select>
-        </Form.Item>
+        </Form.Item> */}
 
-        <Form.Item label={t("Address")}>
-          <Input placeholder={t("Address")} onChange={handleStreetChange} />
+        <Form.Item
+          label={t("Address")}
+          name="address"
+          rules={[{ required: true, message: t("Please select the address") }]}
+        >
+          <Input  placeholder={t("Address")} onChange={handleStreetChange} />
         </Form.Item>
 
         <Row gutter={16}>
@@ -208,93 +212,106 @@ export default function UpdateHouseManager() {
         </Row>
 
         <Form.Item label={t("Amenities")} wrapperCol={{ span: 16 }}>
-        <Row>
-  <Col span={8}>
-    <Checkbox
-      checked={form.getFieldValue("washingMachine")}
-      onChange={(e) => { 
-        console.log( e.target.checked );
-        form.setFieldsValue({ washingMachine: e.target.checked })
-       }}
-      name="washingMachine"
-    >
-      {t("Washing Machine")}
-    </Checkbox>
-  </Col>
-  <Col span={8}>
-    <Checkbox
-      checked={form.getFieldValue("television")}
-      onChange={(e) => form.setFieldsValue({ television: e.target.checked })}
-      name="television"
-    >
-      {t("Television")}
-    </Checkbox>
-  </Col>
-  <Col span={8}>
-    <Checkbox
-      checked={form.getFieldValue("airConditioner")}
-      onChange={(e) => form.setFieldsValue({ airConditioner: e.target.checked })}
-      name="airConditioner"
-    >
-      {t("Air Conditioner")}
-    </Checkbox>
-  </Col>
-  <Col span={8}>
-    <Checkbox
-      checked={form.getFieldValue("wifi")}
-      onChange={(e) => form.setFieldsValue({ wifi: e.target.checked })}
-      name="wifi"
-    >
-      {t("Wifi")}
-    </Checkbox>
-  </Col>
-  <Col span={8}>
-    <Checkbox
-      checked={form.getFieldValue("kitchen")}
-      onChange={(e) => form.setFieldsValue({ kitchen: e.target.checked })}
-      name="kitchen"
-    >
-      {t("Kitchen")}
-    </Checkbox>
-  </Col>
-  <Col span={8}>
-    <Checkbox
-      checked={form.getFieldValue("parking")}
-      onChange={(e) => form.setFieldsValue({ parking: e.target.checked })}
-      name="parking"
-    >
-      {t("Parking")}
-    </Checkbox>
-  </Col>
-  <Col span={8}>
-    <Checkbox
-      checked={form.getFieldValue("pool")}
-      onChange={(e) => form.setFieldsValue({ pool: e.target.checked })}
-      name="pool"
-    >
-      {t("Pool")}
-    </Checkbox>
-  </Col>
-  <Col span={8}>
-    <Checkbox
-      checked={form.getFieldValue("hotAndColdMachine")}
-      onChange={(e) => form.setFieldsValue({ hotAndColdMachine: e.target.checked })}
-      name="hotAndColdMachine"
-    >
-      {t("Hot and Cold Machine")}
-    </Checkbox>
-  </Col>
-</Row>
-
+          <Row>
+            <Col span={8}>
+              <Checkbox
+                checked={form.getFieldValue("washingMachine")}
+                onChange={(e) => {
+                  console.log(e.target.checked);
+                  form.setFieldsValue({ washingMachine: e.target.checked });
+                }}
+                name="washingMachine"
+              >
+                {t("Washing Machine")}
+              </Checkbox>
+            </Col>
+            <Col span={8}>
+              <Checkbox
+                checked={form.getFieldValue("television")}
+                onChange={(e) =>
+                  form.setFieldsValue({ television: e.target.checked })
+                }
+                name="television"
+              >
+                {t("Television")}
+              </Checkbox>
+            </Col>
+            <Col span={8}>
+              <Checkbox
+                checked={form.getFieldValue("airConditioner")}
+                onChange={(e) =>
+                  form.setFieldsValue({ airConditioner: e.target.checked })
+                }
+                name="airConditioner"
+              >
+                {t("Air Conditioner")}
+              </Checkbox>
+            </Col>
+            <Col span={8}>
+              <Checkbox
+                checked={form.getFieldValue("wifi")}
+                onChange={(e) =>
+                  form.setFieldsValue({ wifi: e.target.checked })
+                }
+                name="wifi"
+              >
+                {t("Wifi")}
+              </Checkbox>
+            </Col>
+            <Col span={8}>
+              <Checkbox
+                checked={form.getFieldValue("kitchen")}
+                onChange={(e) =>
+                  form.setFieldsValue({ kitchen: e.target.checked })
+                }
+                name="kitchen"
+              >
+                {t("Kitchen")}
+              </Checkbox>
+            </Col>
+            <Col span={8}>
+              <Checkbox
+                checked={form.getFieldValue("parking")}
+                onChange={(e) =>
+                  form.setFieldsValue({ parking: e.target.checked })
+                }
+                name="parking"
+              >
+                {t("Parking")}
+              </Checkbox>
+            </Col>
+            <Col span={8}>
+              <Checkbox
+                checked={form.getFieldValue("pool")}
+                onChange={(e) =>
+                  form.setFieldsValue({ pool: e.target.checked })
+                }
+                name="pool"
+              >
+                {t("Pool")}
+              </Checkbox>
+            </Col>
+            <Col span={8}>
+              <Checkbox
+                checked={form.getFieldValue("hotAndColdMachine")}
+                onChange={(e) =>
+                  form.setFieldsValue({ hotAndColdMachine: e.target.checked })
+                }
+                name="hotAndColdMachine"
+              >
+                {t("Hot and Cold Machine")}
+              </Checkbox>
+            </Col>
+          </Row>
         </Form.Item>
 
         <Form.Item>
           <button
             className="px-3 py-2 rounded-lg bg-primary text-whitefont-medium hover:bg-[#FF2171] font-bold text-white transition-all"
             htmlType="submit"
-            >
-              {t("Update")}
-            </button>
+          >
+            {t("Update")}
+          </button>
         </Form.Item>
       </Form>
     </div>
