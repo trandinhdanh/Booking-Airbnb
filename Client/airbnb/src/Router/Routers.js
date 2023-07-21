@@ -14,6 +14,13 @@ import OrderPage from '../Page/OrderPage/OrderPage'
 import SearchPage from '../Page/SearchPage/SearchPage'
 import OrderManager from '../Page/Manager/OrderManager'
 import FeedbackManager from '../Page/Manager/FeedbackManager'
+import UpdateHouseManager from '../Page/Manager/HouseManager/UpdateHouseManager/UpdateHouseManager'
+import ProfilePage from '../Page/ProfilePage/ProfilePage'
+import BlogManagerPage from '../Page/Manager/BlogManagerPage/BlogManagerPage'
+import NewBlogManagerPage from '../Page/Manager/BlogManagerPage/NewBlogManagerPage/NewBlogManagerPage'
+import UpdateBlogManagerPage from '../Page/Manager/BlogManagerPage/UpdateBlogManagerPage/UpdateBlogManagerPage'
+import BlogPage from '../Page/BlogPage/BlogPage'
+import BlogDetailPage from '../Page/BlogDetailPage/BlogDetailPage'
 
 export default function Routers() {
 
@@ -29,13 +36,20 @@ export default function Routers() {
                     <Route path='/order' element={<OrderPage/>} /> 
                     <Route path='/detail-room/:id' element={<DetailRoomPage/>} />
                     <Route path='/search' element={<SearchPage/>} />
+                    <Route path='/profile' element={<ProfilePage/>} />
+                    <Route path='/blog' element={<BlogPage/>} />
+                    <Route path='/blog/:id' element={<BlogDetailPage/>} />
                 </Route>
                 <Route path='/manager' element = {<ManagerLayout/>}>
                     <Route path='/manager/house' element={<HouseManager/>} />
                     <Route path='/manager/house-add' element={<AddHouseManager/>} />
+                    <Route path='/manager/house-update/:id' element={<UpdateHouseManager/>} />
                     <Route path='/manager/calendar' element={<BookingCalendar/>} />
                     <Route path='/manager/order' element={<OrderManager/>} />
                     <Route path='/manager/feedback' element={<FeedbackManager/>} />
+                    <Route path="/manager/blog" element={<BlogManagerPage/>} />
+                    <Route path="/manager/blog-add" element={<NewBlogManagerPage/>} />
+                    <Route path="/manager/blog-update/:id" element={<UpdateBlogManagerPage/>} />
                 </Route>
             </Routes>
         </BrowserRouter>

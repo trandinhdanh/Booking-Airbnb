@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Button, Checkbox, Col, Form, Input, InputNumber, Row } from "antd";
+import { Button, Checkbox, Col, Form, Input, InputNumber, Row, Select } from "antd";
 import axios from "axios";
-import { Select } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import Upload from "antd/es/upload/Upload";
 import { locationService } from "../../../../services/locationService";
 import { roomService } from "../../../../services/RoomService";
+import { useDispatch } from "react-redux";
+import Loading from "../../../../Components/Loading/Loading";
+import { localStorageService } from "../../../../services/localStorageService";
+import { useForm } from "react-hook-form";
 
-const PROVINCCES_API_URL = "https://provinces.open-api.vn/api";
+const PROVINCES_API_URL = "https://provinces.open-api.vn/api";
 
 export default function AddHouseManager() {
   const { t } = useTranslation();
@@ -28,7 +31,9 @@ export default function AddHouseManager() {
   const [location, setLocation] = useState();
   const [bg, setBg] = useState(false);
   const [idLocation, setIdLocation] = useState();
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [user, setUser] = useState(localStorageService.get("USER"));
+  const { register, handleSubmit } = useForm();
   const { Option } = Select;
 
   const handleProvinceChange = (value, option) => {
@@ -37,30 +42,34 @@ export default function AddHouseManager() {
     console.log(option?.label);
   };
 
-const handleDistrictChange = (value, option) => {
-  setSelectedDistrict(value);
-  setNameDistrict(option?.label ?? "");
-  console.log(option?.label);
-}
+  const handleDistrictChange = (value, option) => {
+    setSelectedDistrict(value);
+    setNameDistrict(option?.label ?? "");
+    console.log(option?.label);
+  };
 
-const handleWardChange = (value, option) => {
-  setSelectedWard(value);
-  setNameWard(option?.label ?? "");
-  console.log(option?.label);
-}
-const handleStreetChange = (e) => {
-  setStreet(e.target.value);
-  setAddress(street +", " + nameWard +", " +nameDistrict+", " + nameProvince);
-};
+  const handleWardChange = (value, option) => {
+    setSelectedWard(value);
+    setNameWard(option?.label ?? "");
+    console.log(option?.label);
+  };
+
+  const handleStreetChange = (e) => {
+    setStreet(e.target.value);
+    setAddress(street + ", " + nameWard + ", " + nameDistrict + ", " + nameProvince);
+  };
+
   useEffect(() => {
-    locationService.getLocationList().then((res) => {
-            console.log(res);
-            setLocation(res.data)
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+    locationService.getLocationList()
+      .then((res) => {
+        console.log(res);
+        setLocation(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
+
   const renderOption = () => {
     return location?.map((item, index) => {
       return (
@@ -79,10 +88,10 @@ const handleStreetChange = (e) => {
 
   useEffect(() => {
     // Fetch the list of provinces
-    setAddress(street +", " + nameWard +", " +nameDistrict+", " + nameProvince);
-  
+    setAddress(street + ", " + nameWard + ", " + nameDistrict + ", " + nameProvince);
+
     axios
-      .get(`${PROVINCCES_API_URL}/p`)
+      .get(`${PROVINCES_API_URL}/p`)
       .then((response) => {
         setProvince(response.data);
       })
@@ -95,7 +104,7 @@ const handleStreetChange = (e) => {
     // Fetch the list of districts when a province is selected
     if (selectedProvince) {
       axios
-        .get(`${PROVINCCES_API_URL}/p/${selectedProvince}?depth=2`)
+        .get(`${PROVINCES_API_URL}/p/${selectedProvince}?depth=2`)
         .then((response) => {
           setDistricts(response.data.districts);
           setSelectedDistrict(null);
@@ -117,7 +126,7 @@ const handleStreetChange = (e) => {
     // Fetch the list of wards when a district is selected
     if (selectedDistrict) {
       axios
-        .get(`${PROVINCCES_API_URL}/d/${selectedDistrict}?depth=2`)
+        .get(`${PROVINCES_API_URL}/d/${selectedDistrict}?depth=2`)
         .then((response) => {
           setWards(response.data.wards);
           setSelectedWard(null);
@@ -132,19 +141,16 @@ const handleStreetChange = (e) => {
     }
   }, [selectedDistrict]);
 
-  const normFile = (e) => {
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e?.fileList;
-  };
   const handleImagesChange = (e) => {
     const files = Array.from(e.target.files);
     setSelectedImages(files);
   };
+
   const labelCol = { span: 4 };
   const wrapperCol = { span: 16 };
+
   const onFinish = (values) => {
+    setIsLoading(true);
     console.log('Form submitted:', values);
     const formData = new FormData();
     formData.append('name', values.name);
@@ -163,169 +169,197 @@ const handleStreetChange = (e) => {
     formData.append('numLivingRooms', values.numLivingRooms);
     formData.append('numBathrooms', values.numBathrooms);
     formData.append('numBedrooms', values.numBedrooms);
-    formData.append('images', []);
 
-    // selectedImages.forEach((file, index) => {
-    //   formData.append(`images`, file);
-    // });
-    roomService.addRoom(2,formData).then((res) => {
-            console.log(res);
-          })
-          .catch((err) => {
-            console.log("erroo" ,err.response.data.message);
-          });
+    selectedImages.forEach((file, index) => {
+      formData.append(`images`, file);
+    });
+
+    roomService.addRoom(user.userDTO.id, formData)
+      .then((res) => {
+        console.log(res);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        console.log("error", err.response.data.message);
+      });
+  };
+  const normFile = (e) => {
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e && e.fileList;
   };
   return (
-    <div>
-      <div className="headerManager font-roboto mb-5 flex justify-between">
-        <h1 className="font-bold text-[20px] uppercase ">Add room</h1>
-      </div>
-
-      <Form form={form} onFinish={onFinish}>
-        <div class="grid grid-cols-12">
-          <div class="col-span-6">
-            <Form.Item
-              label="Tên"
-              name="name"
-              rules={[{ required: true }]}
-              labelCol={labelCol}
-              wrapperCol={wrapperCol}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              label="Mô tả"
-              name="description"
-              rules={[{ required: true }]}
-              labelCol={labelCol}
-              wrapperCol={wrapperCol}
-            >
-              <Input />
-            </Form.Item>
-           
-
-            {/* address */}
-
-            <Form.Item label="Địa chỉ">
-              <Select
-                showSearch
-                placeholder="Tỉnh..."
-                optionFilterProp="children"
-                value={selectedProvince}
-                rules={[{ required: true }]}
-                onChange={handleProvinceChange}
-                filterOption={(input, option) =>
-                  (option?.label ?? "")
-                    .toLowerCase()
-                    .includes(input.toLowerCase())
-                }
-                options={province.map((province) => ({
-                  value: province.code,
-                  label: province.name,
-                }))}
-                style={{ width: "31%" }}
-              />
-              <Select
-                showSearch
-                placeholder="Huyện..."
-                optionFilterProp="children"
-                value={selectedDistrict}
-                rules={[{ required: true }]}
-                onChange={handleDistrictChange}
-                filterOption={(input, option) =>
-                  (option?.label ?? "")
-                    .toLowerCase()
-                    .includes(input.toLowerCase())
-                }
-                options={districts.map((district) => ({
-                  value: district.code,
-                  label: district.name,
-                }))}
-                style={{ width: "31%", marginLeft: "10px" }}
-                disabled={!selectedProvince}
-              />
-              <Select
-                showSearch
-                placeholder="Xã..."
-                optionFilterProp="children"
-                value={selectedWard}
-                rules={[{ required: true }]}
-                onChange={handleWardChange}
-                filterOption={(input, option) =>
-                  (option?.label ?? "")
-                    .toLowerCase()
-                    .includes(input.toLowerCase())
-                }
-                options={wards.map((ward) => ({
-                  value: ward.code,
-                  label: ward.name,
-                }))}
-                style={{ width: "31%", marginLeft: "10px" }}
-                disabled={!selectedDistrict}
-              />
-              <Input
-                placeholder="Địa chỉ cụ thể"
-                style={{ marginTop: "15px" }}
-                value={street}
-                onChange={handleStreetChange}
-              />
-            </Form.Item>
-
-            <Form.Item
-              label="Số phòng khách"
-              name="numLivingRooms"
-              rules={[{ required: true }]}
-              labelCol={labelCol}
-              wrapperCol={wrapperCol}
-            >
-              <Input type="number" />
-            </Form.Item>
-            <Form.Item
-              label="Số phòng tắm"
-              name="numBathrooms"
-              rules={[{ required: true }]}
-              labelCol={labelCol}
-              wrapperCol={wrapperCol}
-            >
-              <Input type="number" />
-            </Form.Item>
-            <Form.Item
-              label="Số phòng ngủ"
-              name="numBedrooms"
-              rules={[{ required: true }]}
-              labelCol={labelCol}
-              wrapperCol={wrapperCol}
-            >
-              <Input type="number" />
-            </Form.Item>
-            <Form.Item
-              label="Số lượng khách"
-              name="maxGuests"
-              rules={[{ required: true }]}
-              labelCol={labelCol}
-              wrapperCol={wrapperCol}
-            >
-              <Input type="number" />
-            </Form.Item>
-
-            <Form.Item
-          label="Ảnh khác"
-          name="images"
-          labelCol={labelCol}
-          wrapperCol={wrapperCol}
-        >
-          <input
-            type="file"
-            accept="image/*"
-            multiple
-            onChange={handleImagesChange}
-          />
-        </Form.Item>
+    <>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <div>
+          <div className="headerManager font-roboto mb-5 flex justify-between">
+            <h1 className="font-bold text-[20px] uppercase ">Add room</h1>
           </div>
-          <div class="col-span-6">
-            <Form.Item label="Tiện nghi">
+
+          <Form form={form} onFinish={onFinish}>
+            <div className="grid grid-cols-12">
+              <div className="col-span-6">
+                <Form.Item
+                  label="Tên"
+                  name="name"
+                  rules={[{ required: true }]}
+                  labelCol={labelCol}
+                 wrapperCol={wrapperCol}
+                >
+                  <Input />
+                </Form.Item>
+                <Form.Item
+                  label="Mô tả"
+                  name="description"
+                  rules={[{ required: true }]}
+                  labelCol={labelCol}
+                  wrapperCol={wrapperCol}
+                >
+                  <Input />
+                </Form.Item>
+
+                {/* Địa chỉ */}
+
+                <Form.Item
+                  label="Địa chỉ"
+                  rules={[{ required: true }]}
+                  labelCol={labelCol}
+                  wrapperCol={wrapperCol}
+                >
+                  <Select
+                    showSearch
+                    placeholder="Tỉnh..."
+                    optionFilterProp="children"
+                    value={selectedProvince}
+                    rules={[{ required: true }]}
+                    onChange={handleProvinceChange}
+                    filterOption={(input, option) =>
+                      (option?.label ?? "")
+                        .toLowerCase()
+                        .includes(input.toLowerCase())
+                    }
+                    options={province.map((province) => ({
+                      value: province.code,
+                      label: province.name,
+                    }))}
+                    style={{ width: "31%" }}
+                  />
+                  <Select
+                    showSearch
+                    placeholder="Huyện..."
+                    optionFilterProp="children"
+                    value={selectedDistrict}
+                    rules={[{ required: true }]}
+                    onChange={handleDistrictChange}
+                    filterOption={(input, option) =>
+                      (option?.label ?? "")
+                        .toLowerCase()
+                        .includes(input.toLowerCase())
+                    }
+                    options={districts.map((district) => ({
+                      value: district.code,
+                      label: district.name,
+                    }))}
+                    style={{ width: "31%", marginLeft: "10px" }}
+                    disabled={!selectedProvince}
+                  />
+                  <Select
+                    showSearch
+                    placeholder="Xã..."
+                    optionFilterProp="children"
+                    value={selectedWard}
+                    rules={[{ required: true }]}
+                    onChange={handleWardChange}
+                    filterOption={(input, option) =>
+                      (option?.label ?? "")
+                        .toLowerCase()
+                        .includes(input.toLowerCase())
+                    }
+                    options={wards.map((ward) => ({
+                      value: ward.code,
+                      label: ward.name,
+                    }))}
+                    style={{ width: "31%", marginLeft: "10px" }}
+                    disabled={!selectedDistrict}
+                  />
+                  <Input
+                    placeholder="Địa chỉ cụ thể"
+                    style={{ marginTop: "15px" }}
+                    value={street}
+                    onChange={handleStreetChange}
+                  />
+                </Form.Item>
+
                 <Row>
-                  <Col span={8}>
+                  <Col span={12}>
+                    <Form.Item
+                      label="Phòng khách"
+                      name="numLivingRooms"
+                      rules={[{ required: true }]}
+                      labelCol={{ span: 6 }}
+                      wrapperCol={{ span: 18 }}
+                    >
+                      <Input type="number" />
+                    </Form.Item>
+                  </Col>
+                  <Col span={12}>
+                    <Form.Item
+                      label="Phòng tắm"
+                      name="numBathrooms"
+                      rules={[{ required: true }]}
+                      labelCol={{ span: 6 }}
+                      wrapperCol={{ span: 18 }}
+                    >
+                      <Input type="number" />
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col span={12}>
+                    <Form.Item
+                      label="Phòng ngủ"
+                      name="numBedrooms"
+                      rules={[{ required: true }]}
+                      labelCol={{ span: 6 }}
+                      wrapperCol={{ span: 18 }}
+                    >
+                      <Input type="number" />
+                    </Form.Item>
+                  </Col>
+                  <Col span={12}>
+                    <Form.Item
+                      label="Lượng khách"
+                      name="maxGuests"
+                      rules={[{ required: true }]}
+                      labelCol={{ span: 6 }}
+                      wrapperCol={{ span: 18 }}
+                    >
+                      <Input type="number" />
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Form.Item
+                  label="Ảnh khác"
+                  name="images"
+                  labelCol={labelCol}
+                  wrapperCol={wrapperCol}
+                >
+                  <input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    {...register("images", { setValueAs: normFile })}
+                  />
+                </Form.Item>
+              </div>
+              <div className="col-span-6">
+                <Form.Item label="Tiện nghi">
+                  <Row>
+                    <Col span={8}>
                       <Form.Item
                         name="washingMachine"
                         valuePropName="checked"
@@ -333,8 +367,8 @@ const handleStreetChange = (e) => {
                       >
                         <Checkbox>Washing Machine</Checkbox>
                       </Form.Item>
-                  </Col>
-                  <Col span={8}>
+                    </Col>
+                    <Col span={8}>
                       <Form.Item
                         name="television"
                         valuePropName="checked"
@@ -342,8 +376,8 @@ const handleStreetChange = (e) => {
                       >
                         <Checkbox>Tivi</Checkbox>
                       </Form.Item>
-                  </Col>
-                  <Col span={8}>
+                    </Col>
+                    <Col span={8}>
                       <Form.Item
                         name="airConditioner"
                         valuePropName="checked"
@@ -351,8 +385,8 @@ const handleStreetChange = (e) => {
                       >
                         <Checkbox>Air Conditioner</Checkbox>
                       </Form.Item>
-                  </Col>
-                  <Col span={8}>
+                    </Col>
+                    <Col span={8}>
                       <Form.Item
                         name="wifi"
                         valuePropName="checked"
@@ -360,8 +394,8 @@ const handleStreetChange = (e) => {
                       >
                         <Checkbox>Wifi</Checkbox>
                       </Form.Item>
-                  </Col>
-                  <Col span={8}>
+                    </Col>
+                    <Col span={8}>
                       <Form.Item
                         name="kitchen"
                         valuePropName="checked"
@@ -369,8 +403,8 @@ const handleStreetChange = (e) => {
                       >
                         <Checkbox>Kitchen</Checkbox>
                       </Form.Item>
-                  </Col>
-                  <Col span={8}>
+                    </Col>
+                    <Col span={8}>
                       <Form.Item
                         name="parking"
                         valuePropName="checked"
@@ -378,8 +412,8 @@ const handleStreetChange = (e) => {
                       >
                         <Checkbox>Parking</Checkbox>
                       </Form.Item>
-                  </Col>
-                  <Col span={8}>
+                    </Col>
+                    <Col span={8}>
                       <Form.Item
                         name="pool"
                         valuePropName="checked"
@@ -387,8 +421,8 @@ const handleStreetChange = (e) => {
                       >
                         <Checkbox>Pool</Checkbox>
                       </Form.Item>
-                  </Col>
-                  <Col span={8}>
+                    </Col>
+                    <Col span={8}>
                       <Form.Item
                         name="hotAndColdMachine"
                         valuePropName="checked"
@@ -396,50 +430,54 @@ const handleStreetChange = (e) => {
                       >
                         <Checkbox>hotAndColdMachine</Checkbox>
                       </Form.Item>
-                  </Col>
-                  
-                </Row>
-            </Form.Item>
-            <Form.Item label="Location">
-              <Select
-                style={{
-                  width: "100%",
-                }}
-                showSearch
-                placeholder={t("Location")}
-                optionFilterProp="children"
-                className="dropdow-header"
-                onChange={onChange}
-                filterOption={(input, option) =>
-                  option.children.toLowerCase().includes(input.toLowerCase())
-                }
-              >
-                {renderOption()}
-              </Select>
-            </Form.Item>
-            <Form.Item
-              label="Giá phòng"
-              name="price"
-              rules={[{ required: true }]}
-              labelCol={labelCol}
-              wrapperCol={wrapperCol}
-            >
-              <InputNumber
-               min={1}
-               defaultValue={1}
-               style={{ width: "100%" }}
-             />
-            </Form.Item>
-            <Form.Item
-              wrapperCol={{ offset: labelCol.span, span: wrapperCol.span }}
-            >
-              <Button type="primary" htmlType="submit">
-                Thêm sản phẩm
-              </Button>
-            </Form.Item>
-          </div>
+                    </Col>
+                  </Row>
+                </Form.Item>
+                <Form.Item label="Location">
+                  <Select
+                    style={{
+                      width: "100%",
+                    }}
+                    showSearch
+                    placeholder={t("Location")}
+                    optionFilterProp="children"
+                    className="dropdow-header"
+                    onChange={onChange}
+                    filterOption={(input, option) =>
+                      option.children.toLowerCase().includes(input.toLowerCase())
+                    }
+                  >
+                    {renderOption()}
+                  </Select>
+                </Form.Item>
+                <Form.Item
+                  label="Giá phòng"
+                  name="price"
+                  rules={[{ required: true }]}
+                  labelCol={labelCol}
+                  wrapperCol={wrapperCol}
+                >
+                  <InputNumber
+                    min={1}
+                    defaultValue={1}
+                    style={{ width: "100%" }}
+                  />
+                </Form.Item>
+                <Form.Item
+                  wrapperCol={{ offset: labelCol.span, span: wrapperCol.span }}
+                >
+                  <button
+                    className="px-3 py-2 rounded-lg bg-primary text-whitefont-medium hover:bg-[#FF2171] hover:text-white transition-all"
+                    htmlType="submit"
+                  >
+                    Thêm sản phẩm
+                  </button>
+                </Form.Item>
+              </div>
+            </div>
+          </Form>
         </div>
-      </Form>
-    </div>
+      )}
+    </>
   );
 }

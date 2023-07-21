@@ -3,9 +3,11 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { localStorageService } from '../../services/localStorageService';
-import { RiAccountCircleFill } from 'react-icons/ri';
+import { RiAccountCircleFill ,RiFeedbackFill} from 'react-icons/ri';
 import { BsHouse ,BsFillCartFill} from 'react-icons/bs';
-import { CiLocationArrow1,CiLogout} from 'react-icons/ci';
+import { CiLogout} from 'react-icons/ci';
+import {MdLocationOn ,MdCalendarToday} from 'react-icons/md'
+import { BsFillPencilFill} from 'react-icons/bs';
 import { logoutUser } from '../../Redux/auth/authSlice';
 
 export default function SideBarManager() {
@@ -36,12 +38,12 @@ export default function SideBarManager() {
     {
       name: "Calendar",
       path: "/manager/calendar",
-      Icon: RiAccountCircleFill,
+      Icon: MdCalendarToday,
     },
     {
       name: "Feedback",
       path: "/manager/feedback",
-      Icon: RiAccountCircleFill,
+      Icon: RiFeedbackFill,
     },
     {
       name: "Order",
@@ -51,7 +53,12 @@ export default function SideBarManager() {
     {
       name: "Location",
       path: "/Manager/location",
-      Icon: CiLocationArrow1,
+      Icon: MdLocationOn,
+    },
+    {
+      name: "Blog",
+      path: "/Manager/blog",
+      Icon: BsFillPencilFill,
     },
   ];
   
@@ -72,7 +79,7 @@ export default function SideBarManager() {
   };
 
   return (
-    <div className="">
+    <div className="fixed top-0 left-0 h-full bg-white dark:bg-gray-900 shadow-lg">
       <div className="w-[300px] h-full ">
         <aside className="w-full " aria-label="Sidebar">
           <div className="overflow-y-auto px-3 bg-gray-50 dark:bg-gray-800 h-screen">

@@ -2,22 +2,30 @@ import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom';
 import CardItem from '../../Components/CardItem/CardItem';
 import Map from './Map'
-import { Badge } from 'antd';
+import { Badge, Button } from 'antd';
 import { useTranslation } from 'react-i18next';
 export default function SearchPage() {
   const [address, setAddress] = useState([]);
     const {t} = useTranslation()
     const location = useLocation();
-  const data = location.state?.dataContext;
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 4;
+    const data = location.state?.dataContext;
 
-  useEffect(() => {
-    const addresses = data.map((item) => ({ address: item.address }));
-    setAddress(addresses);
-    
-  }, []);
+    useEffect(() => {
+      const addresses = data.map((item) => ({ address: item.address }));
+      setAddress(addresses);
+    }, []);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = data?.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(data?.length / itemsPerPage);
   const renderRoomLocation = () => {
-    return data?.map((item, index) => {
-   
+    if (data.length === 0) {
+      return <p>Không tìm thấy phòng theo yêu cầu của quý khách</p>;
+    }
+  
+    return currentItems?.map((item, index) => {
       return (
         <div className="col-span-1 relative" key={index}>
           {!item.available && (
@@ -29,6 +37,10 @@ export default function SearchPage() {
         </div>
       );
     });
+  };
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
   };
   
   return (
@@ -43,6 +55,13 @@ export default function SearchPage() {
         <div className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 mb:grid-cols-1 gap-5">
           {renderRoomLocation()}
         </div>
+        <div className="flex justify-center my-4 space-x-3">
+        {Array.from({ length: totalPages }).map((_, index) => (
+          <Button key={index} onClick={() => paginate(index + 1)}>
+            {index + 1}
+          </Button>
+        ))}
+      </div>
       </div>
       <div className="col-span-1 h-full lg:block md:hidden sm:hidden mb:hidden ">
         <div className="h-full">

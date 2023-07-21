@@ -66,7 +66,7 @@ export default function Header() {
     };
   const searchBtn = () => {
     const searchData = {
-      idLocation: 36, 
+      idLocation: idLocation, 
       startDate: startDay, 
       endDate: endDay, 
       guests: quantity, // Số lượng người

@@ -1,8 +1,6 @@
 import React, { useRef, useState } from 'react';
 import './CardItem.scss';
 import { Swiper, SwiperSlide } from 'swiper/react';
-
-// Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -11,18 +9,51 @@ import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper';
 import { Link } from 'react-router-dom';
 import { dataIMG } from '../../Data/Data';
 import { useTranslation } from 'react-i18next';
+
 function CardItem({ roomInfor }) {
   const { t } = useTranslation();
   const [heartColor, setheartColor] = useState(false);
   const handleHeartColor = () => {
     setheartColor(true);
   };
+  const defaultImage = 'https://a0.muscache.com/im/pictures/237d7dae-4306-466c-aa4c-ae06b2853f94.jpg?im_w=720'
+  const renderSwiperItem = () => {
+    return roomInfor.images.length > 0
+      ? roomInfor.images.map((image, index) => (
+          <SwiperSlide
+            key={index}
+            className="max-h-[260px] rounded-[0.8rem] object-cover h-full w-full"
+          >
+            <div className="flex items-center justify-center h-full w-full">
+              <img
+                src={image}
+                alt=""
+                className="rounded-[0.8rem] object-cover max-h-full"
+              />
+            </div>
+          </SwiperSlide>
+        ))
+      : (
+        <SwiperSlide
+          className="max-h-[260px] rounded-[0.8rem] object-cover h-full w-full"
+        >
+          <div className="flex items-center justify-center h-full w-full">
+            <img
+              src={defaultImage}
+              alt=""
+              className="rounded-[0.8rem] object-cover max-h-full"
+            />
+          </div>
+        </SwiperSlide>
+      );
+  };
+  
   return (
     <Link
       to={`/detail-room/${roomInfor.id}`}
       className="relative text-black hover:text-black bg-white rounded-[2rem]"
     >
-      <div className="">
+      <div className="h-[270px]">
         <Swiper
           loop={true}
           cssMode={true}
@@ -34,40 +65,14 @@ function CardItem({ roomInfor }) {
             clickable: true,
           }}
           modules={[Navigation, Pagination, Mousewheel, Keyboard]}
-          className="mySwiper"
+          className="mySwiper h-full"
         >
-          <SwiperSlide className=" max-h-[260px] rounded-[0.8rem] object-cover h-[270px] w-full">
-            <img
-              src={`${roomInfor.images[0]}`}
-              alt=""
-              className="rounded-[0.8rem] max-h-[260px] h-full object-cover max-h-full "
-            />
-          </SwiperSlide>
-          <SwiperSlide className=" max-h-[260px] rounded-[0.8rem] object-cover h-[270px] w-full">
-            <img
-              src={`${roomInfor.images[1]}`}
-              alt=""
-              className="rounded-[0.8rem] max-h-[260px] object-cover max-h-full"
-            />
-          </SwiperSlide>
-          <SwiperSlide className=" max-h-[260px] rounded-[0.8rem] object-cover h-[270px] w-full">
-            <img
-              src={`${roomInfor.images[2]}`}
-              alt=""
-              className="rounded-[0.8rem] max-h-[260px] object-cover max-h-full"
-            />
-          </SwiperSlide>
-          <SwiperSlide className=" max-h-[260px] rounded-[0.8rem] object-cover h-[270px] w-full">
-            <img
-              src={`${roomInfor.images[3]}`}
-              alt=""
-              className="rounded-[0.8rem] max-h-[260px] object-cover w-full"
-            />
-          </SwiperSlide>
+         {renderSwiperItem()}
         </Swiper>
       </div>
+
       <svg
-        onClick={setheartColor}
+        onClick={handleHeartColor}
         viewBox="0 0 32 32"
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"
@@ -76,7 +81,7 @@ function CardItem({ roomInfor }) {
         className="absolute top-2 right-2 z-10"
         style={{
           display: 'block',
-          fill: heartColor == true ? 'red' : 'rgba(0, 0, 0, 0.5)',
+          fill: heartColor ? 'red' : 'rgba(0, 0, 0, 0.5)',
           height: 24,
           width: 24,
           stroke: 'rgb(255, 255, 255)',
@@ -92,7 +97,7 @@ function CardItem({ roomInfor }) {
           <h1 className="text-[1rem] font-[500]">{roomInfor.name}</h1>
           <div className="flex justify-center items-center">
             <FaStar size="0.8rem" className="mr-2" />
-            <span className=" text-[1rem] font-[300]">5.0</span>
+            <span className="text-[1rem] font-[300]">5.0</span>
           </div>
         </div>
         <p className="text-[0.8rem] text-left font-[400] text-[black] opacity-60">
@@ -100,8 +105,8 @@ function CardItem({ roomInfor }) {
         </p>
         <p className="text-[0.8rem] text-left text-[black] opacity-60">Oct 2-9</p>
         <div className="flex items-center">
-          <p className="text-[0.9rem] mr-2 font-[500] text-[black] ">${roomInfor.price}</p>
-          <span className="font-300 text-[0.8rem] font-[400] text-[black]">{t('/night')}</span>
+          <p className="text-[0.9rem] mr-2 font-[500] text-[black]">${roomInfor.price}</p>
+          <span className="text-[0.8rem] font-[300] text-[black]">{t('/night')}</span>
         </div>
       </div>
     </Link>
