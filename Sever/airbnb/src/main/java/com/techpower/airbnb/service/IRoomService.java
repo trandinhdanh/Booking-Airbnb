@@ -1,6 +1,7 @@
 package com.techpower.airbnb.service;
 
 import com.google.maps.errors.ApiException;
+import com.techpower.airbnb.dto.FeedbackDTO;
 import com.techpower.airbnb.dto.RoomDTO;
 import com.techpower.airbnb.request.SearchHouseRequest;
 import com.techpower.airbnb.response.DayBooking;
@@ -20,4 +21,8 @@ public interface IRoomService {
     List<RoomDTO> search(SearchHouseRequest request);
 
     List<DayBooking> checkDateOfRoom(long idRoom);
+
+    String delete(Long idRoom);
+
+    List<FeedbackDTO> findAllFeedbackByIDRoom(Long idRoom);
 }

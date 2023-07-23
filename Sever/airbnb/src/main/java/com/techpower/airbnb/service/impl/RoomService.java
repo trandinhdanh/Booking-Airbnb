@@ -4,7 +4,9 @@ import com.google.maps.errors.ApiException;
 import com.google.maps.model.LatLng;
 import com.techpower.airbnb.constant.Order;
 import com.techpower.airbnb.converter.AddressConverter;
+import com.techpower.airbnb.converter.FeedbackConverter;
 import com.techpower.airbnb.converter.RoomConverter;
+import com.techpower.airbnb.dto.FeedbackDTO;
 import com.techpower.airbnb.dto.RoomDTO;
 import com.techpower.airbnb.entity.*;
 import com.techpower.airbnb.response.DayBooking;
@@ -39,11 +41,11 @@ public class RoomService implements IRoomService {
     @Autowired
     private GeocodingService geocodingService;
     @Autowired
-    private AddressConverter addressConverter;
-    @Autowired
     private AddressRepository addressRepository;
     @Autowired
     private CloudinaryService cloudinaryService;
+    @Autowired
+    private FeedbackConverter feedbackConverter;
 
     @Override
     public List<RoomDTO> findAll() {
@@ -155,6 +157,21 @@ public class RoomService implements IRoomService {
             }
         }
         return result;
+    }
+
+    @Override
+    public String delete(Long idRoom) {
+        RoomEntity roomEntity = roomRepository.findOneById(idRoom);
+        if (roomEntity == null) {
+            return "Room does not exist";
+        }
+        roomRepository.delete(roomEntity);
+        return "Room deleted successfully";
+    }
+
+    @Override
+    public List<FeedbackDTO> findAllFeedbackByIDRoom(Long idRoom) {
+        return feedbackConverter.mapperTOEntity(feedbackRepository.findByOrder_Room_Id(idRoom));
     }
 
     public boolean isBookingConflict(List<DayBooking> list, LocalDate startDate, LocalDate endDate) {

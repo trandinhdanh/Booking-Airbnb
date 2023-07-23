@@ -21,7 +21,7 @@ public interface IUserService {
 
     List<FeedbackDTO> getAllFeedbackByOwner(Long idUser);
 
-    List<FeedbackDTO> findAllFeedback(Long idUser);
+    List<FeedbackDTO> findAllFeedbackByCustomer(Long idUser);
 
     UserDTO updateStatus(Status status, long idUser);
 
