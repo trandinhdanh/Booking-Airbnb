@@ -204,6 +204,4 @@ public class RoomAPI {
     public ResponseEntity<?> delete(@PathVariable("idRoom") Long idRoom) {
         return ResponseEntity.ok(iRoomService.delete(idRoom));
     }
-
-
 }

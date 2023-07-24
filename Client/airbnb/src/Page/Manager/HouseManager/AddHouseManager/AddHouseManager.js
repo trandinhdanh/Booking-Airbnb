@@ -27,10 +27,9 @@ export default function AddHouseManager() {
   const [selectedProvince, setSelectedProvince] = useState(null);
   const [selectedDistrict, setSelectedDistrict] = useState(null);
   const [selectedWard, setSelectedWard] = useState(null);
-  const [selectedImages, setSelectedImages] = useState([]);
   const [location, setLocation] = useState();
-  const [bg, setBg] = useState(false);
   const [idLocation, setIdLocation] = useState();
+  const [selectedImages, setSelectedImages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState(localStorageService.get("USER"));
   const { register, handleSubmit } = useForm();
@@ -141,17 +140,14 @@ export default function AddHouseManager() {
     }
   }, [selectedDistrict]);
 
-  const handleImagesChange = (e) => {
-    const files = Array.from(e.target.files);
-    setSelectedImages(files);
-  };
-
   const labelCol = { span: 4 };
   const wrapperCol = { span: 16 };
 
   const onFinish = (values) => {
     setIsLoading(true);
     console.log('Form submitted:', values);
+    console.log(idLocation);
+    console.log(address);
     const formData = new FormData();
     formData.append('name', values.name);
     formData.append('description', values.description);
@@ -184,11 +180,9 @@ export default function AddHouseManager() {
         console.log("error", err.response.data.message);
       });
   };
-  const normFile = (e) => {
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e && e.fileList;
+  const handleImagesChange = (e) => {
+    const files = Array.from(e.target.files);
+    setSelectedImages(files);
   };
   return (
     <>
@@ -342,19 +336,25 @@ export default function AddHouseManager() {
                     </Form.Item>
                   </Col>
                 </Row>
-                <Form.Item
-                  label="Ảnh khác"
-                  name="images"
-                  labelCol={labelCol}
-                  wrapperCol={wrapperCol}
-                >
-                  <input
-                    type="file"
-                    accept="image/*"
-                    multiple
-                    {...register("images", { setValueAs: normFile })}
-                  />
-                </Form.Item>
+                
+        <Form.Item
+          label="Ảnh khác"
+          name="images"
+          labelCol={labelCol}
+          wrapperCol={wrapperCol}
+        >
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={handleImagesChange}
+          />
+        </Form.Item>
+        <Form.Item wrapperCol={{ offset: labelCol.span, span: wrapperCol.span }}>
+          <Button type="primary" htmlType="submit">
+            Thêm sản phẩm
+          </Button>
+        </Form.Item>
               </div>
               <div className="col-span-6">
                 <Form.Item label="Tiện nghi">

@@ -13,5 +13,4 @@ export let userService = {
   getDateBooking: (idUser) => {
     return https.get(`/api/v1/users/${idUser}/bookings-date`);
   },
-
 };

@@ -48,29 +48,31 @@ export default function UpdateHouseManager() {
   }, [id, form]);
 
   const onFinish = (values) => {
-    const updatedRoom = {
-      ...roomDetail,
-      name: values.name,
-      description: values.description,
-      price: values.price,
-      codeLocation: values.codeLocation,
-      address: values.address,
-      washingMachine: values.washingMachine || false,
-      television: values.television || false,
-      airConditioner: values.airConditioner || false,
-      wifi: values.wifi || false,
-      kitchen: values.kitchen || false,
-      parking: values.parking || false,
-      pool: values.pool || false,
-      maxGuests: values.maxGuests,
-      numLivingRooms: values.numLivingRooms,
-      numBathrooms: values.numBathrooms,
-      numBedrooms: values.numBedrooms,
-    };
+    console.log(values);
+const formData = new FormData();
+
+formData.append('name', values.name);
+formData.append('description', values.description);
+formData.append('price', values.price);
+formData.append('codeLocation', values.codeLocation);
+formData.append('address', values.address);
+formData.append('washingMachine', values.washingMachine ? 'true' : 'false');
+formData.append('television', values.television ? 'true' : 'false');
+formData.append('airConditioner', values.airConditioner ? 'true' : 'false');
+formData.append('wifi', values.wifi ? 'true' : 'false');
+formData.append('kitchen', values.kitchen ? 'true' : 'false');
+formData.append('parking', values.parking ? 'true' : 'false');
+formData.append('pool', values.pool ? 'true' : 'false');
+formData.append('maxGuests', values.maxGuests);
+formData.append('numLivingRooms', values.numLivingRooms);
+formData.append('numBathrooms', values.numBathrooms);
+formData.append('numBedrooms', values.numBedrooms);
+formData.append('images', []);
+
 
     // Call the API to update the room
     roomService
-      .updateRoom(id, updatedRoom)
+      .update(id, formData)
       .then((res) => {
         console.log("Room updated:", res);
         navigate("/"); // Redirect to the home page after successful update

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Tag, Space, Modal } from 'antd';
+import { Table, Tag, Space, Modal, message } from 'antd';
 import { AiOutlineDelete,AiOutlineEdit } from 'react-icons/ai';
 import {IoIosAddCircleOutline} from 'react-icons/io'
 import { useNavigate } from 'react-router-dom';
@@ -13,10 +13,9 @@ export default function HouseManager() {
   const [pageSize, setPageSize] = useState(3);
   const [houses, setHouses] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedHouse, setSelectedHouse] = useState(null);
+  const [selectedHouse, setSelectedHouse] = useState();
   const [idUser, setIdUser] = useState(localStorageService.get('USER')?.userDTO.id);
-  
-
+  const [reloadPage, setReloadPage] = useState(false)
   useEffect(() => {
     const getHouses = async () => {
       try {
@@ -28,14 +27,23 @@ export default function HouseManager() {
       }
     };
     getHouses();
-  }, []);
+  }, [reloadPage]);
 
   const handleDelete = (record) => {
-    setSelectedHouse(record);
+    setSelectedHouse(record.id);
     setModalVisible(true);
   };
 
   const handleDeleteHouse = async () => {
+    
+   try {
+    const respone = await roomService.delete(selectedHouse);
+    console.log(respone);
+    setReloadPage(!reloadPage)
+    message.success("Delete Success")
+   } catch (error) {
+    message.error("Delete Error")
+   }
     setModalVisible(false);
   };
 

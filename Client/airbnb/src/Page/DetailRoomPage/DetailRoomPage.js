@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 // import TotalReserce from './TotalReserce'
 import './DetailRoomPage.scss';
 import OrderForm from './OrderForm/OrderForm';
+import Feedback from './Feedback/Feedback';
 
 export default function DetailRoomPage() {
     const {id} = useParams();
@@ -185,6 +186,8 @@ export default function DetailRoomPage() {
                 </div>
                 {/* ================= what this place offers ==================== */}
                 {renderItemUtilities()}
+                {/* ================= FeedBack ============= */}
+                <Feedback room={roomDetail}/>
               </div>
               <div className="pl-[6rem] mb:hidden sm:hidden md:block w-2/5">
                   <OrderForm room={roomDetail} date = {dataDate}/>
