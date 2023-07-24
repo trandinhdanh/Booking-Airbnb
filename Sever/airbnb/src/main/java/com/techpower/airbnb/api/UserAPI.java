@@ -1,6 +1,5 @@
 package com.techpower.airbnb.api;
 
-import com.techpower.airbnb.constant.Order;
 import com.techpower.airbnb.constant.Status;
 import com.techpower.airbnb.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +35,7 @@ public class UserAPI {
     }
     @GetMapping("/{idUser}/feedback")
     public ResponseEntity<?> findAllFeedback(@PathVariable("idUser") Long idUser){
-        return ResponseEntity.ok(userService.findAllFeedback(idUser));
+        return ResponseEntity.ok(userService.findAllFeedbackByCustomer(idUser));
     }
     @GetMapping("/{idUser}/manager-feedback")
     public ResponseEntity<?> getAllFeedbackByOwner(@PathVariable("idUser") Long idUser){

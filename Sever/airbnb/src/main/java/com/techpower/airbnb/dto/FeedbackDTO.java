@@ -14,5 +14,6 @@ public class FeedbackDTO {
     private LocalDate createDate;
     private int numberOfStars;
     private long idUserCreate;
+    private String nameUser;
     private long idOrder;
 }

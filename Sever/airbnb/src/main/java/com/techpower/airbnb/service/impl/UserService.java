@@ -1,6 +1,7 @@
 package com.techpower.airbnb.service.impl;
 
 import com.techpower.airbnb.constant.Status;
+import com.techpower.airbnb.converter.FeedbackConverter;
 import com.techpower.airbnb.converter.OrderConverter;
 import com.techpower.airbnb.converter.RoomConverter;
 
@@ -39,7 +40,10 @@ public class UserService implements IUserService {
     private UserRepository userRepository;
     @Autowired
     private UserDTOMapper userDTOMapper;
-
+    @Autowired
+    private FeedbackConverter feedbackConverter;
+    @Autowired
+    private FeedbackRepository feedbackRepository;
 
     @Override
     public List<OrderDTO> findAllOrders(long idUser) {
@@ -72,14 +76,19 @@ public class UserService implements IUserService {
 
     @Override
     public List<FeedbackDTO> getAllFeedbackByOwner(Long idUser) {
-
-        return null;
+        List<RoomDTO> roomDTOS = findAllRooms(idUser);
+        List<FeedbackDTO> feedbackDTOS = new ArrayList<>();
+        for (RoomDTO roomDTO : roomDTOS) {
+            feedbackDTOS.addAll(roomService.findAllFeedbackByIDRoom(roomDTO.getId()));
+        }
+        return feedbackDTOS;
     }
 
     @Override
-    public List<FeedbackDTO> findAllFeedback(Long idUser) {
-        return null;
+    public List<FeedbackDTO> findAllFeedbackByCustomer(Long idUser) {
+        return feedbackConverter.mapperTOEntity(feedbackRepository.findByOrder_User_Id(idUser));
     }
+
     @Override
     public UserDTO updateStatus(Status status, long idUser) {
         UserEntity userEntity = userRepository.findOneById(idUser);
