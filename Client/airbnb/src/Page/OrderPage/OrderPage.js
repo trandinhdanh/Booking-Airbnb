@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Button, Modal, Table, Tag, Form, Input, message } from "antd";
 import { localStorageService } from "../../services/localStorageService";
 import { userService } from "../../services/userService";
-import { feedBackService } from "../../services/feedBack";
+import { feedBackService } from "../../services/feedBackService";
 import { FrownOutlined, MehOutlined, SmileOutlined } from "@ant-design/icons";
+import { StarOutlined, StarFilled } from "@ant-design/icons";
 import { Rate } from "antd";
 
 export default function OrderPage() {
@@ -18,13 +19,26 @@ export default function OrderPage() {
   const [feedbackContent, setFeedbackContent] = useState("");
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [feedbackStars, setFeedbackStars] = useState(3); // Giá trị mặc định là 3 sao
-
+  const [feedbacks, setFeedbacks] = useState(); // Giá trị mặc định là 3 sao
+  const [pageSize, setPageSize] = useState(5);
+  
   useEffect(() => {
     userService
       .getOrder(idUser)
       .then((res) => {
         console.log(res);
         setOrders(res.data); // Lưu trữ dữ liệu đơn hàng vào state
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [idUser]);
+  useEffect(() => {
+    userService
+      .getFeedBack(idUser)
+      .then((res) => {
+        console.log(res);
+        setFeedbacks(res.data); // Lưu trữ dữ liệu đơn hàng vào state
       })
       .catch((err) => {
         console.log(err);
@@ -148,17 +162,52 @@ export default function OrderPage() {
   const handleFeedbackModalCancel = () => {
     setIsFeedbackModalVisible(false);
   };
+  const renderFeedback = (record) => {
+    const feedbacksForOrderId = feedbacks?.filter(
+      (item) => item.idOrder === record.id
+    );
+  
+    if (!feedbacksForOrderId || feedbacksForOrderId.length === 0) {
+      return <p>No feedbacks found for this order.</p>;
+    }
+  
+    return (
+      <div>
+        <h3 className="text-lg font-semibold mb-2">
+          Feedbacks for Order ID: {record.id}
+        </h3>
+        {feedbacksForOrderId.map((feedback) => (
+          <div key={feedback.id} className="flex items-center mb-2">
+            <p className="flex-grow">- {feedback.content}</p>
+            <div className="flex items-center">
+              {Array.from({ length: 5 }, (_, i) => (
+                <span key={i}>
+                  {i < feedback.numberOfStars ? (
+                    <StarFilled className="text-yellow-500" />
+                  ) : (
+                    <StarOutlined className="text-yellow-500" />
+                  )}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  };
   return (
     <div className="container mx-auto pb-5 mb:pt-[0px] sm:pt-[0px] md:pt-[6rem]">
       <Table
         dataSource={orders}
         columns={columns}
         rowKey="id"
-        pagination={pagination}
+        pagination={{
+          total: orders?.length,
+          pageSize: pageSize,
+          showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+        }}
         expandable={{
-          expandedRowRender: (record) => <div>
-            đây là feedback
-          </div>,
+          expandedRowRender: renderFeedback ,
         }}
       />
       <Modal

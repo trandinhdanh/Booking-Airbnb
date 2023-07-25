@@ -22,7 +22,7 @@ function CardItem({ roomInfor }) {
       ? roomInfor.images.map((image, index) => (
           <SwiperSlide
             key={index}
-            className="max-h-[260px] rounded-[0.8rem] object-cover h-full w-full"
+            className="max-h-[270px] rounded-[0.8rem] object-cover h-full w-full"
           >
             <div className="flex items-center justify-center h-full w-full">
               <img
@@ -35,7 +35,7 @@ function CardItem({ roomInfor }) {
         ))
       : (
         <SwiperSlide
-          className="max-h-[260px] rounded-[0.8rem] object-cover h-full w-full"
+          className="max-h-[270px] rounded-[0.8rem] object-cover h-full w-full"
         >
           <div className="flex items-center justify-center h-full w-full">
             <img
@@ -94,7 +94,7 @@ function CardItem({ roomInfor }) {
 
       <div className="mt-[8px]">
         <div className="w-full flex justify-between">
-          <h1 className="text-[1rem] font-[500]">{roomInfor.name}</h1>
+          <h1 className="text-[1rem] font-[500]">{roomInfor.name.length > 25 ? roomInfor.name.slice(0, 25) + "..." : roomInfor.name}</h1>
           <div className="flex justify-center items-center">
             <FaStar size="0.8rem" className="mr-2" />
             <span className="text-[1rem] font-[300]">5.0</span>

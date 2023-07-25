@@ -4,10 +4,11 @@ import { localStorageService } from '../../services/localStorageService';
 import { userService } from '../../services/userService';
 
 export default function OrderManager() {
-  const [idUser, setIdUser] = useState(localStorageService.get('USER')?.userDTO.id);
-  const [orders, setOrders] = useState([]);
   const [isCancelModalVisible, setIsCancelModalVisible] = useState(false);
-  const [pagination, setPagination] = useState({ current: 1, pageSize: 5 });
+  const [pageSize, setPageSize] = useState(5);
+  const [orders, setOrders] = useState([]);
+  const [idUser, setIdUser] = useState(localStorageService.get('USER')?.userDTO.id);
+ 
   useEffect(() => {
     userService
       .getOrderByOwner(idUser)
@@ -67,28 +68,19 @@ export default function OrderManager() {
       key: 'actions',
       render: (text, record) => {
           return (
-            <Button type="primary" danger onClick={() => showCancelModal(record.id)}>
-              Cancel
+            <Button type="" className='bg-[#068FFF] text-white' danger onClick={() => showModal(record.id)}>
+              Update
             </Button>
           );
         }
     },
   ];
-  const showCancelModal = (orderId) => {
+  const showModal = (orderId) => {
     // setCancelOrderId(orderId);
     setIsCancelModalVisible(true);
   };
 
   const handleCancel = () => {
-    // orderService.canceluser(cancelOrderId).then((res) => {
-    //         console.log(res);
-    //         message.success('Cancel Order Success')
-    //         fetchOrders();
-    //       })
-    //       .catch((err) => {
-    //         message.error('Cancel Order Error')
-    //         console.log(err);
-    //       });
     setIsCancelModalVisible(false);
   };
 
@@ -97,14 +89,21 @@ export default function OrderManager() {
   };
   return (
     <div className="container mx-auto pb-5 mb:pt-[0px] sm:pt-[0px] md:pt-[6rem]">
-      <Table dataSource={orders} columns={columns}   pagination={pagination}/>
+      <Table dataSource={orders} columns={columns}   pagination={{
+          total: orders?.length,
+          pageSize: pageSize,
+          showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+        }}/>
       <Modal
-        title="Order Cancellation Confirmation"
+        title="Order Update Status"
         visible={isCancelModalVisible}
-        onOk={handleCancel}
-        onCancel={handleCancelModal}
+        onCancel={handleCancel}
+        footer={null}
       >
-        <p>Are you sure you want to cancel this order?</p>
+        <div className='text-center flex-col flex space-y-3'>
+           <button className='px-4 py-2 bg-[#1c6c59] rounded-lg text-white'>CONFIRM</button>
+           <button className='px-4 py-2 bg-primary rounded-lg text-white'>CANCEL</button>
+        </div>
       </Modal>
     </div>
   );

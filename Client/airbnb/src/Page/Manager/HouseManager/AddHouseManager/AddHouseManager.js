@@ -350,11 +350,7 @@ export default function AddHouseManager() {
             onChange={handleImagesChange}
           />
         </Form.Item>
-        <Form.Item wrapperCol={{ offset: labelCol.span, span: wrapperCol.span }}>
-          <Button type="primary" htmlType="submit">
-            Thêm sản phẩm
-          </Button>
-        </Form.Item>
+       
               </div>
               <div className="col-span-6">
                 <Form.Item label="Tiện nghi">
@@ -467,7 +463,7 @@ export default function AddHouseManager() {
                   wrapperCol={{ offset: labelCol.span, span: wrapperCol.span }}
                 >
                   <button
-                    className="px-3 py-2 rounded-lg bg-primary text-whitefont-medium hover:bg-[#FF2171] hover:text-white transition-all"
+                    className="px-3 py-2 rounded-lg bg-primary text-white font-medium hover:bg-[#068FFF] hover:text-white transition-all"
                     htmlType="submit"
                   >
                     Thêm sản phẩm
