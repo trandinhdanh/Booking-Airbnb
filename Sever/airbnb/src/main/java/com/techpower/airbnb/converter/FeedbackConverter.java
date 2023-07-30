@@ -34,6 +34,7 @@ public class FeedbackConverter implements Function<FeedbackEntity, FeedbackDTO> 
                 .idOrder(feedbackEntity.getOrder().getId())
                 .idUserCreate(feedbackEntity.getUser().getId())
                 .nameUser(feedbackEntity.getUser().getName())
+                .nameRoom(feedbackEntity.getOrder().getRoom().getName())
                 .build();
     }
 

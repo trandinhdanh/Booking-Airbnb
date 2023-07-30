@@ -15,5 +15,8 @@ export let userService = {
   },
   getFeedBack: (idUser) => {
     return https.get(`/api/v1/users/${idUser}/feedback`);
+  },
+  getAllFeedbackByOwner: (idUser) => {
+    return https.get(`/api/v1/users/${idUser}/manager-feedback`);
   }
 };

@@ -13,7 +13,7 @@ export default function FeedbackManager() {
 
   useEffect(() => {
     userService
-      .getOrderByOwner(idUser)
+      .getAllFeedbackByOwner(idUser)
       .then((res) => {
         console.log(res);
         setOrders(res.data); // Lưu trữ dữ liệu đơn hàng vào state
@@ -22,43 +22,37 @@ export default function FeedbackManager() {
         console.log(err);
       });
   }, [idUser]);
-  const getStatusColor = (status) => {
-    switch (status) {
-      case "CONFIRM":
-        return "blue";
-      case "BOOKED":
-        return "yellow";
-      case "CHECKED_IN":
-        return "green";
-      default:
-        return "red";
-    }
-  };
+  
   // Các cột cho bảng
   const columns = [
     {
       title: 'Name Room',
-      dataIndex: 'roomDTO',
-      key: 'roomDTO',
-      render: (roomDTO) => roomDTO.name
+      dataIndex: 'nameRoom',
+      key: 'nameRoom',
+    },
+    {
+      title: 'Customer',
+      dataIndex: 'nameUser',
+      key: 'nameUser'
     },
     {
       title: 'Feedback',
-      dataIndex: 'numGuests',
-      key: 'numGuests',
-      render: (numGuests) => <Rate disabled defaultValue={numGuests} />,
+      dataIndex: 'content',
+      key: 'content',
     },
     {
       title: 'Star rating',
-      dataIndex: 'receivedDate',
-      key: 'receivedDate',
-    }
+      dataIndex: 'numberOfStars',
+      key: 'numberOfStars',
+      render: (numberOfStars) => <Rate disabled defaultValue={numberOfStars} />,
+    },
+    {
+      title: 'Date',
+      dataIndex: 'createDate',
+      key: 'createDate',
+    },
   ];
   
-  const showCancelModal = (orderId) => {
-    // setCancelOrderId(orderId);
-    setIsCancelModalVisible(true);
-  };
 
   const handleCancel = () => {
     // orderService.canceluser(cancelOrderId).then((res) => {
