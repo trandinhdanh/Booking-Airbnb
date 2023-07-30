@@ -27,12 +27,12 @@ export default function SideBarManager() {
   const data = [
     {
       name: "Users",
-      path: "/Manager/user",
+      path: "/manager/user",
       Icon: RiAccountCircleFill,
     },
     {
       name: "House",
-      path: "/Manager/house",
+      path: "/manager/house",
       Icon: BsHouse,
     },
     {
@@ -52,12 +52,12 @@ export default function SideBarManager() {
     },
     {
       name: "Location",
-      path: "/Manager/location",
+      path: "/manager/location",
       Icon: MdLocationOn,
     },
     {
       name: "Blog",
-      path: "/Manager/blog",
+      path: "/manager/blog",
       Icon: BsFillPencilFill,
     },
   ];

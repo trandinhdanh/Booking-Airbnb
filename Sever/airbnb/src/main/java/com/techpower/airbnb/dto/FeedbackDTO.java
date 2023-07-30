@@ -15,5 +15,6 @@ public class FeedbackDTO {
     private int numberOfStars;
     private long idUserCreate;
     private String nameUser;
+    private String nameRoom;
     private long idOrder;
 }
