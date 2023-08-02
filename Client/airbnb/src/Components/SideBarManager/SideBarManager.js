@@ -3,12 +3,18 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { localStorageService } from '../../services/localStorageService';
-import { RiAccountCircleFill } from 'react-icons/ri';
+import { RiAccountCircleFill ,RiFeedbackFill} from 'react-icons/ri';
+import { BsHouse ,BsFillCartFill} from 'react-icons/bs';
+import { CiLogout} from 'react-icons/ci';
+import {MdLocationOn ,MdCalendarToday} from 'react-icons/md'
+import { BsFillPencilFill} from 'react-icons/bs';
 import { logoutUser } from '../../Redux/auth/authSlice';
+
 export default function SideBarManager() {
-  const [user, setuser] = useState(localStorageService.get('USER'));
-  let navigate = useNavigate();
-  let dispatch = useDispatch();
+  const [user, setUser] = useState(localStorageService.get('USER'));
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const handleLogout = () => {
     setTimeout(() => {
       localStorageService.remove('USER');
@@ -17,8 +23,63 @@ export default function SideBarManager() {
       navigate('/login');
     }, 1000);
   };
+
+  const data = [
+    {
+      name: "Users",
+      path: "/Manager/user",
+      Icon: RiAccountCircleFill,
+    },
+    {
+      name: "House",
+      path: "/Manager/house",
+      Icon: BsHouse,
+    },
+    {
+      name: "Calendar",
+      path: "/manager/calendar",
+      Icon: MdCalendarToday,
+    },
+    {
+      name: "Feedback",
+      path: "/manager/feedback",
+      Icon: RiFeedbackFill,
+    },
+    {
+      name: "Order",
+      path: "/manager/order",
+      Icon: BsFillCartFill,
+    },
+    {
+      name: "Location",
+      path: "/Manager/location",
+      Icon: MdLocationOn,
+    },
+    {
+      name: "Blog",
+      path: "/Manager/blog",
+      Icon: BsFillPencilFill,
+    },
+  ];
+  
+
+  const render = () => {
+    return data.map((item, i) => (
+      <li key={i}>
+        <Link
+          to={item.path}
+          href="#"
+          className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+        >
+          <item.Icon className="w-6 h-6 mr-2" />
+          <span className="flex-1 ml-3 whitespace-nowrap">{item.name}</span>
+        </Link>
+      </li>
+    ));
+  };
+
   return (
-    <div className=" ">
+    <div className="fixed top-0 left-0 h-full bg-white dark:bg-gray-900 shadow-lg">
       <div className="w-[300px] h-full ">
         <aside className="w-full " aria-label="Sidebar">
           <div className="overflow-y-auto px-3 bg-gray-50 dark:bg-gray-800 h-screen">
@@ -27,132 +88,20 @@ export default function SideBarManager() {
                 <Link to="/">
                   <img
                     className="w-[110px] h-[32px] mb-5 pl-2"
-                    src="https://www.pngkey.com/png/full/60-606021_horizontal-white-transparent-for-web-airbnb-logo-white.png"
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Airbnb_Logo_B%C3%A9lo.svg/2560px-Airbnb_Logo_B%C3%A9lo.svg.png"
                     alt=""
                   />
                 </Link>
-
-                <li>
-                  <Link
-                    to="/Manager/user"
-                    href="#"
-                    className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                        clipRule="evenodd"
-                      ></path>
-                    </svg>
-                    <span className="flex-1 ml-3 whitespace-nowrap">Users</span>
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    to="/Manager/house"
-                    href="#"
-                    className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      className="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
-                      <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
-                    </svg>
-                    <span className="ml-3">House</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/Manager/house"
-                    href="#"
-                    className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      className="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
-                      <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
-                    </svg>
-                    <span className="ml-3">Calendar</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/Manager/location"
-                    href="#"
-                    className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
-                    </svg>
-                    <span className="flex-1 ml-3 whitespace-nowrap">Location</span>
-                  </Link>
-                </li>
+                {render()}
               </div>
-
               <div>
-                {/* <li>
-                  <Link
-                    to="/Manager/profile"
-                    href="#"
-                    className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-                  >
-                    {user?.user.avatar === '' ? (
-                      <RiAccountCircleFill className=" text-[30px]" />
-                    ) : (
-                      <img
-                        className="rounded-[50%] w-[30px] h-[30px]"
-                        src={user?.user.avatar}
-                        alt=""
-                      />
-                    )}
-                    <span className="flex-1 ml-3 whitespace-nowrap font-bold">
-                      {user?.user.name}
-                    </span>
-                  </Link>
-                </li> */}
                 <li onClick={handleLogout}>
                   <div
                     href=""
-                    className="cursor-pointer flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                    className="flex  cursor-pointer flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
                   >
-                    <svg
-                      aria-hidden="true"
-                      className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M5 4a3 3 0 00-3 3v6a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H5zm-1 9v-1h5v2H5a1 1 0 01-1-1zm7 1h4a1 1 0 001-1v-1h-5v2zm0-4h5V8h-5v2zM9 8H4v2h5V8z"
-                        clipRule="evenodd"
-                      ></path>
-                    </svg>
-                    <span className="flex-1 ml-3 whitespace-nowrap">Log Out</span>
+                    <CiLogout className='text-[20px]'/>
+                    <span className=" ml-3 whitespace-nowrap">Logout</span>
                   </div>
                 </li>
               </div>

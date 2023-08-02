@@ -44,8 +44,10 @@ public class AuthenticationService {
         );
         UserEntity principal = (UserEntity) authentication.getPrincipal();
         UserDTO userDTO = userDTOMapper.apply(principal);
-        String token = jwtUtil.issueToken(userDTO.userName(), userDTO.role());
-        return new AuthenticationResponse(token, userDTO);
+        if (principal.getStatus().equals(Status.ACTIVE)) {
+            String token = jwtUtil.issueToken(userDTO.userName(), userDTO.role());
+            return new AuthenticationResponse(token, userDTO);
+        } else return new AuthenticationResponse("Status: " + principal.getStatus(), userDTO);
     }
 
     public AuthenticationResponse register(RegisterCustomerRequest request) {
@@ -80,7 +82,8 @@ public class AuthenticationService {
 
         emailSender.send(
                 request.getEmail(),
-                buildEmail(request.getName(), codeConfirmed));
+                buildEmail(request.getName(), codeConfirmed),
+                "Confirm your email");
 
         return AuthenticationResponse.builder()
                 .token(token)
@@ -107,7 +110,8 @@ public class AuthenticationService {
 
         emailSender.send(
                 request.getEmail(),
-                buildEmail(request.getName(), codeConfirmed));
+                buildEmail(request.getName(), codeConfirmed),
+                "Confirm your email");
 
         return AuthenticationResponse.builder()
                 .token(token)
@@ -122,7 +126,7 @@ public class AuthenticationService {
             userRepository.updateConfirmedByEmailAndCodeConfirmed(true, email, token);
             return "confirmed";
         }
-       return "not confirmed";
+        return "not confirmed";
     }
 
     public String generateRandomString() {
@@ -148,5 +152,4 @@ public class AuthenticationService {
                 "<p style=\"font-size: 16px; margin-bottom: 20px;\">See you soon</p>" +
                 "</div>";
     }
-
 }

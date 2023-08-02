@@ -1,6 +1,7 @@
 package com.techpower.airbnb.entity;
 
 import com.techpower.airbnb.constant.Order;
+import com.techpower.airbnb.constant.PaymentMethod;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,6 +32,9 @@ public class OrderEntity {
     private int numGuests;
     @Column
     private double totalPrice;
+    @Column
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;
     @ManyToOne
     @JoinColumn(name = "room_id")
     private RoomEntity room;

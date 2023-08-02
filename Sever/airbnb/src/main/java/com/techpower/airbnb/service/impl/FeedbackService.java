@@ -36,4 +36,13 @@ private OrderRepository orderRepository;
                 orderRepository.findOneById(dto.getIdOrder()) );
         return feedbackConverter.apply(feedbackRepository.save(feedbackEntity));
     }
+
+    @Override
+    public boolean remove(long idFeedback) {
+        if (feedbackRepository.existsById(idFeedback)){
+            feedbackRepository.deleteById(idFeedback);
+            return true;
+        }
+        return false;
+    }
 }

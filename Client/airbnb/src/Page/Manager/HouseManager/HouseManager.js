@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Tag, Space, Modal } from 'antd';
+import { Table, Tag, Space, Modal, message } from 'antd';
 import { AiOutlineDelete,AiOutlineEdit } from 'react-icons/ai';
 import {IoIosAddCircleOutline} from 'react-icons/io'
 import { useNavigate } from 'react-router-dom';
+import { userService } from '../../../services/userService';
+import { localStorageService } from '../../../services/localStorageService';
 import { roomService } from '../../../services/RoomService';
 
 export default function HouseManager() {
@@ -11,29 +13,38 @@ export default function HouseManager() {
   const [pageSize, setPageSize] = useState(3);
   const [houses, setHouses] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedHouse, setSelectedHouse] = useState(null);
-
+  const [selectedHouse, setSelectedHouse] = useState();
+  const [idUser, setIdUser] = useState(localStorageService.get('USER')?.userDTO.id);
+  const [reloadPage, setReloadPage] = useState(false)
   useEffect(() => {
     const getHouses = async () => {
       try {
-        const items = await roomService.getHouseList();
+        const items = await userService.getOwnersRoom(idUser);
+        console.log(items);
         setHouses(items.data);
       } catch (error) {
         console.log(error);
       }
     };
     getHouses();
-  }, []);
+  }, [reloadPage]);
 
   const handleDelete = (record) => {
-    setSelectedHouse(record);
+    setSelectedHouse(record.id);
     setModalVisible(true);
   };
 
   const handleDeleteHouse = async () => {
+    
+   try {
+    const respone = await roomService.delete(selectedHouse);
+    console.log(respone);
+    setReloadPage(!reloadPage)
+    message.success("Delete Success")
+   } catch (error) {
+    message.error("Delete Error")
+   }
     setModalVisible(false);
-    // TODO: Gọi API xóa house theo selectedHouse.id
-    // Sau khi xóa thành công, cập nhật lại danh sách houses bằng cách gọi API getHouses()
   };
 
   return (
@@ -53,14 +64,6 @@ export default function HouseManager() {
         }}
       >
         <Column title="Name" dataIndex="name" key="name" />
-        <Column title="Location" dataIndex="codeLocation" key="codeLocation" />
-        <Column title="Description" dataIndex="description" key="description" />
-        <Column
-          title="Price"
-          dataIndex="price"
-          key="price"
-          render={(price) => <Tag color="green">{price.toLocaleString()} VNĐ</Tag>}
-        />
         <Column
           title="Image"
           dataIndex="images"
@@ -69,15 +72,24 @@ export default function HouseManager() {
             <img src={images[0]} className="w-[70px] h-[70px] object-cover rounded-lg" alt="house" />
           )}
         />
+        <Column title="Location" dataIndex="codeLocation" key="codeLocation" />
+        <Column title="Description" dataIndex="description" key="description" />
+        <Column
+          title="Price"
+          dataIndex="price"
+          key="price"
+          render={(price) => <Tag color="green">{price.toLocaleString()} $</Tag>}
+        />
+      
         <Column
           title="Action"
           key="action"
           render={(text, record) => (
-           <>
+           <div className='flex'>
            <Space size="middle" className='mr-3'>
             <AiOutlineEdit
               onClick={() => {
-                
+                navigate(`/manager/house-update/${record.id}`)
               }}
               className="text-[20px] hover:scale-125 hover:text-red-700 transition-all"
             />
@@ -90,7 +102,7 @@ export default function HouseManager() {
                 className="text-[20px] hover:scale-125 hover:text-red-700 transition-all"
               />
             </Space>
-            </>
+            </div>
           )}
         />
       </Table>

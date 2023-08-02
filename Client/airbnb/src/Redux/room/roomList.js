@@ -1,24 +1,25 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { message } from 'antd';
-import { https } from '../../services/axiosClient';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { message } from "antd";
+import { https } from "../../services/axiosClient";
 /** State **/
 const initialState = {
   allRoom: [],
   isfetching: false,
 };
 
-export const getRoomList = createAsyncThunk('room/list', async () => {
+export const getRoomList = createAsyncThunk("room/list", async () => {
   try {
-    const res = await https.get('/api/v1/rooms');
+    const res = await https.get("/api/v1/rooms");
     console.log(res.data);
     return res.data;
   } catch (error) {
     message.error(error.response.data.message);
+    console.log(error);
   }
 });
 
 const listRoomSlice = createSlice({
-  name: 'room/list',
+  name: "room/list",
   initialState,
   reducers: {
     reset: (state) => {

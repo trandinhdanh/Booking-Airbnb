@@ -24,6 +24,8 @@ export default function UserNav({ bg }) {
   useEffect(() => {
     if (user) {
       setisUser(user);
+      console.log(user, "aaaaaa");
+
     }
   }, []);
   useEffect(() => {
@@ -54,7 +56,7 @@ export default function UserNav({ bg }) {
             : 'hidden'
         }`}
       ></div>
-      <div className="relative flex items-center lg:flex  md:flex sm:flex  mb:hidden animate__animated animate__fadeInRight">
+      <div className="text-[14px] relative flex items-center lg:flex  md:flex sm:flex  mb:hidden animate__animated animate__fadeInRight">
         <h1
           className={`${
             bg ? 'sm:text-black lg:text-white hover:bg-gray-700' : 'text-black hover:bg-gray-200'
@@ -123,7 +125,7 @@ export default function UserNav({ bg }) {
                   onClick={() => {
                     closeDropDown();
                   }}
-                  to="/Profile-person"
+                  to="/profile"
                   className="hover:text-black font-[700] transition duration-100 text-[#FF385C] text-left overflow-hidden w-full"
                 >
                   {t('Hello ') + ' ' + user?.userDTO?.userName}
@@ -137,7 +139,7 @@ export default function UserNav({ bg }) {
                 </Link>
               )}
             </li>
-            {user?.user?.role == 'USER' ? (
+            {user?.userDTO?.role[0] === 'CUSTOMER' && 
               <Link
                 onClick={() => {
                   closeDropDown();
@@ -150,15 +152,13 @@ export default function UserNav({ bg }) {
                   </p>
                 </li>
               </Link>
-            ) : (
-              ''
-            )}
-            {user?.user?.role == 'ADMIN' ? (
+            }
+            {user?.userDTO?.role[0] === 'ADMIN' || user?.userDTO?.role[0] === 'OWNER' ? (
               <Link
                 onClick={() => {
                   closeDropDown();
                 }}
-                to="/Manager/user"
+                to="/manager"
               >
                 <li className="dropdownItem  hover:bg-gray-200 transition duration-300">
                   <p className="w-full block h-full text-left hover:text-black transition duration-100">

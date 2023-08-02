@@ -9,6 +9,7 @@ import com.techpower.airbnb.entity.RoomEntity;
 import com.techpower.airbnb.entity.UserEntity;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.function.Function;
 
 @Component
@@ -32,6 +33,11 @@ public class FeedbackConverter implements Function<FeedbackEntity, FeedbackDTO> 
                 .createDate(feedbackEntity.getCreateDate())
                 .idOrder(feedbackEntity.getOrder().getId())
                 .idUserCreate(feedbackEntity.getUser().getId())
+                .nameUser(feedbackEntity.getUser().getName())
                 .build();
+    }
+
+    public List<FeedbackDTO> mapperTOEntity(List<FeedbackEntity> feedbackEntities){
+        return feedbackEntities.stream().map(this::apply).toList();
     }
 }

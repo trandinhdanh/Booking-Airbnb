@@ -5,15 +5,10 @@ import com.techpower.airbnb.auth.AuthenticationService;
 import com.techpower.airbnb.request.AuthenticationRequest;
 import com.techpower.airbnb.request.RegisterCustomerRequest;
 import com.techpower.airbnb.request.RegisterOwnerRequest;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -43,10 +38,10 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> register(@RequestBody @Valid RegisterOwnerRequest request) {
         return ResponseEntity.ok(authenticationService.register(request));
     }
-  
+
     @PutMapping(path = "confirm")
-    public String confirm(@RequestParam("email") String email,  @RequestParam("token") String token) {
-        return authenticationService.confirmToken(email,token);
+    public String confirm(@RequestParam("email") String email, @RequestParam("token") String token) {
+        return authenticationService.confirmToken(email, token);
     }
 }
 

@@ -1,17 +1,18 @@
 package com.techpower.airbnb.dto;
 
 import jakarta.persistence.Column;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Setter
 @Getter
 @Builder
 public class OrderDTO {
+    private long id;
     @NotNull
     private Long idUser;
     @NotNull

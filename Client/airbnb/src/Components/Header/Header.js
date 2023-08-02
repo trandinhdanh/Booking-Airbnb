@@ -1,27 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import UserNav from './UserNav';
 import { FaSearch } from 'react-icons/fa';
-import { DatePicker, message, Space, Select, notification } from 'antd';
+import { DatePicker, message, Space, Select, notification, InputNumber } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import './Header.module.scss';
 import { NavLink, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { locationService } from '../../services/locationService';
+import { roomService } from '../../services/RoomService';
 export default function Header() {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [bg, setBg] = useState(false);
   const [location,setLocation] = useState();
-  const [pathName,setPathName] = useState();
-  const [idViTri, setIdViTri] = useState(0);
+  const [idLocation,setIdLocation] = useState();
+  const [quantity,setQuantity] = useState(1);
+  const [dataContext,setDataContext] = useState(null);
+
   const { RangePicker } = DatePicker;
   const { Option } = Select;
-  const onChange = (value) => {
-    setIdViTri(value);
-  };
-  const onSearch = (value) => {};
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const onChangeQuantity = (value) => {
+    setQuantity(value)
+  };
+  const onChange = (value) => {
+    setIdLocation(value)
+  };
 
   useEffect(() => {
     locationService.getLocationList().then((res) => {
@@ -52,18 +56,39 @@ export default function Header() {
       );
     });
   };
+  const [startDay,setStartDay] = useState();
+  const [endDay,setEndDay] = useState();
+    
+  const onChangeRangePicker = (dates, dateStrings) => {
+        console.log('Selected Dates:', dateStrings);
+        setStartDay(dateStrings[0])
+        setEndDay(dateStrings[1])
+    };
   const searchBtn = () => {
-    if (idViTri !== 0) {
-      navigate(`SearchPage/${idViTri}`);
-    } else {
-      openNotificationWithIcon('error');
-    }
+    const searchData = {
+      idLocation: idLocation, 
+      startDate: startDay, 
+      endDate: endDay, 
+      guests: quantity, // Số lượng người
+    };
+    console.log(searchData);
+    roomService.searchRoom(searchData)
+        .then((res) => {
+          setDataContext(res.data)
+          message.success('success')
+          navigate('/search', { state: { dataContext: res.data } });
+        })
+        .catch((err) => {
+          message.error('error')
+        });    
   };
-  const openNotificationWithIcon = (type) => {
-    notification[type]({
-      message: 'Thất bại',
-      description: 'Vui lòng chọn vị trí cần tìm kiếm!',
-    });
+  const resetSearch = () => {
+    setLocation(null);
+    setIdLocation(null);
+    setQuantity(1);
+    setStartDay(null);
+    setEndDay(null);
+    setDataContext(null);
   };
   return (
     <div
@@ -84,6 +109,7 @@ export default function Header() {
       >
         <div className="flex items-center justify-center  h-full">
           <div className="flex items-center border-[1px] rounded-full">
+              {/*  Location */}
             <div className="px-5 py-3 hover:bg-gray-200 transition duration-300 rounded-full h-full flex flex-wrap justify-center items-center">
               <label
                 className={`${
@@ -101,7 +127,6 @@ export default function Header() {
                 optionFilterProp="children"
                 className="dropdow-header"
                 onChange={onChange}
-                onSearch={onSearch}
                 filterOption={(input, option) =>
                   option.children.toLowerCase().includes(input.toLowerCase())
                 }
@@ -109,13 +134,31 @@ export default function Header() {
                 {renderOption()}
               </Select>
             </div>
+              {/* End Location */}
+
+              {/*  Date */}
             <div className="lg:block  md:hidden sm:hidden mb:hidden px-5 py-3 hover:bg-gray-200 transition duration-300 rounded-full h-full flex flex-wrap justify-center items-center">
               <Space direction="vertical" size={12}>
-                <RangePicker />
+              <DatePicker.RangePicker  onChange={onChangeRangePicker} />
               </Space>
             </div>
-            {/* Quantity p */}
-            
+              {/* End Date */}
+
+
+            {/* Quantity  */}
+            <div className="px-5 py-3 hover:bg-gray-200 transition duration-300 rounded-full h-full flex flex-wrap justify-center items-center">
+              <label
+                className={`${
+                  bg ? 'text-white' : 'text-black'
+                } block text-sm font-medium  mr-3 lg:block md:block sm:hidden mb:hidden`}
+              >
+                {t('Quantity')}
+              </label>
+              <InputNumber min={1} max={10} defaultValue={1} onChange={onChangeQuantity} />
+            </div>
+              {/*End Quantity */}
+
+              {/* Search Button */}
             <div className="px-5 py-3 hover:bg-gray-200 transition duration-300 rounded-full h-full flex flex-wrap justify-center items-center">
               <button
                 onClick={searchBtn}
@@ -124,6 +167,8 @@ export default function Header() {
                 {t('Search')}
               </button>
             </div>
+              {/* End Search Button */}
+
           </div>
         </div>
       </div>
@@ -148,44 +193,85 @@ export default function Header() {
         </NavLink>
         {/* END LEFT */}
 
-        {/* MIDDLE */}
-        <>
-          <div
-            onClick={() => {
-              setOpen(!open);
-            }}
-            style={{ boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}
-            className="flex z-20 items-center px-3 py-2 rounded-3xl border border-gray-300 "
-          >
-            <div
-              className={`font-medium cursor-pointer px-2 lg:border-r-2 md:border-r-2 lg:w-[130px] md:w[130px] sm:w-[280px] mb:w-[280px]`}
-            >
-              <h1
-                className={`${bg ? 'md:text-black sm:text-black lg:text-white' : 'lg:text-black'}`}
-              >
-                {t('Any Location')}
-              </h1>
-            </div>
-            <div className="font-medium  cursor-pointer  px-2 lg:block md:hidden sm:hidden mb:hidden border-r-2">
-              <h1
-                className={`${bg ? 'md:text-black sm:text-black lg:text-white' : 'lg:text-black'}`}
-              >
-                {t('Any Week')}
-              </h1>
-            </div>
-            <div className="font-medium  cursor-pointer  px-2 lg:block md:hidden sm:hidden mb:hidden ">
-              <h1
-                className={`${bg ? 'md:text-black sm:text-black lg:text-white' : 'lg:text-black'}`}
-              >
-                {t('Add Guest')}
-              </h1>
-            </div>
-            <div className="p-2 bg-[#FF385C] rounded-3xl">
-              <FaSearch className="text-white" />
-            </div>
-          </div>
-        </>
-        {/* END MIDDLE */}
+          {/* MIDDLE */}
+            <>
+              {!dataContext && (
+                <div
+                  onClick={() => {
+                    setOpen(!open);
+                  }}
+                  style={{ boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}
+                  className="flex z-20 items-center px-3 py-2 rounded-3xl border border-gray-300 "
+                >
+                  <div
+                    className={`font-medium cursor-pointer px-2 lg:border-r-2 md:border-r-2 lg:w-[130px] md:w[130px] sm:w-[280px] mb:w-[280px]`}
+                  >
+                    <h1
+                      className={`${bg ? 'md:text-black sm:text-black lg:text-white' : 'lg:text-black'}`}
+                    >
+                      {t('Any Location')}
+                    </h1>
+                  </div>
+                  <div className="font-medium  cursor-pointer  px-2 lg:block md:hidden sm:hidden mb:hidden border-r-2">
+                    <h1
+                      className={`${bg ? 'md:text-black sm:text-black lg:text-white' : 'lg:text-black'}`}
+                    >
+                      {t('Any Week')}
+                    </h1>
+                  </div>
+                  <div className="font-medium  cursor-pointer  px-2 lg:block md:hidden sm:hidden mb:hidden ">
+                    <h1
+                      className={`${bg ? 'md:text-black sm:text-black lg:text-white' : 'lg:text-black'}`}
+                    >
+                      {t('Add Guest')}
+                    </h1>
+                  </div>
+                  <div className="p-2 bg-[#FF385C] rounded-3xl">
+                    <FaSearch className="text-white" />
+                  </div>
+                </div>
+              )}
+              {dataContext && (
+                <div
+                  onClick={() => {
+                    setOpen(!open);
+                  }}
+                  style={{ boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}
+                  className="flex z-20 items-center px-3 py-2 rounded-3xl border border-gray-300 "
+                >
+                  <div
+                    className={`font-medium cursor-pointer px-2 lg:border-r-2 md:border-r-2 lg:w-[130px] md:w[130px] sm:w-[280px] mb:w-[280px]`}
+                  >
+                  <h1
+                    className={`${
+                      bg ? 'md:text-black sm:text-black lg:text-white' : 'lg:text-black'
+                    } overflow-hidden whitespace-nowrap text-ellipsis`}
+                  >
+                    {location?.find((item) => item.id === idLocation)?.name || t('Any Location')}
+                  </h1>
+                  </div>
+                  <div className="font-medium  cursor-pointer  px-2 lg:block md:hidden sm:hidden mb:hidden border-r-2">
+                    <h1
+                      className={`${bg ? 'md:text-black sm:text-black lg:text-white' : 'lg:text-black'}`}
+                    >
+                      {startDay && endDay ? `${startDay} / ${endDay}` : t('Any Week')}
+                    </h1>
+                  </div>
+                  <div className="font-medium  cursor-pointer  px-2 lg:block md:hidden sm:hidden mb:hidden ">
+                    <h1
+                      className={`${bg ? 'md:text-black sm:text-black lg:text-white' : 'lg:text-black'}`}
+                    >
+                      {`${quantity} ${t('Guest')}`}
+                    </h1>
+                  </div>
+                  <div className="p-2 bg-[#FF385C] rounded-3xl">
+                    <FaSearch className="text-white" />
+                  </div>
+                </div>
+              )}
+            </>
+            {/* END MIDDLE */}
+
 
         {/* RIGHT */}
         <UserNav bg={bg} />

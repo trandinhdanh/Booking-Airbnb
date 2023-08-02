@@ -17,11 +17,12 @@ public class OrderConverter implements Function<OrderEntity, OrderDTO> {
     @Override
     public OrderDTO apply(OrderEntity orderEntity) {
         return OrderDTO.builder()
+                .id(orderEntity.getId())
                 .idUser(orderEntity.getUser().getId())
                 .roomDTO(roomConverter.toDTO(orderEntity.getRoom()))
                 .status(orderEntity.getStatus().toString())
-                .receivedDate(orderEntity.getReceivedDate())
-                .checkoutDate(orderEntity.getCheckoutDate())
+                .receivedDate(orderEntity.getReceivedDate().minusDays(1))
+                .checkoutDate(orderEntity.getCheckoutDate().minusDays(1))
                 .numGuests(orderEntity.getNumGuests())
                 .totalPrice(orderEntity.getTotalPrice())
                 .build();
@@ -36,8 +37,8 @@ public class OrderConverter implements Function<OrderEntity, OrderDTO> {
                 .user(userEntity)
                 .room(roomEntity)
                 .status(Order.valueOf(orderDTO.getStatus()))
-                .receivedDate(orderDTO.getReceivedDate())
-                .checkoutDate(orderDTO.getCheckoutDate())
+                .receivedDate(orderDTO.getReceivedDate().plusDays(1))
+                .checkoutDate(orderDTO.getCheckoutDate().plusDays(1))
                 .numGuests(orderDTO.getNumGuests())
                 .build();
     }

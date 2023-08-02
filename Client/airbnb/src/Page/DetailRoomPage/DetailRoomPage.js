@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 // import TotalReserce from './TotalReserce'
 import './DetailRoomPage.scss';
 import OrderForm from './OrderForm/OrderForm';
+import Feedback from './Feedback/Feedback';
 
 export default function DetailRoomPage() {
     const {id} = useParams();
@@ -126,16 +127,14 @@ export default function DetailRoomPage() {
                       src={roomDetail.images[2]}
                       alt=""
                     />
-                    <div className="overflow-hidden col-span-1">
-                      <img
-                        className="rounded-[0.5rem] h-full w-full object-cover col-span-1"
+                    <img
+                        className="rounded-[0.5rem] h-full w-full object-cover "
                         src={roomDetail.images[3]}
                         alt=""
-                      />
-                    </div>
+                    />
                     <img
                       className="rounded-[0.5rem] h-full w-full object-cover"
-                      src={roomDetail.images[0]}
+                      src={roomDetail.images[4]}
                       alt=""
                     />
                   </>
@@ -152,70 +151,15 @@ export default function DetailRoomPage() {
                     {roomDetail?.maxGuests} {t('Guest')} - {roomDetail?.numBedrooms} {t('Bed Room')} - {roomDetail?.numLivingRooms} {t('Living Room')} -  {roomDetail?.numBathrooms} {t('Bath Room')}
                   </span>
                 </div>
-                <div className=" py-[2.2rem] border-b-[1px] border-[#dadada]">
-                  <div className="flex items-start mb-2">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                      stroke="currentColor"
-                      className="w-6 h-6"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
-                      />
-                    </svg>
-
-                    <div className="ml-2">
-                      <h2 className="text-[1rem] font-[500]">{t('Dive right in')}</h2>
-                      <p className="text-[0.8rem] font-[400] text-[#717171]">
-                        {t('This is one of the few places in the area with a pool')}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-start ">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                      stroke="currentColor"
-                      className="w-6 h-6"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
-                      />
-                    </svg>
-
-                    <div className="ml-2">
-                      <h2 className="text-[1rem] font-[500]">{t('Dive right in')}</h2>
-                      <p className="text-[0.8rem] font-[400] text-[#717171]">
-                        {t('This is one of the few places in the area with a pool')}
-                      </p>
-                    </div>
-                  </div>
-                </div>
                 {/* ================================== AIRCOVER =================================== */}
                 <div className="aircover py-[2.2rem] border-b-[1px] border-[#dadada]">
                   <h1 className="font-[700] text-[red] text-[32px]">
                     air<span className="font-[700] text-black text-[32px]">cover</span>
                   </h1>
                   <p className="text-[1rem] font-[300] my-[0.7rem] text-[#222222]">
-                    {t(
-                      'Every booking includes free protection from Host cancellations, listing inaccuracies, and other issues like trouble checking in.'
-                    )}
+                       {roomDetail?.description}
                   </p>
                   <span className="font-[700] underline text-[1rem]">{t('Learn more')}</span>
-                </div>
-                <div className="aircover py-[2.2rem] border-b-[1px] border-[#dadada]">
-                  <p className="text-[1rem] font-[300] my-[0.7rem] text-[#222222]">
-                    {roomDetail?.description}
-                  </p>
                 </div>
                 {/* ================= Where you'll sleep ==================== */}
                 <div className="w-full py-[2.2rem] border-b-[1px] border-[#dadada]">
@@ -237,12 +181,13 @@ export default function DetailRoomPage() {
                         d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0l-3-3m3 3l3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
                       />
                     </svg>
-                    <h2 className="font-[500] mt-3 mb-1 text-[1rem]">{t('Bedroom')}</h2>
-                    <p className="font-[300] text-[0.8rem]">1 {t('Double Bed')}</p>
+                    <h2 className="font-[500] mt-3 mb-1 text-[1rem]">{ roomDetail?.numBedrooms } {t('Bedroom')}</h2>
                   </div>
                 </div>
                 {/* ================= what this place offers ==================== */}
                 {renderItemUtilities()}
+                {/* ================= FeedBack ============= */}
+                <Feedback room={roomDetail}/>
               </div>
               <div className="pl-[6rem] mb:hidden sm:hidden md:block w-2/5">
                   <OrderForm room={roomDetail} date = {dataDate}/>
