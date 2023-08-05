@@ -125,10 +125,10 @@ export default function UserNav({ bg }) {
                   onClick={() => {
                     closeDropDown();
                   }}
-                  to="/profile"
+                  to="/order"
                   className="hover:text-black font-[700] transition duration-100 text-[#FF385C] text-left overflow-hidden w-full"
                 >
-                  {t('Hello ') + ' ' + user?.userDTO?.userName}
+                 {t('Hello ') + ' ' + (user?.userDTO?.userName.length > 15 ? user?.userDTO?.userName.slice(0, 15) +"..." : user?.userDTO?.userName)}
                 </Link>
               ) : (
                 <Link

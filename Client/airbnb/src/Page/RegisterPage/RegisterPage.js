@@ -24,7 +24,7 @@ function RegisterPage() {
     await authService.registerUser(infor)
           .then((res) => {
             console.log(res);
-            dispatch(loginUser({email: infor.email,password : infor.password}))
+            // dispatch(loginUser({email: infor.email,password : infor.password}))
           })
           .catch((err) => {
             console.log(err);
@@ -55,12 +55,6 @@ function RegisterPage() {
             <Form
               name="basic"
               className="register-form"
-              labelCol={{
-                span: 8,
-              }}
-              wrapperCol={{
-                span: 16,
-              }}
               initialValues={{
                 remember: true,
               }}
@@ -70,7 +64,7 @@ function RegisterPage() {
             >
               <p className="">Email</p>
               <Form.Item
-                className="mb-4"
+                className="mb-4 w-full" 
                 name="email"
                 rules={[
                   {
@@ -84,8 +78,7 @@ function RegisterPage() {
                 ]}
               >
                 <Input
-                  style={{ width: '100%' }}
-                  className="input border px-[14px] py-[14px] rounded-[0.5rem]"
+                  className="input border px-[14px] py-[14px] rounded-[0.5rem] w-full"
                   placeholder="Email"
                 />
               </Form.Item>
@@ -177,7 +170,7 @@ function RegisterPage() {
               </Form.Item>
 
               <Button
-                className="hover:blacks w-full rounded-[0.5rem] bg-slate-500 btn-login text-white py-[6px] px-[12px]"
+                className="hover:blacks w-full rounded-[0.5rem] bg-primary btn-login text-white py-[6px] px-[12px]"
                 type="primary"
                 size="large"
                 htmlType="submit"
@@ -185,9 +178,12 @@ function RegisterPage() {
                 {t('Register')}
               </Button>
             </Form>
-            <div className="flex justify-center w-full">
+            <div className="flex justify-between w-full">
               <Link to="/Login" className="mt-5 text-blue text-left text-bold">
                 {t('Login')}
+              </Link>
+              <Link to="/" className="mt-5 text-blue text-left text-bold">
+                {t('Home')}
               </Link>
             </div>
           </div>

@@ -101,9 +101,9 @@ function CardItem({ roomInfor }) {
           </div>
         </div>
         <p className="text-[0.8rem] text-left font-[400] text-[black] opacity-60">
-          9000km {t('kilometers away')}
+          {t('Max Guests')}: {roomInfor.maxGuests}
         </p>
-        <p className="text-[0.8rem] text-left text-[black] opacity-60">Oct 2-9</p>
+        <p className="text-[0.8rem] text-left text-[black] opacity-60">{roomInfor.codeLocation}</p>
         <div className="flex items-center">
           <p className="text-[0.9rem] mr-2 font-[500] text-[black]">${roomInfor.price}</p>
           <span className="text-[0.8rem] font-[300] text-[black]">{t('/night')}</span>

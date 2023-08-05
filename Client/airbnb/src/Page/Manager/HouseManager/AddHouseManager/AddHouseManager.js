@@ -38,19 +38,16 @@ export default function AddHouseManager() {
   const handleProvinceChange = (value, option) => {
     setSelectedProvince(value);
     setNameProvince(option?.label ?? "");
-    console.log(option?.label);
   };
 
   const handleDistrictChange = (value, option) => {
     setSelectedDistrict(value);
     setNameDistrict(option?.label ?? "");
-    console.log(option?.label);
   };
 
   const handleWardChange = (value, option) => {
     setSelectedWard(value);
     setNameWard(option?.label ?? "");
-    console.log(option?.label);
   };
 
   const handleStreetChange = (e) => {
@@ -61,7 +58,6 @@ export default function AddHouseManager() {
   useEffect(() => {
     locationService.getLocationList()
       .then((res) => {
-        console.log(res);
         setLocation(res.data);
       })
       .catch((err) => {
@@ -81,7 +77,6 @@ export default function AddHouseManager() {
 
   const onChange = (value) => {
     setIdLocation(value);
-    console.log(value);
     console.log(address);
   };
 
@@ -146,8 +141,6 @@ export default function AddHouseManager() {
   const onFinish = (values) => {
     setIsLoading(true);
     console.log('Form submitted:', values);
-    console.log(idLocation);
-    console.log(address);
     const formData = new FormData();
     formData.append('name', values.name);
     formData.append('description', values.description);
