@@ -160,6 +160,10 @@ public class RoomService implements IRoomService {
     }
 
     @Override
+//<<<<<<< HEAD
+//    public void deleteById(Long id) {
+//        roomRepository.deleteById(id);
+//=======
     public String delete(Long idRoom) {
         RoomEntity roomEntity = roomRepository.findOneById(idRoom);
         if (roomEntity == null) {
@@ -172,6 +176,7 @@ public class RoomService implements IRoomService {
     @Override
     public List<FeedbackDTO> findAllFeedbackByIDRoom(Long idRoom) {
         return feedbackConverter.mapperTOEntity(feedbackRepository.findByOrder_Room_Id(idRoom));
+//>>>>>>> dca9d9ef493fde5fa3cca7fd6ffb7dbb0abc7dc5
     }
 
     public boolean isBookingConflict(List<DayBooking> list, LocalDate startDate, LocalDate endDate) {

@@ -22,7 +22,11 @@ public interface IRoomService {
 
     List<DayBooking> checkDateOfRoom(long idRoom);
 
+//<<<<<<< HEAD
+//    void deleteById(Long id);
+//=======
     String delete(Long idRoom);
 
     List<FeedbackDTO> findAllFeedbackByIDRoom(Long idRoom);
+//>>>>>>> dca9d9ef493fde5fa3cca7fd6ffb7dbb0abc7dc5
 }
