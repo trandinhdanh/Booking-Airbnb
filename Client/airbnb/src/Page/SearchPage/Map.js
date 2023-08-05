@@ -40,7 +40,6 @@ const options = {
 };
 
 const Map = ({ address }) => {
-  console.log("aaaaaaaaaaaaaaaa",address);
   return (
     <LoadScript
       googleMapsApiKey="AIzaSyCA5Ytjw_xQZMeNV5yuVW70x1BeLWEbtsQ">

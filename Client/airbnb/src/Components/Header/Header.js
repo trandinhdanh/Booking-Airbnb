@@ -40,6 +40,7 @@ export default function Header() {
     // if (location.pathname === "/") {
     // }
     // window.scrollY === 0 ? setBg(true) : setBg(false);
+    // console.log(window.location.href);
     if (window.scrollY >= 100) {
       setOpen(false);
       setBg(false);

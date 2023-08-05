@@ -1,20 +1,33 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { localStorageService } from '../../services/localStorageService';
-import { RiAccountCircleFill ,RiFeedbackFill} from 'react-icons/ri';
-import { BsHouse ,BsFillCartFill} from 'react-icons/bs';
-import { CiLogout} from 'react-icons/ci';
-import {MdLocationOn ,MdCalendarToday} from 'react-icons/md'
-import { BsFillPencilFill} from 'react-icons/bs';
+import { RiAccountCircleFill, RiFeedbackFill } from 'react-icons/ri';
+import { BsHouse, BsFillCartFill } from 'react-icons/bs';
+import { CiLogout } from 'react-icons/ci';
+import { MdLocationOn, MdCalendarToday } from 'react-icons/md'
+import { BsFillPencilFill } from 'react-icons/bs';
 import { logoutUser } from '../../Redux/auth/authSlice';
+import { role } from '../../Constant/constant';
+import { message } from 'antd';
 
 export default function SideBarManager() {
-  const [user, setUser] = useState(localStorageService.get('USER'));
+  const [user, setUser] = useState(localStorageService.get('USER')?.userDTO);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  useEffect(() => {
+    if (isLoggedIn == false) {
+      navigate('/login')
+      message.error("Not Have Access");
+
+    } else if (user.role[0] === role.CUSTOMER) {
+      navigate("/");
+      message.error("Not Have Access");
+    }
+  }, [isLoggedIn, navigate,user]);
   const handleLogout = () => {
     setTimeout(() => {
       localStorageService.remove('USER');
@@ -61,7 +74,7 @@ export default function SideBarManager() {
       Icon: BsFillPencilFill,
     },
   ];
-  
+
 
   const render = () => {
     return data.map((item, i) => (
@@ -100,7 +113,7 @@ export default function SideBarManager() {
                     href=""
                     className="flex  cursor-pointer flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
                   >
-                    <CiLogout className='text-[20px]'/>
+                    <CiLogout className='text-[20px]' />
                     <span className=" ml-3 whitespace-nowrap">Logout</span>
                   </div>
                 </li>

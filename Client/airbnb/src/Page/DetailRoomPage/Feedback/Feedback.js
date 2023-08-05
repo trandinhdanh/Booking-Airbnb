@@ -8,7 +8,7 @@ export default function Feedback(room) {
   const { t } = useTranslation();
   const [feedBack, setFeedBack] = useState([])
   useEffect(() => {
-    console.log(room);
+    console.log(room.room.id);
     roomService
       .getFeedBackByRoom(room.room.id)
       .then((res) => {
@@ -32,7 +32,7 @@ export default function Feedback(room) {
         <div className="p-[1.2rem] text-left border rounded-[0.4rem] block bg-[#ffffff]" key={i}>
           <div className="flex justify-between">
             <div className="flex gap-5">
-              <img className="w-14 h-14 rounded-[50%]" src="https://www.gravatar.com/avatar/70751776107b1cc613ff6bc9a4f1653f?d=wavatar&f=y" alt="User Avatar" />
+              <img className="w-14 h-14 rounded-[50%]" src="https://img.freepik.com/premium-psd/3d-illustration-business-man-with-glasses_23-2149436193.jpg?w=740" alt="User Avatar" />
               <div>
                 <p className="font-bold">{item.nameUser}</p>
                 <p className="text-base">{item.content}</p>

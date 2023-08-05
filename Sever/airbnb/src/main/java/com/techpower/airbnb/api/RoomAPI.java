@@ -200,8 +200,14 @@ public class RoomAPI {
         return ResponseEntity.status(HttpStatus.OK).body(saveRoom);
     }
 
+//<<<<<<< HEAD
+//    @DeleteMapping("delete/{id}")
+//    public void deleteRoom(@PathVariable Long id) {
+//        iRoomService.deleteById(id);
+//=======
     @DeleteMapping("/{idRoom}")
     public ResponseEntity<?> delete(@PathVariable("idRoom") Long idRoom) {
         return ResponseEntity.ok(iRoomService.delete(idRoom));
+//>>>>>>> dca9d9ef493fde5fa3cca7fd6ffb7dbb0abc7dc5
     }
 }
