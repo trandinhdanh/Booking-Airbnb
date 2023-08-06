@@ -11,6 +11,7 @@ import { BsFillPencilFill } from 'react-icons/bs';
 import { logoutUser } from '../../Redux/auth/authSlice';
 import { role } from '../../Constant/constant';
 import { message } from 'antd';
+import { openNotificationIcon } from '../NotificationIcon/NotificationIcon';
 
 export default function SideBarManager() {
   const [user, setUser] = useState(localStorageService.get('USER')?.userDTO);
@@ -21,11 +22,11 @@ export default function SideBarManager() {
   useEffect(() => {
     if (isLoggedIn == false) {
       navigate('/login')
-      message.error("Not Have Access");
+      openNotificationIcon("error", "Error" , "Please Login")
 
     } else if (user.role[0] === role.CUSTOMER) {
       navigate("/");
-      message.error("Not Have Access");
+      openNotificationIcon("error", "Error" , "Not Have Access")
     }
   }, [isLoggedIn, navigate,user]);
   const handleLogout = () => {
@@ -37,12 +38,16 @@ export default function SideBarManager() {
     }, 1000);
   };
 
-  const data = [
+  const adminData = [
     {
       name: "Users",
       path: "/manager/user",
       Icon: RiAccountCircleFill,
     },
+    // Add other Admin items here if needed
+  ];
+  
+  const ownerData = [
     {
       name: "House",
       path: "/manager/house",
@@ -74,21 +79,38 @@ export default function SideBarManager() {
       Icon: BsFillPencilFill,
     },
   ];
+  
 
 
   const render = () => {
-    return data.map((item, i) => (
-      <li key={i}>
-        <Link
-          to={item.path}
-          href="#"
-          className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-        >
-          <item.Icon className="w-6 h-6 mr-2" />
-          <span className="flex-1 ml-3 whitespace-nowrap">{item.name}</span>
-        </Link>
-      </li>
-    ));
+    const isAdmin = user.role[0] === role.ADMIN;
+    if (isAdmin) {
+      return adminData.map((item, i) => (
+        <li key={i}>
+          <Link
+            to={item.path}
+            href="#"
+            className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+          >
+            <item.Icon className="w-6 h-6 mr-2" />
+            <span className="flex-1 ml-3 whitespace-nowrap">{item.name}</span>
+          </Link>
+        </li>
+      ));
+    } else {
+      return ownerData.map((item, i) => (
+        <li key={i}>
+          <Link
+            to={item.path}
+            href="#"
+            className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+          >
+            <item.Icon className="w-6 h-6 mr-2" />
+            <span className="flex-1 ml-3 whitespace-nowrap">{item.name}</span>
+          </Link>
+        </li>
+      ));
+    }
   };
 
   return (

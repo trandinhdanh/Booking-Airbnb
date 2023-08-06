@@ -24,8 +24,6 @@ export default function UserNav({ bg }) {
   useEffect(() => {
     if (user) {
       setisUser(user);
-      console.log(user, "aaaaaa");
-
     }
   }, []);
   useEffect(() => {
@@ -93,6 +91,12 @@ export default function UserNav({ bg }) {
               className="dropdownItem cursor-pointer  hover:bg-gray-200 transition duration-300"
             >
               <p className="hover:text-black transition duration-100">English</p>
+            </li>
+            <li
+               onClick={() => handleChangeLanguage("fr")}
+              className="dropdownItem cursor-pointer  hover:bg-gray-200 transition duration-300"
+            >
+              <p className="hover:text-black transition duration-100">Français</p>
             </li>
           </ul>
         </div>
@@ -162,7 +166,7 @@ export default function UserNav({ bg }) {
               >
                 <li className="dropdownItem  hover:bg-gray-200 transition duration-300">
                   <p className="w-full block h-full text-left hover:text-black transition duration-100">
-                    {'Quản lý'}
+                    {'Manager'}
                   </p>
                 </li>
               </Link>

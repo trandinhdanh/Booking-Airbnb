@@ -4,6 +4,7 @@ import { initReactI18next } from 'react-i18next';
 
 import vi from './locales/vn.json';
 import en from './locales/en.json';
+import fr from './locales/fr.json';
 
 // the translations
 const resources = {
@@ -12,6 +13,9 @@ const resources = {
   },
   vi: {
     translation: vi,
+  },
+  fr: {
+    translation: fr,
   },
 };
 

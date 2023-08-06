@@ -1,16 +1,13 @@
 {
-    "LOGIN": "LOGIN",
-    "Name": "Name",
-    "Login": "Login",
+    "LOGIN": "CONNEXION",
+    "Name": "Nom",
     "Email/Phone number": "Email/Phone number",
-    "Register": "Register",
-    "register": "register",
-    "REGISTER": "REGISTER",
-    "Password": "Password",
+    "Register": "Enregistrer",
+    "Password": "Mot de passe",
 
-    "Explore nearby": "Explore nearby",
-    "Filter": "Filter",
-    "Show All": "Show All",
+    "Explore nearby": "Explorer à proximité",
+    "Filter": "Filtre",
+    "Show All": "Afficher tout",
     "Pet Allower": "Pet Allower",
     "Date Start": "Date Start",
     "Date End": "Date End",
@@ -53,10 +50,10 @@
     "+84 Phone Number": "+84 Phone Number",
     "Full name": "Full name",
 
-    "Any Location": "Any Location",
-    "Any Week": "Any Week",
-    "Add Guest": "Add Guest",
-    "Become a Host": "Become a Host",
+    "Any Location": "Emplacement",
+    "Any Week": "Semaine",
+    "Add Guest": "Invité",
+    "Become a Host": "Devenez hôte",
     "Locations": "Locations",
     "Location": "Location",
     "Search": "Search",
@@ -205,8 +202,6 @@
     "Action": "Action",
     "LOCATION LIST": "LOCATION LIST",
     "+ Add Location": "+ Add Location",
-    "Any Week": "Any Week",
-    "Add Guest": "Add Guest",
     "MoonLight": "MoonLight",
     "WaterFall": "WaterFall",
     "River": "River",
@@ -226,6 +221,6 @@
     "/night": "night",
     "guests": "guests",
     "Age": "Age",
-    "kilometers away": "kilometers away",
-    "Manager" : "Manager"
+    "kilometers away": "kilometers away"
+
 }
