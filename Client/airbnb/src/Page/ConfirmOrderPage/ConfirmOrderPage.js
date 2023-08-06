@@ -20,9 +20,6 @@ export default function ConfirmOrderPage() {
   const [user, setUser] = useState(localStorageService.get("USER")?.userDTO);
   const orderData = location.state?.dataContext;
   useEffect(() => {
-    console.log(id);
-    console.log(orderData);
-    console.log(user);
     roomService.getHouseById(id)
       .then((res) => {
         console.log(res);
@@ -44,7 +41,6 @@ export default function ConfirmOrderPage() {
     orderService
       .order(id, orderData)
       .then((res) => {
-        console.log(res);
         setIsLoading(false);
         navigate("/order");
         openNotificationIcon('success', 'Success', 'Order Success. Thank you very much!');
@@ -118,7 +114,7 @@ export default function ConfirmOrderPage() {
                disabled={isLoading}
                onClick={handleBack}
              >
-               {isLoading ? t('Loading...') :  t('Back')}
+               {t('Back')}
              </button>
              <button
                className={`flex-1 py-3 bg-primary text-white rounded-lg hover:bg-[#fe474d] transition-all ${isLoading ? 'cursor-wait' : 'cursor-pointer'} ${isLoading ? 'opacity-50' : ''}`}
