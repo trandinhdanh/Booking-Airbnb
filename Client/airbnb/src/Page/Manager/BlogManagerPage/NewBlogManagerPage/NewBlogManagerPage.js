@@ -106,7 +106,7 @@ export default function NewBlogManagerPage() {
         </Form.Item>
 
         <Form.Item wrapperCol={{ offset: labelCol.span, span: wrapperCol.span }}>
-          <Button type="primary" htmlType="submit">
+          <Button className='bg-primary text-white font-bold w-32' htmlType="submit">
             Add Blog
           </Button>
         </Form.Item>

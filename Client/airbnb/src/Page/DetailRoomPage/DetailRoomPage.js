@@ -150,6 +150,8 @@ export default function DetailRoomPage() {
                   <span className="text-[1rem] font-[400] text-[#717171]">
                     {roomDetail?.maxGuests} {t('Guest')} - {roomDetail?.numBedrooms} {t('Bed Room')} - {roomDetail?.numLivingRooms} {t('Living Room')} -  {roomDetail?.numBathrooms} {t('Bath Room')}
                   </span>
+                  <p className="text-[1rem] font-[400] text-[#717171]">{roomDetail?.codeLocation}</p>
+                  <p className="text-[1rem] font-[400] text-[#717171]">{roomDetail?.address?.fullAddress}</p>
                 </div>
                 {/* ================================== AIRCOVER =================================== */}
                 <div className="aircover py-[2.2rem] border-b-[1px] border-[#dadada]">

@@ -1,15 +1,4 @@
 import React, { useState, useEffect } from "react";
-// <<<<<<< HEAD
-// import { Button, Checkbox, Col, Form, Input, Row } from "antd";
-// import axios from "axios";
-// import { Select } from "antd";
-// import TextArea from "antd/es/input/TextArea";
-// import Upload from "antd/es/upload/Upload";
-
-// const PROVINCCES_API_URL = "https://provinces.open-api.vn/api";
-
-// export default function AddHouseManager() {
-// =======
 import { useTranslation } from "react-i18next";
 import {
   Button,
@@ -36,7 +25,6 @@ const PROVINCES_API_URL = "https://provinces.open-api.vn/api";
 export default function AddHouseManager() {
   const { t } = useTranslation();
   const [form] = Form.useForm();
-  // >>>>>>> dca9d9ef493fde5fa3cca7fd6ffb7dbb0abc7dc5
   const [province, setProvince] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
@@ -105,18 +93,12 @@ export default function AddHouseManager() {
   };
 
   useEffect(() => {
-    // Fetch the list of provinces
-    // <<<<<<< HEAD
-    //     axios
-    //       .get(`${PROVINCCES_API_URL}/p`)
-    // =======
     setAddress(
       street + ", " + nameWard + ", " + nameDistrict + ", " + nameProvince
     );
 
     axios
       .get(`${PROVINCES_API_URL}/p`)
-      // >>>>>>> dca9d9ef493fde5fa3cca7fd6ffb7dbb0abc7dc5
       .then((response) => {
         setProvince(response.data);
       })
@@ -129,11 +111,7 @@ export default function AddHouseManager() {
     // Fetch the list of districts when a province is selected
     if (selectedProvince) {
       axios
-        // <<<<<<< HEAD
-        //         .get(`${PROVINCCES_API_URL}/p/${selectedProvince}?depth=2`)
-        // =======
         .get(`${PROVINCES_API_URL}/p/${selectedProvince}?depth=2`)
-        // >>>>>>> dca9d9ef493fde5fa3cca7fd6ffb7dbb0abc7dc5
         .then((response) => {
           setDistricts(response.data.districts);
           setSelectedDistrict(null);
@@ -155,11 +133,7 @@ export default function AddHouseManager() {
     // Fetch the list of wards when a district is selected
     if (selectedDistrict) {
       axios
-        // <<<<<<< HEAD
-        //         .get(`${PROVINCCES_API_URL}/d/${selectedDistrict}?depth=2`)
-        // =======
         .get(`${PROVINCES_API_URL}/d/${selectedDistrict}?depth=2`)
-        // >>>>>>> dca9d9ef493fde5fa3cca7fd6ffb7dbb0abc7dc5
         .then((response) => {
           setWards(response.data.wards);
           setSelectedWard(null);
@@ -174,7 +148,6 @@ export default function AddHouseManager() {
     }
   }, [selectedDistrict]);
 
-  // <<<<<<< HEAD
   //   const normFile = (e) => {
   //     if (Array.isArray(e)) {
   //       return e;
@@ -336,7 +309,7 @@ export default function AddHouseManager() {
   //     </div>
   // =======
   const labelCol = { span: 4 };
-  const wrapperCol = { span: 16 };
+  const wrapperCol = { span: 24 };
 
   const onFinish = (values) => {
     setIsLoading(true);
@@ -391,7 +364,7 @@ export default function AddHouseManager() {
           </div>
 
           <Form form={form} onFinish={onFinish}>
-            <div className="grid grid-cols-12">
+            <div className="grid grid-cols-12 gap-5">
               <div className="col-span-6">
                 <Form.Item
                   label="Tên"
@@ -484,49 +457,42 @@ export default function AddHouseManager() {
                   />
                 </Form.Item>
 
-                <Row>
-                  <Col span={12}>
+                <Row className="space-x-4">
+                  <Col>
                     <Form.Item
                       label="Phòng khách"
                       name="numLivingRooms"
                       rules={[{ required: true }]}
-                      labelCol={{ span: 6 }}
-                      wrapperCol={{ span: 18 }}
                     >
                       <Input type="number" />
                     </Form.Item>
                   </Col>
-                  <Col span={12}>
+                  <Col>
                     <Form.Item
                       label="Phòng tắm"
                       name="numBathrooms"
                       rules={[{ required: true }]}
-                      labelCol={{ span: 6 }}
-                      wrapperCol={{ span: 18 }}
+                   
                     >
                       <Input type="number" />
                     </Form.Item>
                   </Col>
                 </Row>
-                <Row>
-                  <Col span={12}>
+                <Row className="space-x-4">
+                  <Col>
                     <Form.Item
                       label="Phòng ngủ"
                       name="numBedrooms"
                       rules={[{ required: true }]}
-                      labelCol={{ span: 6 }}
-                      wrapperCol={{ span: 18 }}
                     >
                       <Input type="number" />
                     </Form.Item>
                   </Col>
-                  <Col span={12}>
+                  <Col>
                     <Form.Item
                       label="Lượng khách"
                       name="maxGuests"
                       rules={[{ required: true }]}
-                      labelCol={{ span: 6 }}
-                      wrapperCol={{ span: 18 }}
                     >
                       <Input type="number" />
                     </Form.Item>
@@ -548,7 +514,8 @@ export default function AddHouseManager() {
                 </Form.Item>
               </div>
               <div className="col-span-6">
-                <Form.Item label="Tiện nghi">
+                <Form.Item label="Tiện nghi"   labelCol={labelCol}
+                  wrapperCol={wrapperCol}>
                   <Row>
                     <Col span={8}>
                       <Form.Item
@@ -624,7 +591,8 @@ export default function AddHouseManager() {
                     </Col>
                   </Row>
                 </Form.Item>
-                <Form.Item label="Location">
+                <Form.Item label="Location"   labelCol={labelCol}
+                  wrapperCol={wrapperCol}>
                   <Select
                     style={{
                       width: "100%",
@@ -656,9 +624,7 @@ export default function AddHouseManager() {
                     style={{ width: "100%" }}
                   />
                 </Form.Item>
-                <Form.Item
-                  wrapperCol={{ offset: labelCol.span, span: wrapperCol.span }}
-                >
+                <Form.Item>
                   <button
                     className="px-3 py-2 rounded-lg bg-primary text-white font-medium hover:bg-[#068FFF] hover:text-white transition-all"
                     htmlType="submit"
@@ -672,6 +638,5 @@ export default function AddHouseManager() {
         </div>
       )}
     </>
-    // >>>>>>> dca9d9ef493fde5fa3cca7fd6ffb7dbb0abc7dc5
   );
 }
