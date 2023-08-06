@@ -20,12 +20,9 @@ function RegisterPage() {
   const [confirmCode, setConfirmCode] = useState("");
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-
 
   const navigate = useNavigate();
   const onFinish = async (values) => {
-    setIsLoading(true)
     const infor = {
       name: values.name,
       email: email,
@@ -37,13 +34,19 @@ function RegisterPage() {
     await authService.registerUser(infor)
       .then((res) => {
         console.log(res);
-        setIsLoading(false);
-
-        setModalOpen(true);
+       
+          setModalOpen(true);
+       
         // dispatch(loginUser({email: infor.email,password : infor.password}))
       })
       .catch((err) => {
-        console.log(err);
+        if (err.response.data.message === 'email already taken') {
+          openNotificationIcon('warning', 'Email already exists', `Please go back to login by email: ${email}!`);
+               navigate('/login');
+        } else {
+          console.log(err.response.data.message); 
+        }
+       
       });
 
   };
@@ -63,7 +66,7 @@ function RegisterPage() {
         if (res === 'confirmed') {
           setModalOpen(false);
           dispatch(loginUser({ email: email, password: password }));
-        }else{
+        } else {
           openNotificationIcon('warning', 'Wrong character', 'Please re-enter character into input!');
         }
 
@@ -74,12 +77,12 @@ function RegisterPage() {
       });
   }
   const handleDeleteUserNotConfirm = async () => {
-  
+
     await authService.delete(email)
       .then((res) => {
-       console.log(res);
-       setModalOpen(false);
-          
+        console.log(res);
+        setModalOpen(false);
+
       })
       .catch((err) => {
         console.log(err);
@@ -87,14 +90,14 @@ function RegisterPage() {
       });
   }
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  
+
   useEffect(() => {
     const role = localStorageService.get('USER')?.userDTO?.role?.[0];
     console.log(role);
-    if (isLoggedIn && role ) {
-      if(role === "CUSTOMER"){
-        navigate("/"); 
-      }else{
+    if (isLoggedIn && role) {
+      if (role === "CUSTOMER") {
+        navigate("/");
+      } else {
         navigate("/manager")
       }
     }
@@ -261,9 +264,8 @@ function RegisterPage() {
                 type="primary"
                 size="large"
                 htmlType="submit"
-               disabled={isLoading}
               >
-                {isLoading ? t('Loading...') : t('Register')}
+                {t('Register')}
               </Button>
             </Form>
             <div className="flex justify-between w-full">
