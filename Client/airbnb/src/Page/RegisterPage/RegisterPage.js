@@ -20,9 +20,12 @@ function RegisterPage() {
   const [confirmCode, setConfirmCode] = useState("");
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
 
   const navigate = useNavigate();
   const onFinish = async (values) => {
+    setIsLoading(true)
     const infor = {
       name: values.name,
       email: email,
@@ -34,6 +37,8 @@ function RegisterPage() {
     await authService.registerUser(infor)
       .then((res) => {
         console.log(res);
+        setIsLoading(false);
+
         setModalOpen(true);
         // dispatch(loginUser({email: infor.email,password : infor.password}))
       })
@@ -256,8 +261,9 @@ function RegisterPage() {
                 type="primary"
                 size="large"
                 htmlType="submit"
+               disabled={isLoading}
               >
-                {t('Register')}
+                {isLoading ? t('Loading...') : t('Register')}
               </Button>
             </Form>
             <div className="flex justify-between w-full">
