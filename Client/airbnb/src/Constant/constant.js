@@ -4,3 +4,10 @@ export const role = {
     OWNER: "OWNER",
     CUSTOMER: "CUSTOMER",
   };
+export const order = {
+    BOOKED: "BOOKED",
+    CANCEL: "CANCEL",
+    CONFIRM: "CONFIRM",
+    CHECK_IN: "CHECK_IN",
+    CHECK_OUT: "CHECK_OUT",
+  };
