@@ -20,9 +20,6 @@ export default function ConfirmOrderPage() {
   const [user, setUser] = useState(localStorageService.get("USER")?.userDTO);
   const orderData = location.state?.dataContext;
   useEffect(() => {
-    console.log(id);
-    console.log(orderData);
-    console.log(user);
     roomService.getHouseById(id)
       .then((res) => {
         console.log(res);
@@ -44,7 +41,6 @@ export default function ConfirmOrderPage() {
     orderService
       .order(id, orderData)
       .then((res) => {
-        console.log(res);
         setIsLoading(false);
         navigate("/order");
         openNotificationIcon('success', 'Success', 'Order Success. Thank you very much!');
@@ -71,8 +67,9 @@ export default function ConfirmOrderPage() {
 
   return (
     <div className='container mx-auto pb-5 mb:pt-[0px] sm:pt-[0px] md:pt-[6rem] '>
-      <div className='px-14 py-10'>
-        {roomDetail && <div className=' grid grid-cols-2 gap-6 bg-gray-50 rounded-lg px-14 py-20'>
+      <div className='px-14 py-10 '>
+        {roomDetail && <div className=' grid grid-cols-2 gap-6 bg-cover rounded-lg px-14 py-20' 
+        style={{ backgroundImage: "url('https://img.freepik.com/free-vector/white-gray-geometric-pattern-background-vector_53876-136510.jpg?w=1380&t=st=1691315044~exp=1691315644~hmac=ea948e096648576271309a3612ff47e1b47715ec0327e64e51d9f561aae98be2')" }} >
           <div className='h-[450px] flex-col flex justify-between'>
             <h1 className='font-bold text-[22px] text-primary'>Confirm Order:</h1>
             <div className='my-5'>
@@ -117,7 +114,7 @@ export default function ConfirmOrderPage() {
                disabled={isLoading}
                onClick={handleBack}
              >
-               {isLoading ? t('Loading...') :  t('Back')}
+               {t('Back')}
              </button>
              <button
                className={`flex-1 py-3 bg-primary text-white rounded-lg hover:bg-[#fe474d] transition-all ${isLoading ? 'cursor-wait' : 'cursor-pointer'} ${isLoading ? 'opacity-50' : ''}`}

@@ -6,6 +6,9 @@ import { feedBackService } from "../../services/feedBackService";
 import { FrownOutlined, MehOutlined, SmileOutlined } from "@ant-design/icons";
 import { StarOutlined, StarFilled } from "@ant-design/icons";
 import { Rate } from "antd";
+import { order } from "../../Constant/constant";
+import { orderService } from "../../services/orderService";
+import { openNotificationIcon } from "../../Components/NotificationIcon/NotificationIcon";
 
 export default function OrderPage() {
   const [idUser, setIdUser] = useState(
@@ -15,19 +18,19 @@ export default function OrderPage() {
   const [isCancelModalVisible, setIsCancelModalVisible] = useState(false);
   const [isFeedbackModalVisible, setIsFeedbackModalVisible] = useState(false);
   const [cancelOrderId, setCancelOrderId] = useState(null);
-  const [pagination, setPagination] = useState({ current: 1, pageSize: 5 });
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [feedbackContent, setFeedbackContent] = useState("");
   const [selectedOrderId, setSelectedOrderId] = useState(null);
-  const [feedbackStars, setFeedbackStars] = useState(3); // Giá trị mặc định là 3 sao
-  const [feedbacks, setFeedbacks] = useState(); // Giá trị mặc định là 3 sao
+  const [feedbackStars, setFeedbackStars] = useState(3); 
+  const [feedbacks, setFeedbacks] = useState(); 
   const [pageSize, setPageSize] = useState(5);
-  
+
   useEffect(() => {
     userService
       .getOrder(idUser)
       .then((res) => {
-        console.log(res);
-        setOrders(res.data); // Lưu trữ dữ liệu đơn hàng vào state
+        setOrders(res.data);
+        setIsDataLoaded(true);
       })
       .catch((err) => {
         console.log(err);
@@ -37,8 +40,7 @@ export default function OrderPage() {
     userService
       .getFeedBack(idUser)
       .then((res) => {
-        console.log(res);
-        setFeedbacks(res.data); // Lưu trữ dữ liệu đơn hàng vào state
+        setFeedbacks(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -47,11 +49,11 @@ export default function OrderPage() {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case "CONFIRM":
+      case order.CONFIRM:
         return "blue";
-      case "BOOKED":
+      case order.BOOKED:
         return "yellow";
-      case "CHECKED_IN":
+      case order.CHECK_IN:
         return "green";
       default:
         return "red";
@@ -93,20 +95,24 @@ export default function OrderPage() {
       render: (text, record) => {
         return (
           <div className="space-x-2">
-            <Button
+            {
+              record.status !== order.CANCEL &&  <Button
               type="default"
               danger
               onClick={() => showFeedbackModal(record.id)}
             >
               Feed Back
             </Button>
-            <Button
-              type="primary"
-              danger
-              onClick={() => showCancelModal(record.id)}
-            >
-              Cancel
-            </Button>
+            }
+            {
+              record.status === order.BOOKED && <Button
+                type="primary"
+                danger
+                onClick={() => showCancelModal(record.id)}
+              >
+                Cancel
+              </Button>
+            }
           </div>
         );
       },
@@ -124,9 +130,26 @@ export default function OrderPage() {
     setIsCancelModalVisible(true);
   };
 
-  const handleCancel = () => {
+  const handleCancel = async () => {
     setIsCancelModalVisible(false);
-    message.success("Order cancelled successfully");
+    await orderService.update(cancelOrderId, order.CANCEL)
+      .then((res) => {
+        openNotificationIcon("success", "Success", "Order cancelled successfully")
+        if (isDataLoaded) {
+          userService
+            .getOrder(idUser)
+            .then((res) => {
+              setOrders(res.data);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+      })
+      .catch((err) => {
+        openNotificationIcon("error", "Error", "Order cancelled error")
+        console.log(err);
+      });
   };
 
   const handleCancelModal = () => {
@@ -149,11 +172,19 @@ export default function OrderPage() {
     feedBackService
       .create(feedbackData)
       .then((res) => {
-        console.log(res);
-        message.success("Feedback submitted successfully");
+        openNotificationIcon("success", "Success", "Feedback submitted successfully")
+        setFeedbackContent("");
+        userService
+          .getFeedBack(idUser)
+          .then((res) => {
+            console.log(res);
+            setFeedbacks(res.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       })
       .catch((err) => {
-        console.log(err);
         message.error("Feedback submitted error");
       });
     setIsFeedbackModalVisible(false);
@@ -166,11 +197,11 @@ export default function OrderPage() {
     const feedbacksForOrderId = feedbacks?.filter(
       (item) => item.idOrder === record.id
     );
-  
+
     if (!feedbacksForOrderId || feedbacksForOrderId.length === 0) {
       return <p>No feedbacks found for this order.</p>;
     }
-  
+
     return (
       <div>
         <h3 className="text-lg font-semibold mb-2">
@@ -207,7 +238,7 @@ export default function OrderPage() {
           showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
         }}
         expandable={{
-          expandedRowRender: renderFeedback ,
+          expandedRowRender: renderFeedback,
         }}
       />
       <Modal
