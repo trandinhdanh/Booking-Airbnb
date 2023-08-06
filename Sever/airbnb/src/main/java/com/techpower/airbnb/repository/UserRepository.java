@@ -20,5 +20,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     @Query("update UserEntity u set u.confirmed = ?1 where u.email = ?2 and u.codeConfirmed = ?3")
     void updateConfirmedByEmailAndCodeConfirmed(boolean confirmed, String email, String codeConfirmed);
 
+    void deleteByEmail(String email);
 
-}
+   }

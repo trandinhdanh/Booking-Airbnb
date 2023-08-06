@@ -43,6 +43,11 @@ public class AuthenticationController {
     public String confirm(@RequestParam("email") String email, @RequestParam("token") String token) {
         return authenticationService.confirmToken(email, token);
     }
+    @DeleteMapping("delete/{email}")
+    public ResponseEntity<?> delete(@PathVariable String email) {
+        authenticationService.delete(email);
+        return ResponseEntity.status(204).build();
+    }
 }
 
 

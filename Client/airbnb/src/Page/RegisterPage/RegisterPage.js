@@ -1,41 +1,99 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { Form, Input, Button, Select, DatePicker, Col, Row } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { Form, Input, Button, Select, DatePicker, Col, Row, Modal } from 'antd';
 
 import './Register.scss';
 import { useTranslation } from 'react-i18next';
 import { loginUser, registerUser } from '../../Redux/auth/authSlice';
 import { authService } from '../../services/authService';
+import { useState } from 'react';
+import { IoIosMailOpen } from 'react-icons/io';
+import { openNotificationIcon } from '../../Components/NotificationIcon/NotificationIcon';
+import { localStorageService } from '../../services/localStorageService';
+import { useEffect } from 'react';
 
 function RegisterPage() {
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [confirmCode, setConfirmCode] = useState("");
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
 
+  const navigate = useNavigate();
   const onFinish = async (values) => {
     const infor = {
       name: values.name,
-      email: values.email,
-      password: values.password,
+      email: email,
+      password: password,
       phone: values.phone,
       birthday: values.birthday.format('DD/MM/YYYY'),
       gender: values.gender,
     };
     await authService.registerUser(infor)
-          .then((res) => {
-            console.log(res);
-            // dispatch(loginUser({email: infor.email,password : infor.password}))
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-   
+      .then((res) => {
+        console.log(res);
+        setModalOpen(true);
+        // dispatch(loginUser({email: infor.email,password : infor.password}))
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
   };
 
-  const onFinishFailed = (errorInfo) => {};
+  const onFinishFailed = (errorInfo) => { };
 
   const { Option } = Select;
 
+  const handleVerify = async () => {
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("token", confirmCode);
+
+    await authService.confirm(formData)
+      .then((res) => {
+        console.log(res);
+        if (res === 'confirmed') {
+          setModalOpen(false);
+          dispatch(loginUser({ email: email, password: password }));
+        }else{
+          openNotificationIcon('warning', 'Wrong character', 'Please re-enter character into input!');
+        }
+
+      })
+      .catch((err) => {
+        console.log(err);
+
+      });
+  }
+  const handleDeleteUserNotConfirm = async () => {
+  
+    await authService.delete(email)
+      .then((res) => {
+       console.log(res);
+       setModalOpen(false);
+          
+      })
+      .catch((err) => {
+        console.log(err);
+
+      });
+  }
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  
+  useEffect(() => {
+    const role = localStorageService.get('USER')?.userDTO?.role?.[0];
+    console.log(role);
+    if (isLoggedIn && role ) {
+      if(role === "CUSTOMER"){
+        navigate("/"); 
+      }else{
+        navigate("/manager")
+      }
+    }
+  }, [isLoggedIn, navigate]);
   return (
     <div className="login flex items-center justify-center h-screen mb:p-0 sm:p-0 lg:p-[24px]">
       <div className="flex bg-white items-center relative w-[70rem] border rounded-[0.5rem] login-wrapper p-5 mb:h-screen sm:h-screen md:h-screen lg:h-[100%]  animate__animated animate__fadeInUp">
@@ -64,8 +122,10 @@ function RegisterPage() {
             >
               <p className="">Email</p>
               <Form.Item
-                className="mb-4 w-full" 
+                className="mb-4 w-full"
                 name="email"
+                values={email}
+                onChange={(e) => setEmail(e.target.value)}
                 rules={[
                   {
                     type: 'email',
@@ -86,10 +146,32 @@ function RegisterPage() {
               <Form.Item
                 className="mb-4"
                 name="password"
+                values={password}
+                onChange={(e) => setPassword(e.target.value)}
                 rules={[
                   {
                     required: true,
                     message: t('Please input your password!'),
+                  },
+                  { max: 16, message: t('Your password must be maximum 16 characters.') },
+                  { min: 6, message: t('Your password must be at least 6 characters.') },
+                ]}
+              >
+                <Input.Password
+                  style={{ width: '100%' }}
+                  className="border password px-[14px] py-[14px] rounded-[0.5rem]"
+                  placeholder={t('Password')}
+                />
+              </Form.Item>
+              {/* chưa làm confirm */}
+              <p className="">{t('Confirm Password')}</p>
+              <Form.Item
+                className="mb-4"
+                name="confirm-password"
+                rules={[
+                  {
+                    required: true,
+                    message: t('Please confirm your password!'),
                   },
                   { max: 16, message: t('Your password must be maximum 16 characters.') },
                   { min: 6, message: t('Your password must be at least 6 characters.') },
@@ -199,6 +281,17 @@ function RegisterPage() {
           </div>
         </div>
       </div>
+      <Modal
+        title="Verify your email"
+        centered
+        open={modalOpen}
+        onOk={() => handleVerify()}
+        onCancel={() => handleDeleteUserNotConfirm()}
+      >
+        <br />
+        <p className='mb-1 ml-1'>{t('Enter 6 characters already sent to your gmail')}</p>
+        <Input value={confirmCode} onChange={(e) => setConfirmCode(e.target.value)} placeholder="large size" prefix={<IoIosMailOpen className='ml-4 text-[24px] ' />} />
+      </Modal>
     </div>
   );
 }

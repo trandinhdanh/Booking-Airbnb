@@ -136,7 +136,7 @@ export default function UserNav({ bg }) {
                 </Link>
               ) : (
                 <Link
-                  to="/Register"
+                  to="/register"
                   className="w-full block h-full hover:text-black transition duration-100"
                 >
                   {t('Register')}
