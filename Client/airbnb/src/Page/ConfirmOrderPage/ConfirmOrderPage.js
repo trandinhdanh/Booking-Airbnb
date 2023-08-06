@@ -31,28 +31,32 @@ export default function ConfirmOrderPage() {
       .catch((err) => {
         console.log(err);
       });
-    if(!orderData || !user){
+    if (!orderData || !user) {
       navigate('/')
       openNotificationIcon('error', 'Error', 'No Valid');
     }
   }, [])
-  const handleOrder = () => { 
+  const handleBack = () => {
+    navigate(`/detail-room/${id}`);
+  }
+  const handleOrder = () => {
     setIsLoading(true)
     orderService
-         .order(id, orderData)
-         .then((res) => {
-           console.log(res);
-           setIsLoading(false);
-           navigate("/order");
-           openNotificationIcon('success', 'Success', 'Order Success. Thank you very much!');
-         })
-         .catch((err) => {
-           setIsLoading(false);
-           console.log(err);
-            openNotificationIcon('error', 'Error', 'Order Error. Please Try Again');
+      .order(id, orderData)
+      .then((res) => {
+        console.log(res);
+        setIsLoading(false);
+        navigate("/order");
+        openNotificationIcon('success', 'Success', 'Order Success. Thank you very much!');
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        console.log(err);
+        openNotificationIcon('error', 'Error', 'Order Error. Please Try Again');
 
-         });
-      }
+      });
+  }
+
   const calculateTotalPrice = () => {
     if (!roomDetail || !orderData) {
       return 0;
@@ -106,13 +110,24 @@ export default function ConfirmOrderPage() {
               </div>
             </div>
 
-            <button
-              className={`w-full py-3 bg-primary text-white rounded-lg hover:bg-[#fe474d] transition-all ${isLoading ? 'cursor-wait' : 'cursor-pointer'} ${isLoading ? 'opacity-50' : ''}`}
-              disabled={isLoading}
-              onClick={handleOrder}
-            >
-              {isLoading ? t('Loading...') : t('Order')}
-            </button>
+         
+           <div className="flex gap-2">
+             <button
+               className={`flex-1 py-3 bg-white text-black border border-black rounded-lg hover:bg-[#e1e1e1] transition-all ${isLoading ? 'cursor-wait' : 'cursor-pointer'} ${isLoading ? 'opacity-50' : ''}`}
+               disabled={isLoading}
+               onClick={handleBack}
+             >
+               {isLoading ? t('Loading...') :  t('Back')}
+             </button>
+             <button
+               className={`flex-1 py-3 bg-primary text-white rounded-lg hover:bg-[#fe474d] transition-all ${isLoading ? 'cursor-wait' : 'cursor-pointer'} ${isLoading ? 'opacity-50' : ''}`}
+               disabled={isLoading}
+               onClick={handleOrder}
+             >
+               {isLoading ? t('Loading...') : t('Order')}
+             </button>
+           </div>
+           
           </div>
           <div className='h-[450px]'>
             {roomDetail.images.length > 0 ?

@@ -9,7 +9,7 @@ import { loginUser } from '../../Redux/auth/authSlice';
 import { localStorageService } from '../../services/localStorageService';
 function LoginPage() {
   const {t} = useTranslation();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const onFinish = (values) => {
     console.log(values)
@@ -103,7 +103,7 @@ function LoginPage() {
               </button>
             </Form>
             <div className="w-full flex justify-between">
-              <Link to="/Register" className="mt-5 text-blue w-full inline text-left text-bold">
+              <Link to="/register" className="mt-5 text-blue w-full inline text-left text-bold">
                 {t('Register')}
               </Link>
               <a to="/" className="mt-5 text-blue w-full inline text-right text-bold">

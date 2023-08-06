@@ -123,8 +123,10 @@ public class AuthenticationService {
     public String confirmToken(String email, String token) {
         Optional<UserEntity> user = userRepository.findByEmail(email);
         if (user.isPresent()) {
-            userRepository.updateConfirmedByEmailAndCodeConfirmed(true, email, token);
-            return "confirmed";
+            if (user.get().getCodeConfirmed().equals(token)) {
+                userRepository.updateConfirmedByEmailAndCodeConfirmed(true, email, token);
+                return "confirmed";
+            }
         }
         return "not confirmed";
     }
@@ -151,5 +153,10 @@ public class AuthenticationService {
                 "<p style=\"font-size: 16px; margin-bottom: 20px;\">Link will expire in 15 minutes. </p>" +
                 "<p style=\"font-size: 16px; margin-bottom: 20px;\">See you soon</p>" +
                 "</div>";
+    }
+@Transactional
+    public String delete(String email) {
+        userRepository.deleteByEmail(email);
+        return "deleted";
     }
 }
