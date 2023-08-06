@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { DatePicker, message, Space, Select, notification, Button } from "antd";
+import React, {  useState } from "react";
+import { DatePicker, message, Space,  } from "antd";
 import { InputNumber } from "antd";
 import { localStorageService } from "../../../services/localStorageService";
-import { orderService } from "../../../services/orderService";
-import { userService } from "../../../services/userService";
+
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import moment from "moment";
@@ -16,11 +15,9 @@ export default function OrderRoom(props) {
   const [startDay, setStartDay] = useState();
   const [endDay, setEndDay] = useState();
   const [quantityPerson, setQuantityPerson] = useState(1);
-  const [dataContext, setDataContext] = useState(null);
   const [idUser, setIdUser] = useState(
     localStorageService.get("USER")?.userDTO.id
   );
-  const [isLoading, setIsLoading] = useState(false);
   const onChangeInputNumber = (value) => {
     setQuantityPerson(value);
   };
@@ -64,29 +61,30 @@ export default function OrderRoom(props) {
     }
     return false;
   };
+  const calculateTotalPrice = () => {
+    if (!startDay || !endDay) {
+      return 0;
+    }
+    const numNights = moment(endDay).diff(moment(startDay), 'days');
+    const totalPrice = props.room?.price * numNights;
+    return totalPrice;
+  };
+
   return (
-    <div className="w-full relative  rounded-lg border-black mt-10">
-      <section className=" bg-white border border-gray-300 rounded-lg p-6 shadow">
+    <div
+  className="w-full  rounded-[15px]  mt-10 h-full ">
+      <section style={{ backgroundImage: "url('https://img.freepik.com/free-psd/3d-mock-up-mid-autumn-festival-with-assortment-elements_23-2149659895.jpg?w=1380&t=st=1691314167~exp=1691314767~hmac=701e5d9b48967e2994554aa03eddc04970ee06adbd2baa18a80078687baf2336')" }} className="bg-cover sticky top-32 rounded-[15px] p-6">
         <div className="flex items-center justify-between">
-          <p>
-            <span className="font-bold">{props.room?.price} $</span> / night
+          <p className="font-bold"> 
+            <span className="font-bold text-[22px]">{props.room?.price} $</span> / night
           </p>
           {/* <p>4.38 <span className="reviews">(4 reviews)</span></p> */}
         </div>
-        <div className="order-data border border-gray-200 rounded-lg my-4 p-4">
+        <div className=" rounded-[15px] my-4 py-4">
           <div className="">
-            <div className="lg:block  md:hidden sm:hidden mb:hidden px-5 py-3 hover:bg-gray-200 transition duration-300 rounded-full h-full flex flex-wrap justify-center items-center">
-              <Space direction="vertical" size={12}>
-                <DatePicker.RangePicker
-                  disabledDate={(date) => isDisableDate(date, props?.date)}
-                  onChange={onChangeRangePicker}
-                />
-              </Space>
-            </div>
-
-            <div className="px-5 py-3 hover:bg-gray-200 transition duration-300 rounded-full h-full flex flex-wrap justify-center items-center">
+          <div className=" py-3  transition duration-300 rounded-full h-full flex flex-wrap justify-center items-center">
               <label
-                className={`text-black  text-sm   mr-3 lg:block md:block sm:hidden mb:hidden`}
+                className={`text-black  text-sm font-bold  mr-3 lg:block md:block sm:hidden mb:hidden`}
               >
                 {t("Quantity")}
               </label>
@@ -98,18 +96,37 @@ export default function OrderRoom(props) {
                 onChange={onChangeInputNumber}
               />
             </div>
+            <div className="lg:block  md:hidden sm:hidden mb:hidden  py-3  transition duration-300 rounded-full h-full flex flex-wrap justify-center items-center">
+              <Space direction="vertical" size={12}>
+                <DatePicker.RangePicker
+                  disabledDate={(date) => isDisableDate(date, props?.date)}
+                  onChange={onChangeRangePicker}
+                />
+              </Space>
+            </div>
+
+           
           </div>
         </div>
-        <div className="grid grid-cols-10 grid-rows-10 gap-0 relative btn-container">
-          <div className="cell col-span-10 row-span-10" />
-          <div className="content col-span-10 row-span-10 flex justify-center items-center rounded">
+        <div className="my-5">
+          <div className=" ">
             <button
-              className={`w-full py-3 bg-primary text-white rounded-lg hover:bg-[#fe474d] transition-all ${isLoading ? 'cursor-wait' : 'cursor-pointer'} ${isLoading ? 'opacity-50' : ''}`}
+              className={`w-full py-3 bg-primary text-white rounded-[15px] transition-all`}
               onClick={handleOrder}
-              disabled={isLoading}
             >
-              {isLoading ? t('Loading...') : t('Order')}
+              {t('Order')}
             </button>
+            <p className="text-center my-3">{t('Direct payment')}</p>
+          </div>
+        </div>
+        <div>
+          <div className="flex justify-between my-3">
+            <p className="w-40 font-bold">Number of Nights:</p>
+            <p>{moment(endDay).diff(moment(startDay), 'days')}</p>
+          </div>
+          <div className="flex justify-between my-3">
+            <p className="w-40 font-bold">Total Price:</p>
+            <p>{calculateTotalPrice()} $</p>
           </div>
         </div>
       </section>

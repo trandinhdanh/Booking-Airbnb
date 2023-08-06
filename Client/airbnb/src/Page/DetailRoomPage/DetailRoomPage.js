@@ -143,7 +143,7 @@ export default function DetailRoomPage() {
                 )}
               </div>
             </div>
-            <div className="w-full flex">
+            <div className="w-full flex h-full">
               <div className="mb:w-full sm:w-full md:w-3/5 lg:w-3/5">
                 <div className="w-full mb:py-[1rem] sm:py-[1rem] md:py-[2.2rem] border-b-[1px] border-[#dadada]">
                   <h2 className="text-[1.5rem] font-[500]">{roomDetail?.name}</h2>
@@ -191,7 +191,7 @@ export default function DetailRoomPage() {
                 {/* ================= FeedBack ============= */}
                 <Feedback room={roomDetail}/>
               </div>
-              <div className="pl-[6rem] mb:hidden sm:hidden md:block w-2/5">
+              <div className="pl-[6rem] mb:hidden sm:hidden md:block w-2/5 h-[800px]">
                   <OrderForm room={roomDetail} date = {dataDate}/>
               </div>
             </div>
