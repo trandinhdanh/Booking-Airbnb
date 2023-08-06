@@ -8,6 +8,7 @@ import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
+import { openNotificationIcon } from "../../../Components/NotificationIcon/NotificationIcon";
 
 export default function OrderRoom(props) {
   const { t } = useTranslation();
@@ -15,43 +16,40 @@ export default function OrderRoom(props) {
   const [startDay, setStartDay] = useState();
   const [endDay, setEndDay] = useState();
   const [quantityPerson, setQuantityPerson] = useState(1);
+  const [dataContext, setDataContext] = useState(null);
   const [idUser, setIdUser] = useState(
     localStorageService.get("USER")?.userDTO.id
   );
   const [isLoading, setIsLoading] = useState(false);
   const onChangeInputNumber = (value) => {
-    console.log("changed", value);
     setQuantityPerson(value);
   };
 
   const onChangeRangePicker = (dates, dateStrings) => {
-    console.log("Selected Dates:", dateStrings);
     setStartDay(dateStrings[0]);
     setEndDay(dateStrings[1]);
   };
   const handleOrder = () => {
-    setIsLoading(true);
+    if (!idUser) {
+      openNotificationIcon('error', 'Error', 'Please login');
+      navigate('/login')
+      return;
+    }
+    if (!startDay || !endDay) {
+      openNotificationIcon('error', 'Error', 'Please select start and end dates before placing the order.');
+      return;
+    }
     const orderData = {
-      idUser: idUser, // Thay thế bằng ID của người dùng hiện tại
-      status: "pending", // Trạng thái đặt hàng, có thể là 'pending', 'confirmed',...
-      receivedDate: startDay, // Ngày nhận phòng
-      checkoutDate: endDay, // Ngày trả phòng
-      numGuests: quantityPerson, // Số lượng người
+      idUser: idUser,
+      status: "pending",
+      receivedDate: startDay,
+      checkoutDate: endDay,
+      numGuests: quantityPerson,
     };
     console.log(orderData);
-    orderService
-      .order(props.room.id, orderData)
-      .then((res) => {
-        console.log(res);
-        setIsLoading(false);
-        message.success("ORDER SUCCESS");
-        navigate("/order");
-      })
-      .catch((err) => {
-        setIsLoading(false);
-        console.log(err);
-        message.error("ORDER ERROR");
-      });
+    navigate(`/confirmOrder/${props.room.id}`, {
+      state: { dataContext: orderData },
+    });
   };
   const isDisableDate = (date, daybooking) => {
     if (date && date.isBefore(moment().startOf("day"))) {
@@ -105,7 +103,7 @@ export default function OrderRoom(props) {
         <div className="grid grid-cols-10 grid-rows-10 gap-0 relative btn-container">
           <div className="cell col-span-10 row-span-10" />
           <div className="content col-span-10 row-span-10 flex justify-center items-center rounded">
-          <button
+            <button
               className={`w-full py-3 bg-primary text-white rounded-lg hover:bg-[#fe474d] transition-all ${isLoading ? 'cursor-wait' : 'cursor-pointer'} ${isLoading ? 'opacity-50' : ''}`}
               onClick={handleOrder}
               disabled={isLoading}
