@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -18,7 +19,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "users",uniqueConstraints = @UniqueConstraint(columnNames = "email"))
+@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class UserEntity implements UserDetails {
 
     @Id
@@ -30,7 +31,7 @@ public class UserEntity implements UserDetails {
     private Status status;
     @Column
     private String name;
-    @Column(name = "email",nullable = false,unique = true)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
     @Column(nullable = false)
     private String password;
@@ -42,7 +43,7 @@ public class UserEntity implements UserDetails {
     private boolean gender;
     @Column
     private boolean confirmed;
-    @Column(name = "code_confirmed",length = 6)
+    @Column(name = "code_confirmed", length = 6)
     private String codeConfirmed;
     @Column
     @Enumerated(EnumType.STRING)
@@ -52,9 +53,11 @@ public class UserEntity implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<OrderEntity> orders;
     @OneToMany(mappedBy = "user")
-    private List<FeedbackEntity> feedbacks ;
+    private List<FeedbackEntity> feedbacks;
     @OneToMany(mappedBy = "user")
-    private List<BlogEntity> blogs ;
+    private List<BlogEntity> blogs;
+    @OneToMany(mappedBy = "user")
+    List<StatisticalEntity> statisticals = new ArrayList<>();
 
     @Override
     public int hashCode() {

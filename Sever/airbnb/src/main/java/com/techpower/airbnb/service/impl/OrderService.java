@@ -6,8 +6,11 @@ import com.techpower.airbnb.converter.OrderConverter;
 import com.techpower.airbnb.dto.OrderDTO;
 import com.techpower.airbnb.entity.OrderEntity;
 import com.techpower.airbnb.entity.RoomEntity;
+import com.techpower.airbnb.entity.StatisticalEntity;
+import com.techpower.airbnb.entity.UserEntity;
 import com.techpower.airbnb.repository.OrderRepository;
 import com.techpower.airbnb.repository.RoomRepository;
+import com.techpower.airbnb.repository.StatisticalRepository;
 import com.techpower.airbnb.repository.UserRepository;
 import com.techpower.airbnb.service.EmailSender;
 import com.techpower.airbnb.service.IOrderService;
@@ -30,6 +33,8 @@ public class OrderService implements IOrderService {
     private OrderConverter orderConverter;
     @Autowired
     private EmailSender emailSender;
+    @Autowired
+    private StatisticalRepository statisticalRepository;
 
     @Override
     public OrderDTO createOrder(OrderDTO orderDTO, long idRoom) {
@@ -84,6 +89,27 @@ public class OrderService implements IOrderService {
             case CHECKED_OUT:
                 if (orderEntity.getStatus().equals(Order.CHECKED_IN)) {
                     orderEntity.setStatus(orderStatus);
+                    //xử lí thống kê
+                    UserEntity userEntityAdmin = userRepository.findOneByEmail("admin@gmail.com");
+                    UserEntity userEntitySeller = orderEntity.getRoom().getUser();
+                    if (statisticalRepository.findOneByUserAndYearAndMonth(
+                            userEntityAdmin, LocalDate.now().getYear(), LocalDate.now().getMonthValue()) == null) {
+                        statisticalRepository.save(new StatisticalEntity(userEntityAdmin));
+                    }
+                    if (statisticalRepository.findOneByUserAndYearAndMonth(
+                            userEntitySeller, LocalDate.now().getYear(), LocalDate.now().getMonthValue()) == null) {
+                        statisticalRepository.save(new StatisticalEntity(userEntitySeller));
+                    }
+                    StatisticalEntity statisticalAdmin = statisticalRepository.findOneByUserAndYearAndMonth(
+                            userEntityAdmin, LocalDate.now().getYear(), LocalDate.now().getMonthValue()
+                    );
+                    StatisticalEntity statisticalSeller = statisticalRepository.findOneByUserAndYearAndMonth(
+                            userEntitySeller, LocalDate.now().getYear(), LocalDate.now().getMonthValue()
+                    );
+                    statisticalAdmin.setReallyReceived(statisticalAdmin.getReallyReceived() + (orderEntity.getTotalPrice() * 0.1));
+                    statisticalAdmin.setTotalRevenue(statisticalAdmin.getTotalRevenue() + (orderEntity.getTotalPrice() * 0.1));
+                    statisticalSeller.setReallyReceived(statisticalSeller.getReallyReceived() + (orderEntity.getTotalPrice() * 0.9));
+                    statisticalSeller.setTotalRevenue(statisticalSeller.getTotalRevenue() + orderEntity.getTotalPrice());
                 }
                 break;
             default:
