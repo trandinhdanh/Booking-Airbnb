@@ -49,8 +49,11 @@ public class RoomService implements IRoomService {
 
     @Override
     public List<RoomDTO> findAll() {
-        List<RoomEntity> roomEntities = roomRepository.findAll();
-        return roomConverter.toDTOs(roomEntities);
+        List<RoomDTO> rooms = roomConverter.toDTOs(roomRepository.findAll());
+        for(RoomDTO room : rooms) {
+            room.setTotalStar(averageStar(room.getId()));
+        }
+        return rooms;
     }
 
     @Override
@@ -176,7 +179,6 @@ public class RoomService implements IRoomService {
     @Override
     public List<FeedbackDTO> findAllFeedbackByIDRoom(Long idRoom) {
         return feedbackConverter.mapperTOEntity(feedbackRepository.findByOrder_Room_Id(idRoom));
-//>>>>>>> dca9d9ef493fde5fa3cca7fd6ffb7dbb0abc7dc5
     }
 
     public boolean isBookingConflict(List<DayBooking> list, LocalDate startDate, LocalDate endDate) {
@@ -195,9 +197,9 @@ public class RoomService implements IRoomService {
         return true; // Không trùng lịch
     }
 
-    private double averageStar(long idOrder) {
+    private double averageStar(Long idRoom) {
         double result = 0;
-        List<FeedbackEntity> feedbackEntities = feedbackRepository.findAllByOrderId(idOrder);
+        List<FeedbackEntity> feedbackEntities = feedbackRepository.findByOrder_Room_Id(idRoom);
         for (FeedbackEntity feedbackEntity : feedbackEntities) {
             result += feedbackEntity.getNumberOfStars();
         }

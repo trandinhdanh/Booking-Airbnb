@@ -22,6 +22,7 @@ import UpdateBlogManagerPage from "../Page/Manager/BlogManagerPage/UpdateBlogMan
 import BlogPage from "../Page/BlogPage/BlogPage";
 import BlogDetailPage from "../Page/BlogDetailPage/BlogDetailPage";
 import ConfirmOrderPage from "../Page/ConfirmOrderPage/ConfirmOrderPage";
+import RegisterOwner from "../Page/RegisterPage/RegisterOwner";
 
 export default function Routers() {
   return (
@@ -30,6 +31,7 @@ export default function Routers() {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/register-owner" element={<RegisterOwner />} />
           <Route path="/*" element={<NotFoundPage />} />
           <Route path="/" element={<MainLayout />}>
             <Route path="/" element={<HomePage />} />
