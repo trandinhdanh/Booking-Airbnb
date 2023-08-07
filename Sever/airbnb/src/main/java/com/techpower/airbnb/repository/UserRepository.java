@@ -13,6 +13,8 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
     UserEntity findOneById(long idUser);
 
+    UserEntity findOneByEmail(String email);
+
     Optional<UserEntity> findByEmail(String email);
 
     @Transactional
@@ -22,4 +24,4 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     void deleteByEmail(String email);
 
-   }
+}
