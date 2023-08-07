@@ -45,7 +45,9 @@ const Map = ({ address }) => {
       googleMapsApiKey="AIzaSyCA5Ytjw_xQZMeNV5yuVW70x1BeLWEbtsQ">
       <GoogleMap
         mapContainerStyle={containerStyle}
-        center={center}
+        center={{
+          lat: address[0]?.address?.lat, lng: address[0]?.address.lng
+        }}
         zoom={13}
         options={options}
       >

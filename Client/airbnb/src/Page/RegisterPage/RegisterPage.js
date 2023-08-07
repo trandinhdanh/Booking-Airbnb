@@ -128,69 +128,6 @@ function RegisterPage() {
               onFinishFailed={onFinishFailed}
               autoComplete="off"
             >
-              <p className="">Email</p>
-              <Form.Item
-                className="mb-4 w-full"
-                name="email"
-                values={email}
-                onChange={(e) => setEmail(e.target.value)}
-                rules={[
-                  {
-                    type: 'email',
-                    message: t('The input is not a valid email!'),
-                  },
-                  {
-                    required: true,
-                    message: t('Please input your email!'),
-                  },
-                ]}
-              >
-                <Input
-                  className="input border px-[14px] py-[14px] rounded-[0.5rem] w-full"
-                  placeholder="Email"
-                />
-              </Form.Item>
-              <p className="">{t('Password')}</p>
-              <Form.Item
-                className="mb-4"
-                name="password"
-                values={password}
-                onChange={(e) => setPassword(e.target.value)}
-                rules={[
-                  {
-                    required: true,
-                    message: t('Please input your password!'),
-                  },
-                  { max: 16, message: t('Your password must be maximum 16 characters.') },
-                  { min: 6, message: t('Your password must be at least 6 characters.') },
-                ]}
-              >
-                <Input.Password
-                  style={{ width: '100%' }}
-                  className="border password px-[14px] py-[14px] rounded-[0.5rem]"
-                  placeholder={t('Password')}
-                />
-              </Form.Item>
-              {/* chưa làm confirm */}
-              <p className="">{t('Confirm Password')}</p>
-              <Form.Item
-                className="mb-4"
-                name="confirm-password"
-                rules={[
-                  {
-                    required: true,
-                    message: t('Please confirm your password!'),
-                  },
-                  { max: 16, message: t('Your password must be maximum 16 characters.') },
-                  { min: 6, message: t('Your password must be at least 6 characters.') },
-                ]}
-              >
-                <Input.Password
-                  style={{ width: '100%' }}
-                  className="border password px-[14px] py-[14px] rounded-[0.5rem]"
-                  placeholder={t('Password')}
-                />
-              </Form.Item>
               <p className="">{t('Full name')}</p>
               <Form.Item
                 className="mb-4"
@@ -258,6 +195,71 @@ function RegisterPage() {
                   placeholder={t('+84 Phone Number')}
                 />
               </Form.Item>
+              
+              <p className="">Email</p>
+              <Form.Item
+                className="mb-4 w-full"
+                name="email"
+                values={email}
+                onChange={(e) => setEmail(e.target.value)}
+                rules={[
+                  {
+                    type: 'email',
+                    message: t('The input is not a valid email!'),
+                  },
+                  {
+                    required: true,
+                    message: t('Please input your email!'),
+                  },
+                ]}
+              >
+                <Input
+                  className="input border px-[14px] py-[14px] rounded-[0.5rem] w-full"
+                  placeholder="Email"
+                />
+              </Form.Item>
+              <p className="">{t('Password')}</p>
+              <Form.Item
+                className="mb-4"
+                name="password"
+                values={password}
+                onChange={(e) => setPassword(e.target.value)}
+                rules={[
+                  {
+                    required: true,
+                    message: t('Please input your password!'),
+                  },
+                  { max: 16, message: t('Your password must be maximum 16 characters.') },
+                  { min: 6, message: t('Your password must be at least 6 characters.') },
+                ]}
+              >
+                <Input.Password
+                  style={{ width: '100%' }}
+                  className="border password px-[14px] py-[14px] rounded-[0.5rem]"
+                  placeholder={t('Password')}
+                />
+              </Form.Item>
+              {/* chưa làm confirm */}
+              <p className="">{t('Confirm Password')}</p>
+              <Form.Item
+                className="mb-4"
+                name="confirm-password"
+                rules={[
+                  {
+                    required: true,
+                    message: t('Please confirm your password!'),
+                  },
+                  { max: 16, message: t('Your password must be maximum 16 characters.') },
+                  { min: 6, message: t('Your password must be at least 6 characters.') },
+                ]}
+              >
+                <Input.Password
+                  style={{ width: '100%' }}
+                  className="border password px-[14px] py-[14px] rounded-[0.5rem]"
+                  placeholder={t('Password')}
+                />
+              </Form.Item>
+              
 
               <Button
                 className="hover:blacks w-full rounded-[0.5rem] bg-primary btn-login text-white py-[6px] px-[12px]"

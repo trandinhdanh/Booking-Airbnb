@@ -96,8 +96,11 @@ function CardItem({ roomInfor }) {
         <div className="w-full flex justify-between">
           <h1 className="text-[1rem] font-[500]">{roomInfor.name.length > 25 ? roomInfor.name.slice(0, 25) + "..." : roomInfor.name}</h1>
           <div className="flex justify-center items-center">
+            {roomInfor?.totalStar >0 ?<>
             <FaStar size="0.8rem" className="mr-2" />
-            <span className="text-[1rem] font-[300]">5.0</span>
+            <span className="text-[1rem] font-[300]">{roomInfor?.totalStar && roomInfor.totalStar.toFixed(1)}</span>
+            </> : <span className="text-[0.8rem] font-[500] rounded bg-yellow-500 text-white px-1">New Room</span>
+          }
           </div>
         </div>
         <p className="text-[0.8rem] text-left font-[400] text-[black] opacity-60">

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { roomService } from "../../../services/RoomService";
 import { useTranslation } from "react-i18next";
-import { Rate } from "antd";
+import { Avatar, Rate } from "antd";
 import { FrownOutlined, MehOutlined, SmileOutlined } from '@ant-design/icons';
 
 export default function Feedback(room) {
@@ -39,16 +39,17 @@ export default function Feedback(room) {
 
       return feedbackToShow.map((item, i) => (
         <div className="p-[1.2rem] text-left border rounded-[0.4rem] block bg-[#ffffff]" key={i}>
-          <div className="flex justify-between">
-            <div className="flex gap-5">
-              <img className="w-14 h-14 rounded-[50%]" src="https://img.freepik.com/premium-vector/avatar-profile-icon_188544-4755.jpg?w=740" alt="User Avatar" />
-              <div>
+
+          <div className="flex items-start gap-5 w-full">
+          <Avatar className="bg-[#87d068]" size={35}>{item.nameUser.charAt(0)}</Avatar>
+            <div className="flex-1">
+              <div className="flex items-center justify-between mb-[-0.5rem]">
                 <p className="font-bold">{item.nameUser}</p>
-                <p className="text-base">{item.content}</p>
-                <span className="text-xs">{item.createDate}</span>
+                <Rate style={{ color: 'orange' }} defaultValue={item.numberOfStars} character={({ index }) => customIcons[index + 1]} disabled />
               </div>
+              <span className="text-xs text-gray-400">{item.createDate}</span>
+              <p className="text-base mt-1">{item.content}</p>
             </div>
-            <Rate className="" defaultValue={item.numberOfStars} character={({ index }) => customIcons[index + 1]} disabled />
           </div>
         </div>
       ));
@@ -74,24 +75,24 @@ export default function Feedback(room) {
       </h1>
       <div className="space-y-2">{renderFeedBack()}</div>
       <div className="flex justify-center mt-4">
-      {feedBack?.length > 0 && ( 
-        <div className="flex justify-center mt-4">
-          <button
-            className={`mr-2 bg-primary text-white font-bold py-2 px-4 rounded ${currentPage === 1 ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : ''}`}
-            onClick={handlePrevPage}
-            disabled={currentPage === 1}
-          >
-            Previous
-          </button>
-          <button
-            className={`bg-primary text-white font-bold py-2 px-4 rounded ${currentPage === totalPages ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : ''}`}
-            onClick={handleNextPage}
-            disabled={currentPage === totalPages}
-          >
-            Next
-          </button>
-        </div>
-      )}
+        {feedBack?.length > 0 && (
+          <div className="flex justify-center mt-4">
+            <button
+              className={`mr-2 bg-primary text-white font-bold py-2 px-4 rounded ${currentPage === 1 ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : ''}`}
+              onClick={handlePrevPage}
+              disabled={currentPage === 1}
+            >
+              Previous
+            </button>
+            <button
+              className={`bg-primary text-white font-bold py-2 px-4 rounded ${currentPage === totalPages ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : ''}`}
+              onClick={handleNextPage}
+              disabled={currentPage === totalPages}
+            >
+              Next
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

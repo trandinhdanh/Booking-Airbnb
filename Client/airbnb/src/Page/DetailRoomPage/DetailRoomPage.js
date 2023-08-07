@@ -19,7 +19,7 @@ export default function DetailRoomPage() {
         setIsFecth(true)
         roomService.getHouseById(id)
             .then((res) => {
-                console.log(res);
+                console.log(res.data);
                 setRoomDetail(res.data)
                 setIsFecth(false)
               })
