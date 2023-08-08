@@ -36,6 +36,10 @@ export default function UserNav({ bg }) {
   const handleLogOut = () => { 
     dispatch(logoutUser())
     navigate('/login')
+  };
+  const handleHost = () => { 
+    dispatch(logoutUser())
+    navigate('/register-owner')
   }
   const closeDropDown = () => {
     setOpen(false);
@@ -59,6 +63,7 @@ export default function UserNav({ bg }) {
           className={`${
             bg ? 'sm:text-black lg:text-white hover:bg-gray-700' : 'text-black hover:bg-gray-200'
           } font-medium text-sm rounded-3xl py-2 px-4  transition duration-300 cursor-pointer`}
+        onClick={() => handleHost()}
         >
           {t('Become a Host')}
         </h1>
