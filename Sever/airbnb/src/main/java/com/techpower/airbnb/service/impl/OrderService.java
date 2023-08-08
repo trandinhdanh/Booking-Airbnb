@@ -81,13 +81,13 @@ public class OrderService implements IOrderService {
                     orderEntity.setStatus(orderStatus);
                 }
                 break;
-            case CHECKED_IN:
+            case CHECK_IN:
                 if (orderEntity.getStatus().equals(Order.CONFIRM)) {
                     orderEntity.setStatus(orderStatus);
                 }
                 break;
-            case CHECKED_OUT:
-                if (orderEntity.getStatus().equals(Order.CHECKED_IN)) {
+            case CHECK_OUT:
+                if (orderEntity.getStatus().equals(Order.CHECK_IN)) {
                     orderEntity.setStatus(orderStatus);
                     //xử lí thống kê
                     UserEntity userEntityAdmin = userRepository.findOneByEmail("admin@gmail.com");
