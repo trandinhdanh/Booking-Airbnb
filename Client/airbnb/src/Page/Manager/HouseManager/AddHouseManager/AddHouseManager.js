@@ -9,10 +9,14 @@ import {
   InputNumber,
   Row,
   Select,
+  TextArea,
+  Upload,
+  message
 } from "antd";
+import { UploadOutlined } from '@ant-design/icons';
+
+import { PlusOutlined } from '@ant-design/icons';
 import axios from "axios";
-import TextArea from "antd/es/input/TextArea";
-import Upload from "antd/es/upload/Upload";
 import { locationService } from "../../../../services/locationService";
 import { roomService } from "../../../../services/RoomService";
 import { useDispatch } from "react-redux";
@@ -45,6 +49,8 @@ export default function AddHouseManager() {
   const { register, handleSubmit } = useForm();
   const { Option } = Select;
   const navigate = useNavigate();
+
+  const MINIMUM_IMAGES = 5;
 
   const handleProvinceChange = (value, option) => {
     setSelectedProvince(value);
@@ -150,166 +156,6 @@ export default function AddHouseManager() {
     }
   }, [selectedDistrict]);
 
-  //   const normFile = (e) => {
-  //     if (Array.isArray(e)) {
-  //       return e;
-  //     }
-  //     return e?.fileList;
-  //   };
-  //   return (
-  //     <div>
-  //       <div className="headerManager font-roboto mb-5 flex justify-between">
-  //         <h1 className="font-bold text-[20px] uppercase ">Add room</h1>
-  //       </div>
-  //       <div>
-  //         <Form
-  //           labelCol={{ span: 7 }}
-  //           wrapperCol={{ span: 15 }}
-  //           layout="horizontal"
-  //           style={{ maxWidth: 600 }}
-  //         >
-  //           <Form.Item label="Tên">
-  //             <Input />
-  //           </Form.Item>
-  //           <Form.Item label="Mô tả">
-  //             <TextArea rows={3} />
-  //           </Form.Item>
-  //           <Form.Item label="Giá">
-  //             <Input />
-  //           </Form.Item>
-
-  //           <Form.Item label="Tiện nghi">
-  //             <Checkbox.Group style={{ width: "100%" }}>
-  //               <Row>
-  //                 <Col span={8}>
-  //                   <Checkbox value={"Máy giặt"}>Máy giặt</Checkbox>
-  //                 </Col>
-  //                 <Col span={8}>
-  //                   <Checkbox value={"Tivi"}>Tivi</Checkbox>
-  //                 </Col>
-  //                 <Col span={8}>
-  //                   <Checkbox value={"Điều hòa"}>Điều hòa</Checkbox>
-  //                 </Col>
-  //                 <Col span={8}>
-  //                   <Checkbox value={"Wifi"}>Wifi</Checkbox>
-  //                 </Col>
-  //                 <Col span={8}>
-  //                   <Checkbox value={"Bãi đỗ xe"}>Bãi đỗ xe</Checkbox>
-  //                 </Col>
-  //                 <Col span={8}>
-  //                   <Checkbox value={"Bể bơi"}>Bể bơi</Checkbox>
-  //                 </Col>
-  //                 <Col span={8}>
-  //                   <Checkbox value={"Máy nóng lạnh"}>Máy nóng lạnh</Checkbox>
-  //                 </Col>
-  //               </Row>
-  //             </Checkbox.Group>
-  //           </Form.Item>
-  //           <Form.Item label="Số phòng khách">
-  //             <Input />
-  //           </Form.Item>
-  //           <Form.Item label="Số phòng tắm">
-  //             <Input />
-  //           </Form.Item>
-  //           <Form.Item label="Số phòng ngủ">
-  //             <Input />
-  //           </Form.Item>
-  //           <Form.Item label="Số lượng khách">
-  //             <Input />
-  //           </Form.Item>
-  //           <Form.Item
-  //             label="Hình ảnh"
-  //             valuePropName="fileList"
-  //             getValueFromEvent={normFile}
-  //           >
-  //             <Upload action="/upload.do" listType="picture-card">
-  //               <div>
-  //                 {/* <PlusOutlined /> */}
-  //                 <div
-  //                   style={{
-  //                     marginTop: 8,
-  //                   }}
-  //                 >
-  //                   Upload
-  //                 </div>
-  //               </div>
-  //             </Upload>
-  //           </Form.Item>
-
-  //           {/* address */}
-
-  //           <Form.Item label="Địa chỉ">
-  //             <Select
-  //               showSearch
-  //               placeholder="Tỉnh..."
-  //               optionFilterProp="children"
-  //               value={selectedProvince}
-  //               onChange={(value) => setSelectedProvince(value)}
-  //               filterOption={(input, option) =>
-  //                 (option?.label ?? "")
-  //                   .toLowerCase()
-  //                   .includes(input.toLowerCase())
-  //               }
-  //               options={province.map((province) => ({
-  //                 value: province.code,
-  //                 label: province.name,
-  //               }))}
-  //               style={{ width: "30%" }}
-  //             />
-  //             <Select
-  //               showSearch
-  //               placeholder="Huyện..."
-  //               optionFilterProp="children"
-  //               value={selectedDistrict}
-  //               onChange={(value) => setSelectedDistrict(value)}
-  //               filterOption={(input, option) =>
-  //                 (option?.label ?? "")
-  //                   .toLowerCase()
-  //                   .includes(input.toLowerCase())
-  //               }
-  //               options={districts.map((district) => ({
-  //                 value: district.code,
-  //                 label: district.name,
-  //               }))}
-  //               style={{ width: "30%", marginLeft: "10px" }}
-  //               disabled={!selectedProvince}
-  //             />
-  //             <Select
-  //               showSearch
-  //               placeholder="Xã..."
-  //               optionFilterProp="children"
-  //               value={selectedWard}
-  //               onChange={(value) => setSelectedWard(value)}
-  //               filterOption={(input, option) =>
-  //                 (option?.label ?? "")
-  //                   .toLowerCase()
-  //                   .includes(input.toLowerCase())
-  //               }
-  //               options={wards.map((ward) => ({
-  //                 value: ward.code,
-  //                 label: ward.name,
-  //               }))}
-  //               style={{ width: "30%", marginLeft: "10px" }}
-  //               disabled={!selectedDistrict}
-  //             />
-  //             <Input placeholder="Địa chỉ cụ thể" style={{ marginTop: "15px" }} />
-  //           </Form.Item>
-
-  //           <Form.Item style={{ display: "flex", justifyContent: "center" }}>
-  //             <Button
-  //               style={{
-  //                 backgroundColor: "#1677ff",
-  //                 color: "#fff",
-  //                 marginLeft: "100px",
-  //               }}
-  //             >
-  //               Thêm
-  //             </Button>
-  //           </Form.Item>
-  //         </Form>
-  //       </div>
-  //     </div>
-  // =======
   const labelCol = { span: 4 };
   const wrapperCol = { span: 24 };
 
@@ -336,8 +182,8 @@ export default function AddHouseManager() {
     formData.append("numBathrooms", values.numBathrooms);
     formData.append("numBedrooms", values.numBedrooms);
 
-    selectedImages.forEach((file, index) => {
-      formData.append(`images`, file);
+    selectedImages.forEach((image) => {
+      formData.append(`images`, image.originFileObj);
     });
 
     roomService
@@ -352,10 +198,29 @@ export default function AddHouseManager() {
         console.log("error", err.response.data.message);
       });
   };
-  const handleImagesChange = (e) => {
-    const files = Array.from(e.target.files);
+  const handleImagesChange = (info) => {
+    const files = [...info.fileList];
     setSelectedImages(files);
   };
+  // const handleImagesChange = (info) => {
+  //   let fileList = [...info.fileList];
+
+  //   // Kiểm tra số lượng hình ảnh đã chọn
+  //   // if (fileList.length < 5) {
+  //   //   message.error("Vui lòng chọn tối thiểu 5 hình ảnh.");
+  //   //   return;
+  //   // }
+
+  //   // Giới hạn số lượng hình ảnh tối đa
+  //   // fileList = fileList.slice(0, 5);
+
+  //   // Cập nhật danh sách hình ảnh đã chọn
+  //   console.log(fileList);
+  //   setSelectedImages(fileList);
+  // };
+
+
+
   return (
     <>
       {isLoading ? (
@@ -503,17 +368,25 @@ export default function AddHouseManager() {
                 </Row>
 
                 <Form.Item
-                  label="Ảnh khác"
+                  label="Tải ảnh lên"
                   name="images"
                   labelCol={labelCol}
                   wrapperCol={wrapperCol}
                 >
-                  <input
-                    type="file"
-                    accept="image/*"
-                    multiple
+                  <Upload
+                    name="images"
+                    listType="picture-card"
+                    fileList={selectedImages}
+                    beforeUpload={() => false} // Tắt tự động tải lên
                     onChange={handleImagesChange}
-                  />
+                    multiple
+                    showUploadList={{
+                      showPreviewIcon: false,
+                      showRemoveIcon: true,
+                    }}
+                  >
+                    <PlusOutlined />
+                  </Upload>
                 </Form.Item>
               </div>
               <div className="col-span-6">
