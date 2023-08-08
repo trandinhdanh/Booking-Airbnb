@@ -19,6 +19,7 @@ import { useDispatch } from "react-redux";
 import Loading from "../../../../Components/Loading/Loading";
 import { localStorageService } from "../../../../services/localStorageService";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 const PROVINCES_API_URL = "https://provinces.open-api.vn/api";
 
@@ -43,6 +44,7 @@ export default function AddHouseManager() {
   const [user, setUser] = useState(localStorageService.get("USER"));
   const { register, handleSubmit } = useForm();
   const { Option } = Select;
+  const navigate = useNavigate();
 
   const handleProvinceChange = (value, option) => {
     setSelectedProvince(value);
@@ -343,6 +345,7 @@ export default function AddHouseManager() {
       .then((res) => {
         console.log(res);
         setIsLoading(false);
+        navigate("/manager/house")
       })
       .catch((err) => {
         setIsLoading(false);
@@ -472,7 +475,7 @@ export default function AddHouseManager() {
                       label="Phòng tắm"
                       name="numBathrooms"
                       rules={[{ required: true }]}
-                   
+
                     >
                       <Input type="number" />
                     </Form.Item>
@@ -514,7 +517,7 @@ export default function AddHouseManager() {
                 </Form.Item>
               </div>
               <div className="col-span-6">
-                <Form.Item label="Tiện nghi"   labelCol={labelCol}
+                <Form.Item label="Tiện nghi" labelCol={labelCol}
                   wrapperCol={wrapperCol}>
                   <Row>
                     <Col span={8}>
@@ -591,7 +594,7 @@ export default function AddHouseManager() {
                     </Col>
                   </Row>
                 </Form.Item>
-                <Form.Item label="Location"   labelCol={labelCol}
+                <Form.Item label="Location" labelCol={labelCol}
                   wrapperCol={wrapperCol}>
                   <Select
                     style={{
@@ -627,9 +630,9 @@ export default function AddHouseManager() {
                 <Form.Item>
                   <button
                     className="px-3 py-2 rounded-lg bg-primary text-white font-medium hover:bg-[#068FFF] hover:text-white transition-all"
-                    htmlType="submit"
+                    type="submit"
                   >
-                    Thêm sản phẩm
+                    Thêm phòng
                   </button>
                 </Form.Item>
               </div>

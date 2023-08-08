@@ -149,7 +149,7 @@ public class RoomAPI {
                                           @RequestParam("description") String description,
                                           @RequestParam("price") double price,
                                           @RequestParam(value = "images", required = false) List<MultipartFile> images,
-                                          @RequestParam("codeLocation") String codeLocation,
+                                          @RequestParam(value = "codeLocation", required = false) String codeLocation,
                                           @RequestParam("address") String address,
                                           @RequestParam(value = "washingMachine", required = false) boolean washingMachine,
                                           @RequestParam(value = "television", required = false) boolean television,
