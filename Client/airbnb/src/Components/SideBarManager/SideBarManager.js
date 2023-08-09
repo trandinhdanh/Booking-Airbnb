@@ -49,6 +49,11 @@ export default function SideBarManager() {
   
   const ownerData = [
     {
+      name: "Statistical",
+      path: "/manager/statistical",
+      Icon: BsHouse,
+    },
+    {
       name: "House",
       path: "/manager/house",
       Icon: BsHouse,

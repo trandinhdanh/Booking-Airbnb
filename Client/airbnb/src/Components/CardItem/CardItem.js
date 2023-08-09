@@ -99,7 +99,7 @@ function CardItem({ roomInfor }) {
             {roomInfor?.totalStar >0 ?<>
             <FaStar size="0.8rem" className="mr-2" />
             <span className="text-[1rem] font-[300]">{roomInfor?.totalStar && roomInfor.totalStar.toFixed(1)}</span>
-            </> : <span className="text-[0.8rem] font-[500] rounded bg-yellow-500 text-white px-1">New Room</span>
+            </> : <span className="text-[0.8rem] font-[500] rounded bg-yellow-500 text-white px-1">{t('New Room')}</span>
           }
           </div>
         </div>

@@ -19,10 +19,7 @@ import com.techpower.airbnb.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class UserService implements IUserService {
@@ -94,5 +91,21 @@ public class UserService implements IUserService {
         UserEntity userEntity = userRepository.findOneById(idUser);
         userEntity.setStatus(status);
         return userDTOMapper.apply(userRepository.save(userEntity));
+    }
+
+    @Override
+    public Map<String, Object> getInformation(Long idUser) {
+        UserEntity userEntity = userRepository.findOneById(idUser);
+        Map<String, Object> userInfo  = new HashMap<>();
+        userInfo.put("id", idUser);
+        userInfo.put("name",userEntity.getName());
+        userInfo.put("email", userEntity.getEmail());
+        userInfo.put("phone", userEntity.getPhone());
+        userInfo.put("gender", userEntity.isGender());
+        userInfo.put("birthday", userEntity.getBirthday());
+        userInfo.put("status", userEntity.getStatus());
+        userInfo.put("isConfirmed", userEntity.isConfirmed());
+
+        return userInfo;
     }
 }
