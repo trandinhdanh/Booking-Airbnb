@@ -11,11 +11,9 @@ export default function Feedback(room) {
   const itemsPerPage = 3;
 
   useEffect(() => {
-    console.log(room.room.id);
     roomService
       .getFeedBackByRoom(room.room.id)
       .then((res) => {
-        console.log(res);
         setFeedBack(res.data)
       })
       .catch((err) => {

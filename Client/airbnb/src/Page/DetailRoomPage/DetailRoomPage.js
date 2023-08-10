@@ -8,7 +8,8 @@ import './DetailRoomPage.scss';
 import OrderForm from './OrderForm/OrderForm';
 import Feedback from './Feedback/Feedback';
 import { localStorageService } from '../../services/localStorageService';
-import { favoryteService } from '../../services/favoriteService';
+import { favoriteService } from '../../services/favoriteService';
+import { openNotificationIcon } from '../../Components/NotificationIcon/NotificationIcon';
 
 export default function DetailRoomPage() {
     const {id} = useParams();
@@ -21,7 +22,6 @@ export default function DetailRoomPage() {
         setIsFecth(true)
         roomService.getHouseById(id)
             .then((res) => {
-                console.log(res.data);
                 setRoomDetail(res.data)
                 setIsFecth(false)
               })
@@ -45,9 +45,10 @@ export default function DetailRoomPage() {
         try {
           const formData = new FormData();
           formData.append("roomId", idroom);
-          const response = await favoryteService.add(user.id,formData)
-          console.log(response);
+          const response = await favoriteService.add(user.id,formData)
+          openNotificationIcon("success" , "Success" , "Add Favority Success")
         } catch (error) {
+          openNotificationIcon("error" , "Error" , "Add Favority Error")
           console.log(error);
         }
       };

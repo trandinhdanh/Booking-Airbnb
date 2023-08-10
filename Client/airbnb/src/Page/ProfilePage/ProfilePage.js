@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { localStorageService } from '../../services/localStorageService';
-import { Avatar, Tabs } from 'antd';
+import { Avatar, Button, Image, Table, Tabs } from 'antd';
 import TabPane from 'antd/es/tabs/TabPane';
 import OrderPage from '../OrderPage/OrderPage';
 import { FaHeart } from 'react-icons/fa';
 import { IoMdCart } from 'react-icons/io';
 import { userService } from '../../services/userService';
+import { favoriteService } from '../../services/favoriteService';
+import CardItem from '../../Components/CardItem/CardItem';
+import { Link } from 'react-router-dom';
+import { openNotificationIcon } from '../../Components/NotificationIcon/NotificationIcon';
 
 export default function ProfilePage() {
   const [user, setuser] = useState(localStorageService.get('USER'));
   const [infor, setinfor] = useState({});
+  const [listFavorite, setListFavorite] = useState();
   useEffect(() => {
     userService
       .getInformation(user.userDTO.id)
@@ -20,7 +25,66 @@ export default function ProfilePage() {
         console.log(err);
       });
   }, [user]);
+  useEffect(() => {
+    favoriteService
+      .get(user.userDTO.id)
+      .then((res) => {
+        console.log(res);
+        setListFavorite(res.data)
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [user]);
+  const columns = [
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+      render: (text, record) => <Link to={`/detail-room/${record.roomDTO.id}`}>{record.roomDTO.name}</Link>,
+    },
+    {
+      title: 'Price',
+      dataIndex: 'price',
+      key: 'price',
+      render: (text,record) => <span>${record.roomDTO.price}</span>,
+    },
+    {
+      title: 'Images',
+      dataIndex: 'images',
+      key: 'images',
+      render: (text,record) => (
+        <Image className='bg-cover' src={record.roomDTO.images[0]} alt="Room" width={50} height={50} />
+      ),
+    },
+    {
+      title: 'Description',
+      dataIndex: 'description',
+      key: 'description',
+      render: (text, record) => <span>{record.roomDTO.description}</span>,
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (text, record) => (
+        <Button onClick={() => handleRemoveFavorite(record.roomDTO.id)}>Remove</Button>
+      ),
+    },
+  ];
 
+  const handleRemoveFavorite = async (idroom) => {
+    try {
+      const formData = new FormData();
+      formData.append("roomId", idroom);
+      console.log(idroom);
+      const response = await favoriteService.remove(user.userDTO.id,formData)
+      console.log(response);
+      openNotificationIcon("success" , "Success" , "Add Favority Success")
+    } catch (error) {
+      openNotificationIcon("error" , "Error" , "Add Favority Error")
+      console.log(error);
+    }
+  };
   return (
     <div className='container mx-auto pt-28 pb-10 bg-white'>
       <div className="bg-gray-100 min-h-screen rounded-lg">
@@ -51,7 +115,7 @@ export default function ProfilePage() {
             <TabPane tab={
               <span className='flex items-center' >
                 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="24px" height="24px" viewBox="0 0 24 24">
-                  <path fill="currentColor" fill-rule="evenodd" d="M10 4h4c3.771 0 5.657 0 6.828 1.172C22 6.343 22 8.229 22 12c0 3.771 0 5.657-1.172 6.828C19.657 20 17.771 20 14 20h-4c-3.771 0-5.657 0-6.828-1.172C2 17.657 2 15.771 2 12c0-3.771 0-5.657 1.172-6.828C4.343 4 6.229 4 10 4Zm3.25 5a.75.75 0 0 1 .75-.75h5a.75.75 0 0 1 0 1.5h-5a.75.75 0 0 1-.75-.75Zm1 3a.75.75 0 0 1 .75-.75h4a.75.75 0 0 1 0 1.5h-4a.75.75 0 0 1-.75-.75Zm1 3a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1-.75-.75ZM11 9a2 2 0 1 1-4 0a2 2 0 0 1 4 0Zm-2 8c4 0 4-.895 4-2s-1.79-2-4-2s-4 .895-4 2s0 2 4 2Z" clip-rule="evenodd">
+                  <path fill="currentColor"  d="M10 4h4c3.771 0 5.657 0 6.828 1.172C22 6.343 22 8.229 22 12c0 3.771 0 5.657-1.172 6.828C19.657 20 17.771 20 14 20h-4c-3.771 0-5.657 0-6.828-1.172C2 17.657 2 15.771 2 12c0-3.771 0-5.657 1.172-6.828C4.343 4 6.229 4 10 4Zm3.25 5a.75.75 0 0 1 .75-.75h5a.75.75 0 0 1 0 1.5h-5a.75.75 0 0 1-.75-.75Zm1 3a.75.75 0 0 1 .75-.75h4a.75.75 0 0 1 0 1.5h-4a.75.75 0 0 1-.75-.75Zm1 3a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1-.75-.75ZM11 9a2 2 0 1 1-4 0a2 2 0 0 1 4 0Zm-2 8c4 0 4-.895 4-2s-1.79-2-4-2s-4 .895-4 2s0 2 4 2Z" >
                   </path>
                 </svg>
                 <h2 className='ml-2'>Profile</h2>
@@ -61,7 +125,7 @@ export default function ProfilePage() {
                 <div className="col-span-1 bg-white shadow rounded p-4">
                   {/* Personal Information */}
                   <h3 className="text-xl font-bold mb-4">About</h3>
-                  <div className='space-y-4'> 
+                  <div className='space-y-4'>
                     <div className='flex items-center'>
                       <p className='w-32'>Name: </p>
                       <span className='font-medium'>{infor?.name}</span>
@@ -109,9 +173,18 @@ export default function ProfilePage() {
             } key="2">
               {/* Content for Posts tab */}
               <div className="p-4">
-                <h3 className="text-xl font-bold mb-4">Liked Room</h3>
                 <div className="bg-white shadow rounded p-4">
                   <p>Liked room here</p>
+                  <Table
+                    dataSource={listFavorite}
+                    columns={columns}
+                    rowKey="id"
+                    pagination={{
+                      total: listFavorite?.length,
+                      pageSize: 3,
+                      showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+                    }}
+                  />
                 </div>
               </div>
             </TabPane>
