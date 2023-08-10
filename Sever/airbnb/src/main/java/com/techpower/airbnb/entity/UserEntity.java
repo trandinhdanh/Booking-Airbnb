@@ -57,7 +57,11 @@ public class UserEntity implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<BlogEntity> blogs;
     @OneToMany(mappedBy = "user")
-    List<StatisticalEntity> statisticals = new ArrayList<>();
+    List<StatisticalEntity> statistical = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<WishlistEntity> wishlists;
+
 
     @Override
     public int hashCode() {

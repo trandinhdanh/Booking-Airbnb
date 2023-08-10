@@ -9,4 +9,7 @@ import java.util.List;
 @Repository
 public interface WishlistRepository extends JpaRepository<WishlistEntity, Long> {
     List<WishlistEntity> findAllByUserId(Long id);
+
+    void deleteByUser_IdAndRoom_Id(Long idUser, Long idRoom);
+
 }
