@@ -25,4 +25,5 @@ public interface IUserService {
 
     UserDTO updateStatus(Status status, long idUser);
 
+
 }

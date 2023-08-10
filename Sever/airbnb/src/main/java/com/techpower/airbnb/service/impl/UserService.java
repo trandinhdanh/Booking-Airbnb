@@ -95,4 +95,5 @@ public class UserService implements IUserService {
         userEntity.setStatus(status);
         return userDTOMapper.apply(userRepository.save(userEntity));
     }
+
 }
