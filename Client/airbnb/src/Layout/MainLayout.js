@@ -5,9 +5,11 @@ import Header from '../Components/Header/Header';
 
 function Mainlayout() {
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       <Header />
-      <Outlet />
+      <div className="flex-1">
+        <Outlet />
+      </div>
       <Footer />
     </div>
   );

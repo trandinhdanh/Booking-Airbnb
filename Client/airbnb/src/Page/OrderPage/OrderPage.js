@@ -9,6 +9,7 @@ import { Rate } from "antd";
 import { order } from "../../Constant/constant";
 import { orderService } from "../../services/orderService";
 import { openNotificationIcon } from "../../Components/NotificationIcon/NotificationIcon";
+import { Link } from "react-router-dom";
 
 export default function OrderPage() {
   const [idUser, setIdUser] = useState(
@@ -68,7 +69,7 @@ export default function OrderPage() {
       title: "Name Room",
       dataIndex: "roomDTO",
       key: "roomDTO",
-      render: (roomDTO) => roomDTO.name,
+      render: (roomDTO) => <Link to={`/detail-room/${roomDTO.id}`}>{ roomDTO.name}</Link>,
     },
     {
       title: "Quantity ",

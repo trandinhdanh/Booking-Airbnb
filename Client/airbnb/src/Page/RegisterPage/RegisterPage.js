@@ -54,7 +54,6 @@ function RegisterPage() {
   const onFinishFailed = (errorInfo) => { };
 
   const { Option } = Select;
-
   const handleVerify = async () => {
     const formData = new FormData();
     formData.append("email", email);

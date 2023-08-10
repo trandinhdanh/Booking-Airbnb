@@ -134,7 +134,7 @@ export default function UserNav({ bg }) {
                   onClick={() => {
                     closeDropDown();
                   }}
-                  to="/order"
+                  to="/profile"
                   className="hover:text-black font-[700] transition duration-100 text-[#FF385C] text-left overflow-hidden w-full"
                 >
                  {t('Hello ') + ' ' + (user?.userDTO?.userName.length > 15 ? user?.userDTO?.userName.slice(0, 15) +"..." : user?.userDTO?.userName)}
@@ -148,7 +148,7 @@ export default function UserNav({ bg }) {
                 </Link>
               )}
             </li>
-            {user?.userDTO?.role[0] === 'CUSTOMER' && 
+            {/* {user?.userDTO?.role[0] === 'CUSTOMER' && 
               <Link
                 onClick={() => {
                   closeDropDown();
@@ -161,7 +161,7 @@ export default function UserNav({ bg }) {
                   </p>
                 </li>
               </Link>
-            }
+            } */}
             {user?.userDTO?.role[0] === 'ADMIN' || user?.userDTO?.role[0] === 'OWNER' ? (
               <Link
                 onClick={() => {

@@ -9,13 +9,13 @@ import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper';
 import { Link } from 'react-router-dom';
 import { dataIMG } from '../../Data/Data';
 import { useTranslation } from 'react-i18next';
+import { favoryteService } from '../../services/favoriteService';
+import { localStorageService } from '../../services/localStorageService';
 
 function CardItem({ roomInfor }) {
   const { t } = useTranslation();
   const [heartColor, setheartColor] = useState(false);
-  const handleHeartColor = () => {
-    setheartColor(true);
-  };
+
   const defaultImage = 'https://a0.muscache.com/im/pictures/237d7dae-4306-466c-aa4c-ae06b2853f94.jpg?im_w=720'
   const renderSwiperItem = () => {
     return roomInfor.images.length > 0
@@ -72,7 +72,6 @@ function CardItem({ roomInfor }) {
       </div>
 
       <svg
-        onClick={handleHeartColor}
         viewBox="0 0 32 32"
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"
@@ -99,7 +98,7 @@ function CardItem({ roomInfor }) {
             {roomInfor?.totalStar >0 ?<>
             <FaStar size="0.8rem" className="mr-2" />
             <span className="text-[1rem] font-[300]">{roomInfor?.totalStar && roomInfor.totalStar.toFixed(1)}</span>
-            </> : <span className="text-[0.8rem] font-[500] rounded bg-yellow-500 text-white px-1">New Room</span>
+            </> : <span className="text-[0.8rem] font-[500] rounded bg-yellow-500 text-white px-1">{t('New Room')}</span>
           }
           </div>
         </div>

@@ -3,6 +3,7 @@ package com.techpower.airbnb.service;
 import com.google.maps.errors.ApiException;
 import com.techpower.airbnb.dto.FeedbackDTO;
 import com.techpower.airbnb.dto.RoomDTO;
+import com.techpower.airbnb.entity.RoomEntity;
 import com.techpower.airbnb.request.SearchHouseRequest;
 import com.techpower.airbnb.response.DayBooking;
 

@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.*;
 public class UserAPI {
     @Autowired
     private IUserService userService;
-
+@GetMapping("/{idUser}")
+public ResponseEntity<?> getInformation(@PathVariable("idUser") Long idUser){
+    return ResponseEntity.ok(userService.getInformation(idUser));
+}
     @GetMapping("/{idUser}/orders")
     public ResponseEntity<?> findAllOrders(@PathVariable("idUser") long idUser) {
         return ResponseEntity.ok(userService.findAllOrders(idUser));
@@ -41,7 +44,7 @@ public class UserAPI {
     public ResponseEntity<?> getAllFeedbackByOwner(@PathVariable("idUser") Long idUser){
         return ResponseEntity.ok(userService.getAllFeedbackByOwner(idUser));
     }
-    @PutMapping("{idUser}")
+    @PutMapping("/{idUser}")
     public ResponseEntity<?> updateStatus(@PathVariable("idUser") long idUser,
                                           @RequestParam("status") Status status) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.updateStatus(status, idUser));

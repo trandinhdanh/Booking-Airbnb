@@ -7,6 +7,9 @@ import { useTranslation } from 'react-i18next';
 import './DetailRoomPage.scss';
 import OrderForm from './OrderForm/OrderForm';
 import Feedback from './Feedback/Feedback';
+import { localStorageService } from '../../services/localStorageService';
+import { favoriteService } from '../../services/favoriteService';
+import { openNotificationIcon } from '../../Components/NotificationIcon/NotificationIcon';
 
 export default function DetailRoomPage() {
     const {id} = useParams();
@@ -19,7 +22,6 @@ export default function DetailRoomPage() {
         setIsFecth(true)
         roomService.getHouseById(id)
             .then((res) => {
-                console.log(res.data);
                 setRoomDetail(res.data)
                 setIsFecth(false)
               })
@@ -37,6 +39,19 @@ export default function DetailRoomPage() {
               console.log(err);
             });
       },[])
+      const [user, setuser] = useState(localStorageService.get('USER').userDTO);
+
+      const handlefavorite = async (idroom) => {
+        try {
+          const formData = new FormData();
+          formData.append("roomId", idroom);
+          const response = await favoriteService.add(user.id,formData)
+          openNotificationIcon("success" , "Success" , "Add Favority Success")
+        } catch (error) {
+          openNotificationIcon("error" , "Error" , "Add Favority Error")
+          console.log(error);
+        }
+      };
      const renderItemUtilities = () => {
       const roomDetails = [
         {
@@ -146,7 +161,14 @@ export default function DetailRoomPage() {
             <div className="w-full flex h-full">
               <div className="mb:w-full sm:w-full md:w-3/5 lg:w-3/5">
                 <div className="w-full mb:py-[1rem] sm:py-[1rem] md:py-[2.2rem] border-b-[1px] border-[#dadada]">
+                  <div className='flex justify-between'>
                   <h2 className="text-[1.5rem] font-[500]">{roomDetail?.name}</h2>
+                  <button
+                  className="px-4 py-1 rounded-lg bg-primary text-white font-medium hover:bg-[#068FFF] hover:text-white transition-all"
+                  onClick={() => { 
+                    handlefavorite(id)
+                   }}>SAVE</button>
+                  </div>
                   <span className="text-[1rem] font-[400] text-[#717171]">
                     {roomDetail?.maxGuests} {t('Guest')} - {roomDetail?.numBedrooms} {t('Bed Room')} - {roomDetail?.numLivingRooms} {t('Living Room')} -  {roomDetail?.numBathrooms} {t('Bath Room')}
                   </span>

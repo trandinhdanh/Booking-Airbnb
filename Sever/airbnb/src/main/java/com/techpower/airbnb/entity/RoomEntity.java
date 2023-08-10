@@ -63,5 +63,4 @@ public class RoomEntity {
     @OneToMany(mappedBy = "room")
     private List<OrderEntity> orders = new ArrayList<>();
 
-
 }

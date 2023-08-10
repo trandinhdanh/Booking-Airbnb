@@ -10,7 +10,6 @@ const initialState = {
 export const getRoomList = createAsyncThunk("room/list", async () => {
   try {
     const res = await https.get("/api/v1/rooms");
-    console.log(res.data);
     return res.data;
   } catch (error) {
     message.error(error.response.data.message);
