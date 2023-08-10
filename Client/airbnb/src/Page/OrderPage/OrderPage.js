@@ -24,7 +24,7 @@ export default function OrderPage() {
   const [feedbackStars, setFeedbackStars] = useState(3); 
   const [feedbacks, setFeedbacks] = useState(); 
   const [pageSize, setPageSize] = useState(5);
-
+  
   useEffect(() => {
     userService
       .getOrder(idUser)
@@ -46,6 +46,7 @@ export default function OrderPage() {
         console.log(err);
       });
   }, [idUser]);
+
   const getStatusColor = (status) => {
     switch (status) {
       case order.CONFIRM:
@@ -54,10 +55,8 @@ export default function OrderPage() {
         return "yellow";
       case order.CHECK_IN:
         return "green";
-      case order.CHECK_OUT:
-        return 'gray'
-      case order.CANCEL:
-        return 'red'
+        case order.CHECK_OUT:
+          return "orange";
       default:
         return "red";
     }
@@ -100,11 +99,12 @@ export default function OrderPage() {
           <div className="space-x-2">
             {
               record.status !== order.CANCEL &&  <Button
+              disabled={record.status !== order.CHECK_OUT|| feedbacks?.some((item) => item.idOrder === record.id)}
               type="default"
               danger
               onClick={() => showFeedbackModal(record.id)}
             >
-              Feed Back
+              FeedBack
             </Button>
             }
             {
@@ -160,8 +160,10 @@ export default function OrderPage() {
   };
 
   const showFeedbackModal = (orderId) => {
+
     setSelectedOrderId(orderId);
     setIsFeedbackModalVisible(true);
+
     // Thực hiện các bước khác liên quan đến việc hiển thị modal đăng feedback (nếu cần)
   };
 

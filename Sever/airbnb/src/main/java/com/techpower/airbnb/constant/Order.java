@@ -4,7 +4,7 @@ public enum Order {
     BOOKED,
     CANCEL,
     CONFIRM,
-    CHECKED_IN,
-    CHECKED_OUT,
+    CHECK_IN,
+    CHECK_OUT,
     WAITING_PAYMENT_ONLINE
 }

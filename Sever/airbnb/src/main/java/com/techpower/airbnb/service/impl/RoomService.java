@@ -113,7 +113,7 @@ public class RoomService implements IRoomService {
         }
 
         RoomEntity roomEntityOld = roomRepository.findOneById(dto.getId());
-        roomEntityOld.setLocation(locationRepository.findOneByCode(dto.getCodeLocation()));
+//        roomEntityOld.setLocation(locationRepository.findOneByCode(dto.getCodeLocation()));
 
         //xử lí address
         if (!dto.getAddress().getFullAddress().equalsIgnoreCase(roomEntityOld.getAddress().getFullAddress())) {

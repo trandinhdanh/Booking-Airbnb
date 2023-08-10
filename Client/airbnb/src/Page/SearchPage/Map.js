@@ -42,7 +42,7 @@ const options = {
 const Map = ({ address }) => {
   return (
     <LoadScript
-      googleMapsApiKey="AIzaSyCA5Ytjw_xQZMeNV5yuVW70x1BeLWEbtsQ">
+      googleMapsApiKey="AIzaSyAuLeNevWVQJMYM7GBtmRa9yXNyP96Cnd8">
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={{
