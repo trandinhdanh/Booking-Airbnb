@@ -27,4 +27,5 @@ public interface IUserService {
     UserDTO updateStatus(Status status, long idUser);
 
     Map<String, Object> getInformation(Long idUser);
+
 }
