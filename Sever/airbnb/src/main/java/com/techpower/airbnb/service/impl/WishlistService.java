@@ -9,6 +9,7 @@ import com.techpower.airbnb.repository.RoomRepository;
 import com.techpower.airbnb.repository.UserRepository;
 import com.techpower.airbnb.repository.WishlistRepository;
 import com.techpower.airbnb.service.IWishlistService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,15 +48,10 @@ public class WishlistService implements IWishlistService {
     public List<WishlistDTO> findAllByUserId(Long userId) {
         return wishlistConverter.toDTOs(wishlistRepository.findAllByUserId(userId));
     }
-
+    @Transactional
     @Override
     public String removeToWishlist(Long userId, Long roomId) {
-        List<WishlistEntity> wishlistEntities = wishlistRepository.findAllByUserId(userId);
-        for (WishlistEntity wishlistEntity: wishlistEntities) {
-            if (wishlistEntity.getRoom().getId() == roomId) {
-                wishlistRepository.delete(wishlistEntity);
-            }
-        }
+        wishlistRepository.deleteByUser_IdAndRoom_Id(userId,roomId);
         return "Remove wishlist success";
     }
 }
