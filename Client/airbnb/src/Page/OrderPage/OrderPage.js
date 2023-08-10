@@ -46,7 +46,6 @@ export default function OrderPage() {
         console.log(err);
       });
   }, [idUser]);
-
   const getStatusColor = (status) => {
     switch (status) {
       case order.CONFIRM:
@@ -55,6 +54,10 @@ export default function OrderPage() {
         return "yellow";
       case order.CHECK_IN:
         return "green";
+      case order.CHECK_OUT:
+        return 'gray'
+      case order.CANCEL:
+        return 'red'
       default:
         return "red";
     }

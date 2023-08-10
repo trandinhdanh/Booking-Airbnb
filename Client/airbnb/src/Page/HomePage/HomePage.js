@@ -43,7 +43,6 @@ function HomePage() {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
   const currentItems = room?.slice(indexOfFirstItem, indexOfLastItem);
-  console.log(currentItems);
 
   const totalPages = Math.ceil(room?.length / itemsPerPage);
   const handleQueyFilter = (data) => {
@@ -54,9 +53,9 @@ function HomePage() {
   }, []);
 
   const renderRoomItem = () => {
-    return currentItems?.map((roomInfor, index) => {
-      return <CardItem key={index} roomInfor={roomInfor} />;
-    });
+    return Array.isArray(currentItems) ? currentItems.map((roomInfor, index) => (
+      <CardItem key={index} roomInfor={roomInfor} />
+    )) : null;
   };
 
   const handleDecrease = () => {
