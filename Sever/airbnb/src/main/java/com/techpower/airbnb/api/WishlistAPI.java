@@ -24,9 +24,14 @@ public class WishlistAPI {
     public ResponseEntity<?> addToWishlist(@PathVariable Long idUser, @RequestParam(name = "roomId") Long roomId) {
         WishlistDTO wishlistDTO = iWishlistService.addToWishlist(idUser,roomId);
         if (wishlistDTO == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Add wishlist fail");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Room already exist");
         } else
             return ResponseEntity.ok(wishlistDTO);
     }
+    @DeleteMapping("{idUser}/delete")
+    public ResponseEntity<?> delete(@PathVariable Long idUser, @RequestParam(name = "roomId") Long roomId){
+        return ResponseEntity.ok(iWishlistService.removeToWishlist(idUser,roomId));
+    }
+
 
 }

@@ -9,4 +9,5 @@ public interface IWishlistService {
     List<WishlistDTO> findAll();
     WishlistDTO addToWishlist(Long userId, Long roomId);
     List<WishlistDTO> findAllByUserId(Long userId);
+    String removeToWishlist(Long userId, Long roomId);
 }
