@@ -9,7 +9,7 @@ import { userService } from '../../services/userService';
 
 export default function ProfilePage() {
   const [user, setuser] = useState(localStorageService.get('USER'));
-const [infor, setinfor] = useState({});
+  const [infor, setinfor] = useState({});
   useEffect(() => {
     userService
       .getInformation(user.userDTO.id)
@@ -23,18 +23,18 @@ const [infor, setinfor] = useState({});
 
   return (
     <div className='container mx-auto pt-28 pb-10 bg-white'>
-      <div className="bg-gray-100 min-h-screen">
-        <div className="container mx-auto pt-10">
+      <div className="bg-gray-100 min-h-screen rounded-lg">
+        <div className="container mx-auto py-10 rounded-lg bg-cover" style={{ backgroundImage: "url('https://img.freepik.com/free-vector/pastel-ombre-background-pink-purple_53876-120750.jpg?w=900&t=st=1691652274~exp=1691652874~hmac=63d295f2aca3311ad1a92b71334c67ff86a76c02908b4d5e51fe17536885abfd')" }}>
           <div className="grid grid-cols-4 gap-6">
             <div className="col-span-1 flex justify-end">
               <div className="w-32 h-32 relative rounded-full overflow-hidden">
                 <img
-                  src="https://via.placeholder.com/150"
+                  src="https://img.freepik.com/free-vector/abstract-watercolor-pastel-background_87374-139.jpg?w=900&t=st=1691651319~exp=1691651919~hmac=e354aed82d64ee4d089a0608dc347b1c00eea7bdcd74c140f06aea290720ab3f"
                   alt="Profile"
                   className="object-cover w-full h-full"
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                  <span className="text-white text-4xl">A</span>
+                  <span className="text-white text-4xl">{infor?.name ? infor.name[0].toUpperCase() : 'A'}</span>
                 </div>
               </div>
             </div>
@@ -46,7 +46,7 @@ const [infor, setinfor] = useState({});
           </div>
         </div>
 
-        <div className="container mx-auto mt-10">
+        <div className="container mx-auto ">
           <Tabs defaultActiveKey="1" className='mx-10'>
             <TabPane tab={
               <span className='flex items-center' >
@@ -57,18 +57,41 @@ const [infor, setinfor] = useState({});
                 <h2 className='ml-2'>Profile</h2>
               </span>
             } key="1">
-              <div className="p-4 grid grid-cols-3 gap-4">
+              <div className="py-4 grid grid-cols-3 gap-4">
                 <div className="col-span-1 bg-white shadow rounded p-4">
                   {/* Personal Information */}
                   <h3 className="text-xl font-bold mb-4">About</h3>
-                  <p>Name: {infor?.name}</p>
-                  <p>Phone Number: {infor?.phone}</p>
-                  <p>Email: {infor?.email}</p>
-                  <p>Birthday: {infor?.birthday}</p>
-                  <p>Gender: {infor?.gender ? "Male" : "Female"}</p>
-                  <p>Is Confirmed: {infor?.isConfirmed !== 1 ? "No" : "Yes" }</p>
+                  <div>
+                    <div className='flex items-center'>
+                      <p className='w-32'>Name: </p>
+                      <span className='font-medium'>{infor?.name}</span>
+                    </div>
+                    <div className='flex items-center'>
+                      <p className='w-32'>Phone Number: </p>
+                      <span className='font-medium'>{infor?.phone}</span>
+                    </div>
+                    <div className='flex items-center'>
+                      <p className='w-32'>Email: </p>
+                      <span className='font-medium'>{infor?.email}</span>
+                    </div>
+                    <div className='flex items-center'>
+                      <p className='w-32'>Birthday: </p>
+                      <span className='font-medium'>{infor?.birthday}</span>
+                    </div>
+                    <div className='flex items-center'>
+                      <p className='w-32'>Gender: </p>
+                      <span className='font-medium'>{infor?.gender ? "Male" : "Female"}</span>
+                    </div>
+                    <div className='flex items-center'>
+                      <p className='w-32'>Is Confirmed: </p>
+                      <span className='font-medium'>{infor?.isConfirmed !== 1 ? "No" : "Yes"}</span>
+                    </div>
+                    <div className='flex items-center'>
+                      <p className='w-32'>Active: </p>
+                      <span className='font-medium'>{infor?.status}</span>
+                    </div>
+                  </div>
 
-                  <p>Active: {infor?.status }</p>
                   {/* Add more personal information here */}
                 </div>
                 <div className="col-span-2 bg-white shadow rounded p-4">
@@ -92,9 +115,9 @@ const [infor, setinfor] = useState({});
               </div>
             </TabPane>
             <TabPane tab={<span className='flex items-center' >
-             <IoMdCart className='w-[22px] h-[22px]'/>
-                <span className='ml-2'>Order</span>
-              </span>} key="3">
+              <IoMdCart className='w-[22px] h-[22px]' />
+              <span className='ml-2'>Order</span>
+            </span>} key="3">
               {/* Content for Photos tab */}
               <div className="p-4">
                 <h3 className="text-xl font-bold mb-[-4.5rem]">Your Booked</h3>

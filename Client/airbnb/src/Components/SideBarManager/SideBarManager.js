@@ -5,7 +5,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { localStorageService } from '../../services/localStorageService';
 import { RiAccountCircleFill, RiFeedbackFill } from 'react-icons/ri';
 import { BsHouse, BsFillCartFill } from 'react-icons/bs';
-import { CiLogout } from 'react-icons/ci';
+import { CiLogout } from 'react-icons/ci'; 
+import { AiOutlineBarChart } from 'react-icons/ai'; 
 import { MdLocationOn, MdCalendarToday } from 'react-icons/md'
 import { BsFillPencilFill } from 'react-icons/bs';
 import { logoutUser } from '../../Redux/auth/authSlice';
@@ -20,7 +21,7 @@ export default function SideBarManager() {
 
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   useEffect(() => {
-    if (isLoggedIn == false) {
+    if (isLoggedIn === false) {
       navigate('/login')
       openNotificationIcon("error", "Error" , "Please Login")
 
@@ -48,15 +49,16 @@ export default function SideBarManager() {
   ];
   
   const ownerData = [
-    {
-      name: "Statistical",
-      path: "/manager/statistical",
-      Icon: BsHouse,
-    },
+   
     {
       name: "House",
       path: "/manager/house",
       Icon: BsHouse,
+    },
+     {
+      name: "Statistical",
+      path: "/manager/statistical",
+      Icon: AiOutlineBarChart,
     },
     {
       name: "Calendar",
@@ -88,7 +90,7 @@ export default function SideBarManager() {
 
 
   const render = () => {
-    const isAdmin = user.role[0] === role.ADMIN;
+    const isAdmin = user?.role[0] === role.ADMIN;
     if (isAdmin) {
       return adminData.map((item, i) => (
         <li key={i}>
