@@ -30,6 +30,10 @@ public class WishlistService implements IWishlistService {
 
     @Override
     public WishlistDTO addToWishlist(Long userId, Long roomId) {
+        List<WishlistDTO> list = wishlistConverter.toDTOs(wishlistRepository.findAllByUserId(userId));
+        for (WishlistDTO w : list) {
+            if (w.getRoomDTO().getId() == roomId) return null;
+        }
         WishlistEntity wishlistEntity = new WishlistEntity();
         UserEntity user = userRepository.findOneById(userId);
         RoomEntity room = roomRepository.findOneById(roomId);
@@ -42,5 +46,16 @@ public class WishlistService implements IWishlistService {
     @Override
     public List<WishlistDTO> findAllByUserId(Long userId) {
         return wishlistConverter.toDTOs(wishlistRepository.findAllByUserId(userId));
+    }
+
+    @Override
+    public String removeToWishlist(Long userId, Long roomId) {
+        List<WishlistEntity> wishlistEntities = wishlistRepository.findAllByUserId(userId);
+        for (WishlistEntity wishlistEntity: wishlistEntities) {
+            if (wishlistEntity.getRoom().getId() == roomId) {
+                wishlistRepository.delete(wishlistEntity);
+            }
+        }
+        return "Remove wishlist success";
     }
 }
