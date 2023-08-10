@@ -24,16 +24,16 @@ export default function ProfilePage() {
   return (
     <div className='container mx-auto pt-28 pb-10 bg-white'>
       <div className="bg-gray-100 min-h-screen rounded-lg">
-        <div className="container mx-auto py-10 rounded-lg bg-cover" style={{ backgroundImage: "url('https://img.freepik.com/free-vector/pastel-ombre-background-pink-purple_53876-120750.jpg?w=900&t=st=1691652274~exp=1691652874~hmac=63d295f2aca3311ad1a92b71334c67ff86a76c02908b4d5e51fe17536885abfd')" }}>
+        <div className="container mx-auto py-10 rounded-lg bg-cover" style={{ backgroundImage: "url('https://img.freepik.com/free-photo/vivid-blurred-colorful-wallpaper-background_58702-3798.jpg?w=900&t=st=1691678392~exp=1691678992~hmac=43eeaa7f69b2aebacc7d96446027ae499e180298cb30fd23b870dc5d6798b92d')" }}>
           <div className="grid grid-cols-4 gap-6">
             <div className="col-span-1 flex justify-end">
               <div className="w-32 h-32 relative rounded-full overflow-hidden">
                 <img
-                  src="https://img.freepik.com/free-vector/abstract-watercolor-pastel-background_87374-139.jpg?w=900&t=st=1691651319~exp=1691651919~hmac=e354aed82d64ee4d089a0608dc347b1c00eea7bdcd74c140f06aea290720ab3f"
+                  src="https://img.freepik.com/free-photo/vivid-blurred-colorful-wallpaper-background_58702-3798.jpg?w=900&t=st=1691678392~exp=1691678992~hmac=43eeaa7f69b2aebacc7d96446027ae499e180298cb30fd23b870dc5d6798b92d"
                   alt="Profile"
                   className="object-cover w-full h-full"
                 />
-                <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
                   <span className="text-white text-4xl">{infor?.name ? infor.name[0].toUpperCase() : 'A'}</span>
                 </div>
               </div>
@@ -46,7 +46,7 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        <div className="container mx-auto ">
+        <div className="container mx-auto mt-5">
           <Tabs defaultActiveKey="1" className='mx-10'>
             <TabPane tab={
               <span className='flex items-center' >
@@ -61,7 +61,7 @@ export default function ProfilePage() {
                 <div className="col-span-1 bg-white shadow rounded p-4">
                   {/* Personal Information */}
                   <h3 className="text-xl font-bold mb-4">About</h3>
-                  <div>
+                  <div className='space-y-4'> 
                     <div className='flex items-center'>
                       <p className='w-32'>Name: </p>
                       <span className='font-medium'>{infor?.name}</span>
@@ -94,8 +94,9 @@ export default function ProfilePage() {
 
                   {/* Add more personal information here */}
                 </div>
-                <div className="col-span-2 bg-white shadow rounded p-4">
+                <div className="col-span-2 bg-white shadow rounded p-4 h-[450px]">
                   {/* Empty column */}
+                  <img className='w-full h-full bg-cover' src='https://img.freepik.com/free-vector/flat-design-travel-twitch-background_23-2149081581.jpg?w=900&t=st=1691678223~exp=1691678823~hmac=98d58011db4925f96a1b22d38972aed1e7fb79b43f369c948f9456bb49d390d3' />
                 </div>
               </div>
             </TabPane>
