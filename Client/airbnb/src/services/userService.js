@@ -1,6 +1,9 @@
 import { https } from './axiosClient';
 
 export let userService = {
+  getInformation: (idUser) => {
+    return https.get(`/api/v1/users/${idUser}`);
+  },
   getOrder: (idUser) => {
     return https.get(`/api/v1/users/${idUser}/orders`);
   },

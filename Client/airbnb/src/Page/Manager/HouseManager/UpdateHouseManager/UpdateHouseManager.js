@@ -119,30 +119,13 @@ formData.append('images', []);
           <Input.TextArea />
         </Form.Item>
 
-        {/* <Form.Item
-          label={t("Location")}
-          name="codeLocation"
-          rules={[{ required: true, message: t("Please select the location") }]}
-        >
-          <Select
-            showSearch
-            optionFilterProp="children"
-            placeholder={t("Select Location")}
-          >
-            {locationList.map((location) => (
-              <Option key={location.codeLocation} value={location.codeLocation}>
-                {location.name}
-              </Option>
-            ))}
-          </Select>
-        </Form.Item> */}
 
         <Form.Item
           label={t("Address")}
           name="address"
           rules={[{ required: true, message: t("Please select the address") }]}
         >
-          <Input  placeholder={t("Address")} onChange={handleStreetChange} />
+          <Input.TextArea />
         </Form.Item>
 
         <Row gutter={16}>
