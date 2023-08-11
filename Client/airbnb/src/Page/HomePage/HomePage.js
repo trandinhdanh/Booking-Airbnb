@@ -25,7 +25,6 @@ function HomePage() {
   const dispatch = useDispatch();
   const allRoom = useSelector((state) => state.room.listRoom.allRoom);
   const [room, setRoom] = useState([]);
-  console.log(room);
   useEffect(() => {
     setRoom(allRoom);
   }, [allRoom]);
@@ -99,7 +98,7 @@ function HomePage() {
           <ExploreNearby />
         </div>
       </div>
-      <div className="container mb-5 m-auto mt-10 flex justify-end space-x-3 ">
+      <div className="container mb-5 m-auto mt-10 flex justify-start space-x-3 ">
         <Button
         className="font-bold text-primary"
           onClick={handleDecrease}

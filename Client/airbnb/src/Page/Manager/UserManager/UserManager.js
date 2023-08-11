@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Tabs } from 'antd';
+import UserManagement from './UserManagement';
+import SellerManagement from './SellerManagement';
 
 const { TabPane } = Tabs;
 
@@ -14,12 +16,11 @@ export default function UserManagemer() {
     <div>
       <Tabs activeKey={activeTab} onChange={handleTabChange}>
         <TabPane tab="User" key="user">
-          {/* <UserManagement /> */}
-          a
+          <UserManagement />
+          
         </TabPane>
         <TabPane tab="Seller" key="seller">
-          {/* <SellerManagement /> */}
-            b
+          <SellerManagement />
         </TabPane>
       </Tabs>
     </div>

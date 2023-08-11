@@ -45,6 +45,16 @@ export default function SideBarManager() {
       path: "/manager/user",
       Icon: RiAccountCircleFill,
     },
+    {
+      name: "Blog",
+      path: "/manager/blog",
+      Icon: BsFillPencilFill,
+    },
+    {
+      name: "Statistical",
+      path: "/manager/statistical",
+      Icon: AiOutlineBarChart,
+    },
     // Add other Admin items here if needed
   ];
   

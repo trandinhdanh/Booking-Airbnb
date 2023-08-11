@@ -22,7 +22,6 @@ export default function BlogBanner() {
         const response = await blogService.getAllBlog()
         setBlog(response.data)
         setIsLoading(false)
-        console.log(response);
       } catch (error) {
         console.log(error)
       } finally {
@@ -65,15 +64,17 @@ export default function BlogBanner() {
           >
             {blog?.map((item, i) => {
               return (
+                <>
                 <SwiperSlide key={i} className="py-3">
                   <Link to={`/blog/${item.id}`}>
-                    <div className="px-3 pb-24 pt-3  rounded-lg hover:shadow-md transition-all w-[300px] h-[350px]">
+                    <div className="px-3 pb-24 pt-3  rounded-lg shadow-md hover:shadow-lg transition-all w-[300px] h-[350px]">
                       <img className="rounded-lg w-full object-cover" src={item.image} />
                       <h1 className="text-center text-[15px] mt-[10px] font-bold ">{item.title}</h1>
                       <p className="text-center text-[12px] text-gray-500">{item.shortDescription}</p>
                     </div>
                   </Link>
                 </SwiperSlide>
+                </>
               )
             })}
           </Swiper>

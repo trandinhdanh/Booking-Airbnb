@@ -10,7 +10,6 @@ export default function BlogPage() {
       try {
         const response = await blogService.getAllBlog()
         setBlog(response.data)
-        console.log(response);
       } catch (error) {
         console.log(error)
       }

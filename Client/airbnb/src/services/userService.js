@@ -21,5 +21,17 @@ export let userService = {
   },
   getAllFeedbackByOwner: (idUser) => {
     return https.get(`/api/v1/users/${idUser}/manager-feedback`);
+  },
+  getAllUser: () => {
+    return https.get(`/api/v1/users/customer`);
+  },
+  getAllOwner: () => {
+    return https.get(`/api/v1/users/owner`);
+  },
+  lock: (idUser) => {
+    return https.put(`/api/v1/users/${idUser}/status/INACTIVE`)
+  },
+  unlock: (idUser) => {
+    return https.put(`/api/v1/users/${idUser}/status/ACTIVE`)
   }
 };

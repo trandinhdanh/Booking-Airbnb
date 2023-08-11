@@ -1,11 +1,14 @@
 package com.techpower.airbnb.api;
 
 import com.techpower.airbnb.constant.Status;
+import com.techpower.airbnb.dto.UserDTO;
 import com.techpower.airbnb.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin("*")
@@ -13,6 +16,27 @@ import org.springframework.web.bind.annotation.*;
 public class UserAPI {
     @Autowired
     private IUserService userService;
+
+    @GetMapping("/customer")
+    public ResponseEntity<List<UserDTO>> getAllUser() {
+        return ResponseEntity.ok(userService.getAllCustomer());
+    }
+
+    @GetMapping("/owner")
+    public ResponseEntity<List<UserDTO>> getAllOwner() {
+        return ResponseEntity.ok(userService.getAllOwner());
+    }
+
+    @PutMapping("/{idUser}/status/{status}")
+    public ResponseEntity<UserDTO> lock(@PathVariable("idUser") long idUser,
+                                        @PathVariable("status") String status) {
+        UserDTO deletedUser = userService.lock(idUser, status);
+        if (deletedUser != null) {
+            return ResponseEntity.ok(deletedUser);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
     @GetMapping("/{idUser}")
     public ResponseEntity<?> getInformation(@PathVariable("idUser") Long idUser) {

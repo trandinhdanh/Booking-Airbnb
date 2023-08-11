@@ -14,17 +14,22 @@ export default function ProfilePage() {
   const [user, setuser] = useState(localStorageService.get('USER'));
   const [infor, setinfor] = useState({});
   const [listFavorite, setListFavorite] = useState();
+  const [reloadPage, setReloadPage] = useState(false)
   useEffect(() => {
+    getUser();
+    getFavorite();
+  }, [reloadPage]);
+  const getUser = () => { 
     userService
-      .getInformation(user.userDTO.id)
-      .then((res) => {
-        setinfor(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [user]);
-  useEffect(() => {
+    .getInformation(user.userDTO.id)
+    .then((res) => {
+      setinfor(res.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+   }
+   const getFavorite = () => { 
     favoriteService
       .get(user.userDTO.id)
       .then((res) => {
@@ -34,7 +39,7 @@ export default function ProfilePage() {
       .catch((err) => {
         console.log(err);
       });
-  }, [user]);
+    }
   const columns = [
     {
       title: 'Name',
@@ -53,7 +58,7 @@ export default function ProfilePage() {
       dataIndex: 'images',
       key: 'images',
       render: (text,record) => (
-        <Image className='bg-cover' src={record.roomDTO.images[0]} alt="Room" width={50} height={50} />
+        <img className='bg-cover w-[100px] h-[100px] rounded-lg ' src={record.roomDTO.images[0]} alt="Room"  />
       ),
     },
     {
@@ -73,9 +78,8 @@ export default function ProfilePage() {
 
   const handleRemoveFavorite = async (idroom) => {
     try {
-      console.log(idroom);
       const response = await favoriteService.remove(user.userDTO.id,idroom)
-      console.log(response);
+      setReloadPage(!reloadPage)
       openNotificationIcon("success" , "Success" , "Remove Favority Success")
     } catch (error) {
       openNotificationIcon("error" , "Error" , "Remove Favority Error")

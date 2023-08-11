@@ -24,7 +24,7 @@ import BlogDetailPage from "../Page/BlogDetailPage/BlogDetailPage";
 import ConfirmOrderPage from "../Page/ConfirmOrderPage/ConfirmOrderPage";
 import RegisterOwner from "../Page/RegisterPage/RegisterOwner";
 import StatisticalManager from "../Page/Manager/StatisticalManager";
-import UserManagemer from "../Page/Manager/UserManager";
+import UserManagemer from "../Page/Manager/UserManager/UserManager";
 
 export default function Routers() {
   return (
