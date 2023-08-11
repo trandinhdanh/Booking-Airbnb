@@ -43,7 +43,7 @@ function Footer() {
           </ul>
         </div>
         <div className="text-left">
-          <h2 className="mb-4 font-[600] text-[0.8rem]">Community</h2>
+          <h2 className="mb-4 font-[600] text-[0.8rem]">{t("Community")}</h2>
           <ul className="text-[0.8rem]">
             <li className="mb-4 font-[400]">
               {" "}
@@ -76,7 +76,7 @@ function Footer() {
           </ul>
         </div>
         <div className="text-left">
-          <h2 className="mb-4 font-[600] text-[0.8rem]">Hosting</h2>
+          <h2 className="mb-4 font-[600] text-[0.8rem]">{t("Hosting")}</h2>
           <ul className="text-[0.8rem]">
             <li className="mb-4 font-[400]">
               {" "}
