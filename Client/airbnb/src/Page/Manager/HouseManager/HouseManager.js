@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { userService } from '../../../services/userService';
 import { localStorageService } from '../../../services/localStorageService';
 import { roomService } from '../../../services/RoomService';
+import { openNotificationIcon } from '../../../Components/NotificationIcon/NotificationIcon';
 
 export default function HouseManager() {
   const { Column } = Table;
@@ -20,7 +21,6 @@ export default function HouseManager() {
     const getHouses = async () => {
       try {
         const items = await userService.getOwnersRoom(idUser);
-        console.log(items);
         setHouses(items.data);
       } catch (error) {
         console.log(error);
@@ -38,11 +38,10 @@ export default function HouseManager() {
     
    try {
     const respone = await roomService.delete(selectedHouse);
-    console.log(respone);
     setReloadPage(!reloadPage)
-    message.success("Delete Success")
+    openNotificationIcon("success","Success" , "Delete Room Success" )
    } catch (error) {
-    message.error("Delete Error")
+    openNotificationIcon("error","Error" , "Delete Room Error" )
    }
     setModalVisible(false);
   };

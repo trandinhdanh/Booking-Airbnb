@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 
 const containerStyle = {
-  width: '1400px',
+  width: '120%',
   height: '900px'
 };
 
@@ -48,7 +48,7 @@ const Map = ({ address }) => {
         center={{
           lat: address[0]?.address?.lat, lng: address[0]?.address.lng
         }}
-        zoom={13}
+        zoom={14}
         options={options}
       >
         {address?.map((addr, index) => (

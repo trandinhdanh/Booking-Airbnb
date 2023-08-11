@@ -27,5 +27,8 @@ public interface IUserService {
     UserDTO updateStatus(Status status, long idUser);
 
     Map<String, Object> getInformation(Long idUser);
+    List<UserDTO> getAllCustomer();
+    List<UserDTO> getAllOwner();
+     UserDTO lock(long idUser,String status);
 
 }

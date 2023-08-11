@@ -11,5 +11,7 @@ import java.util.List;
 public interface StatisticalRepository extends JpaRepository<StatisticalEntity, Long> {
     StatisticalEntity findOneByUserAndYearAndMonth(UserEntity userEntity, int year, int month);
 
+    List<StatisticalEntity> findByUser_IdAndYear(Long id, int year);
+
     List<StatisticalEntity> findAllByUserAndYear(UserEntity userEntity, int year);
 }

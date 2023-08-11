@@ -1,5 +1,6 @@
 package com.techpower.airbnb.service.impl;
 
+import com.techpower.airbnb.constant.Role;
 import com.techpower.airbnb.constant.Status;
 import com.techpower.airbnb.converter.FeedbackConverter;
 import com.techpower.airbnb.converter.OrderConverter;
@@ -20,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService implements IUserService {
@@ -41,10 +43,16 @@ public class UserService implements IUserService {
     private FeedbackConverter feedbackConverter;
     @Autowired
     private FeedbackRepository feedbackRepository;
-
+    public List<OrderDTO> sortOrderListById(List<OrderDTO> orderList) {
+        return orderList.stream()
+                .sorted(Comparator.comparingLong(OrderDTO::getId).reversed())
+                .collect(Collectors.toList());
+    }
     @Override
     public List<OrderDTO> findAllOrders(long idUser) {
-        return orderConverter.mapperTOList(orderRepository.findAllByUserId(idUser));
+        List<OrderDTO> orderDTOS = orderConverter.mapperTOList(orderRepository.findAllByUserId(idUser));
+//        Collections.reverse(orderDTOS);
+        return sortOrderListById(orderDTOS);
     }
 
     @Override
@@ -96,9 +104,9 @@ public class UserService implements IUserService {
     @Override
     public Map<String, Object> getInformation(Long idUser) {
         UserEntity userEntity = userRepository.findOneById(idUser);
-        Map<String, Object> userInfo  = new HashMap<>();
+        Map<String, Object> userInfo = new HashMap<>();
         userInfo.put("id", idUser);
-        userInfo.put("name",userEntity.getName());
+        userInfo.put("name", userEntity.getName());
         userInfo.put("email", userEntity.getEmail());
         userInfo.put("phone", userEntity.getPhone());
         userInfo.put("gender", userEntity.isGender());
@@ -107,6 +115,41 @@ public class UserService implements IUserService {
         userInfo.put("isConfirmed", userEntity.isConfirmed());
 
         return userInfo;
+    }
+
+    @Override
+    public List<UserDTO> getAllCustomer() {
+        List<UserEntity> userEntities = userRepository.findAllByRole(Role.CUSTOMER);
+        List<UserDTO> userDTOS = new ArrayList<>();
+        for (UserEntity user : userEntities) {
+            userDTOS.add(userDTOMapper.apply(user));
+        }
+        return userDTOS;
+    }
+
+    @Override
+    public List<UserDTO> getAllOwner() {
+        List<UserEntity> userEntities = userRepository.findAllByRole(Role.OWNER);
+        List<UserDTO> userDTOS = new ArrayList<>();
+        for (UserEntity user : userEntities) {
+            userDTOS.add(userDTOMapper.apply(user));
+        }
+        return userDTOS;
+    }
+
+    @Override
+    public UserDTO lock(long idUser, String status) {
+        UserEntity userEntity = userRepository.findOneById(idUser);
+        if (userEntity != null) {
+            if (status.equalsIgnoreCase("ACTIVE")) {
+                userEntity.setStatus(Status.ACTIVE);
+            }
+            if (status.equalsIgnoreCase("INACTIVE")) {
+                userEntity.setStatus(Status.INACTIVE);
+            }
+            return userDTOMapper.apply(userRepository.save(userEntity));
+        } else
+            return null;
     }
 
 }

@@ -15,6 +15,7 @@ import com.techpower.airbnb.repository.UserRepository;
 import com.techpower.airbnb.service.EmailSender;
 import com.techpower.airbnb.service.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -22,6 +23,9 @@ import java.time.temporal.ChronoUnit;
 
 @Service
 public class OrderService implements IOrderService {
+
+    @Value("${email.admin}")
+    private String emailAdmin;
 
     @Autowired
     private OrderRepository orderRepository;
@@ -90,7 +94,7 @@ public class OrderService implements IOrderService {
                 if (orderEntity.getStatus().equals(Order.CHECK_IN)) {
                     orderEntity.setStatus(orderStatus);
                     //xử lí thống kê
-                    UserEntity userEntityAdmin = userRepository.findOneByEmail("admin@gmail.com");
+                    UserEntity userEntityAdmin = userRepository.findOneByEmail(emailAdmin);
                     UserEntity userEntitySeller = orderEntity.getRoom().getUser();
                     if (statisticalRepository.findOneByUserAndYearAndMonth(
                             userEntityAdmin, LocalDate.now().getYear(), LocalDate.now().getMonthValue()) == null) {

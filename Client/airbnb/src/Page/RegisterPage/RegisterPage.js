@@ -5,7 +5,7 @@ import { Form, Input, Button, Select, DatePicker, Col, Row, Modal } from 'antd';
 
 import './Register.scss';
 import { useTranslation } from 'react-i18next';
-import { loginUser, registerUser } from '../../Redux/auth/authSlice';
+import { loginUser } from '../../Redux/auth/authSlice';
 import { authService } from '../../services/authService';
 import { useState } from 'react';
 import { IoIosMailOpen } from 'react-icons/io';
@@ -20,9 +20,11 @@ function RegisterPage() {
   const [confirmCode, setConfirmCode] = useState("");
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
-
+  const [isLoading, setIsLoading] = useState(false)
+  
   const navigate = useNavigate();
   const onFinish = async (values) => {
+    setIsLoading(true)
     const infor = {
       name: values.name,
       email: email,
@@ -33,20 +35,20 @@ function RegisterPage() {
     };
     await authService.registerUser(infor)
       .then((res) => {
-        console.log(res);
-       
-          setModalOpen(true);
-       
-        // dispatch(loginUser({email: infor.email,password : infor.password}))
+        setModalOpen(true);
+        setIsLoading(false)
+
       })
       .catch((err) => {
+        setIsLoading(false)
+
         if (err.response.data.message === 'email already taken') {
           openNotificationIcon('warning', 'Email already exists', `Please go back to login by email: ${email}!`);
-               navigate('/login');
+          navigate('/login');
         } else {
-          console.log(err.response.data.message); 
+          console.log(err.response.data.message);
         }
-       
+
       });
 
   };
@@ -194,7 +196,7 @@ function RegisterPage() {
                   placeholder={t('+84 Phone Number')}
                 />
               </Form.Item>
-              
+
               <p className="">Email</p>
               <Form.Item
                 className="mb-4 w-full"
@@ -258,15 +260,16 @@ function RegisterPage() {
                   placeholder={t('Password')}
                 />
               </Form.Item>
-              
+
 
               <Button
                 className="hover:blacks w-full rounded-[0.5rem] bg-primary btn-login text-white py-[6px] px-[12px]"
                 type="primary"
                 size="large"
                 htmlType="submit"
+                disabled={isLoading}
               >
-                {t('Register')}
+                {isLoading ? t('Loading...') : t('Register')}
               </Button>
             </Form>
             <div className="flex justify-between w-full">
