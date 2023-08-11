@@ -69,10 +69,13 @@ export default function AddHouseManager() {
 
   const handleStreetChange = (e) => {
     setStreet(e.target.value);
+    
+  };
+  useEffect(() => {
     setAddress(
       street + ", " + nameWard + ", " + nameDistrict + ", " + nameProvince
     );
-  };
+  }, [nameProvince,nameDistrict,nameWard,street]);
 
   useEffect(() => {
     locationService
@@ -83,7 +86,7 @@ export default function AddHouseManager() {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [street]);
 
   const renderOption = () => {
     return location?.map((item, index) => {
@@ -101,10 +104,6 @@ export default function AddHouseManager() {
   };
 
   useEffect(() => {
-    setAddress(
-      street + ", " + nameWard + ", " + nameDistrict + ", " + nameProvince
-    );
-
     axios
       .get(`${PROVINCES_API_URL}/p`)
       .then((response) => {
