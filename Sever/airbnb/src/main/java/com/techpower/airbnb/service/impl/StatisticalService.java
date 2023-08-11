@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StatisticalService implements IStatisticalService {
@@ -31,17 +33,15 @@ public class StatisticalService implements IStatisticalService {
         return statisticalConverter.toDTO(statisticalEntity);
     }
 
+    public List<StatisticalDTO> sortStatisticalListByMonth(List<StatisticalDTO> statisticalList) {
+        return statisticalList.stream()
+                .sorted(Comparator.comparingInt(StatisticalDTO::getMonth))
+                .collect(Collectors.toList());
+    }
     @Override
     public List<StatisticalDTO> getStatisticalByYear(long idUser, int year) {
-        UserEntity userEntity = userRepository.findOneById(idUser);
-        List<StatisticalEntity> statisticalEntities = statisticalRepository.findAllByUserAndYear(
-                userEntity, year
-        );
-        List<StatisticalDTO> result = new ArrayList<>();
-        for (StatisticalEntity statistical : statisticalEntities) {
-            StatisticalDTO statisticalDTO = statisticalConverter.toDTO(statistical);
-            result.add(statisticalDTO);
-        }
-        return result;
+
+        List<StatisticalEntity> statisticalEntities = statisticalRepository.findByUser_IdAndYear(idUser, year);
+        return sortStatisticalListByMonth(statisticalConverter.mapperTOList(statisticalEntities));
     }
 }

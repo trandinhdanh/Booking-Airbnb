@@ -1,8 +1,12 @@
 package com.techpower.airbnb.converter;
 
+import com.techpower.airbnb.dto.OrderDTO;
 import com.techpower.airbnb.dto.StatisticalDTO;
+import com.techpower.airbnb.entity.OrderEntity;
 import com.techpower.airbnb.entity.StatisticalEntity;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class StatisticalConverter {
@@ -13,6 +17,9 @@ public class StatisticalConverter {
         dto.setTotalRevenue(entity.getTotalRevenue());
         dto.setReallyReceived(entity.getReallyReceived());
         return dto;
+    }
+    public List<StatisticalDTO> mapperTOList(List<StatisticalEntity> entity) {
+        return entity.stream().map(this::toDTO).toList();
     }
 
     public StatisticalEntity toEntity(StatisticalDTO dto) {

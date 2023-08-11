@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService implements IUserService {
@@ -42,10 +43,16 @@ public class UserService implements IUserService {
     private FeedbackConverter feedbackConverter;
     @Autowired
     private FeedbackRepository feedbackRepository;
-
+    public List<OrderDTO> sortOrderListById(List<OrderDTO> orderList) {
+        return orderList.stream()
+                .sorted(Comparator.comparingLong(OrderDTO::getId).reversed())
+                .collect(Collectors.toList());
+    }
     @Override
     public List<OrderDTO> findAllOrders(long idUser) {
-        return orderConverter.mapperTOList(orderRepository.findAllByUserId(idUser));
+        List<OrderDTO> orderDTOS = orderConverter.mapperTOList(orderRepository.findAllByUserId(idUser));
+//        Collections.reverse(orderDTOS);
+        return sortOrderListById(orderDTOS);
     }
 
     @Override

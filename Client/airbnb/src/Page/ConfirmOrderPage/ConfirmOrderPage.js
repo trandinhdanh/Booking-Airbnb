@@ -42,7 +42,7 @@ export default function ConfirmOrderPage() {
       .order(id, orderData)
       .then((res) => {
         setIsLoading(false);
-        navigate("/profile");
+        navigate("/profile?tab=order");
         openNotificationIcon('success', 'Success', 'Order Success. Thank you very much!');
       })
       .catch((err) => {

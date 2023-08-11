@@ -267,6 +267,7 @@ export default function RegisterOwner() {
         title="Verify your email"
         centered
         open={modalOpen}
+        closable={false}
         onOk={() => handleVerify()}
         onCancel={() => handleDeleteUserNotConfirm()}
       >
