@@ -21,7 +21,7 @@ export default function ProfilePage() {
   }, [reloadPage]);
   const getUser = () => { 
     userService
-    .getInformation(user.userDTO.id)
+    .getInformation(user?.userDTO?.id)
     .then((res) => {
       setinfor(res.data);
     })
@@ -31,7 +31,7 @@ export default function ProfilePage() {
    }
    const getFavorite = () => { 
     favoriteService
-      .get(user.userDTO.id)
+      .get(user?.userDTO?.id)
       .then((res) => {
         console.log(res);
         setListFavorite(res.data)
@@ -45,40 +45,40 @@ export default function ProfilePage() {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
-      render: (text, record) => <Link to={`/detail-room/${record.roomDTO.id}`}>{record.roomDTO.name}</Link>,
+      render: (text, record) => <Link to={`/detail-room/${record?.roomDTO?.id}`}>{record?.roomDTO?.name}</Link>,
     },
     {
       title: 'Price',
       dataIndex: 'price',
       key: 'price',
-      render: (text,record) => <span>${record.roomDTO.price}</span>,
+      render: (text,record) => <span>${record?.roomDTO?.price}</span>,
     },
     {
       title: 'Images',
       dataIndex: 'images',
       key: 'images',
       render: (text,record) => (
-        <img className='bg-cover w-[100px] h-[100px] rounded-lg ' src={record.roomDTO.images[0]} alt="Room"  />
+        <img className='bg-cover w-[100px] h-[100px] rounded-lg ' src={record?.roomDTO?.images[0]} alt="Room"  />
       ),
     },
     {
       title: 'Description',
       dataIndex: 'description',
       key: 'description',
-      render: (text, record) => <span>{record.roomDTO.description}</span>,
+      render: (text, record) => <span>{record?.roomDTO?.description}</span>,
     },
     {
       title: 'Action',
       key: 'action',
       render: (text, record) => (
-        <Button onClick={() => handleRemoveFavorite(record.roomDTO.id)}>Remove</Button>
+        <Button onClick={() => handleRemoveFavorite(record?.roomDTO?.id)}>Remove</Button>
       ),
     },
   ];
 
   const handleRemoveFavorite = async (idroom) => {
     try {
-      const response = await favoriteService.remove(user.userDTO.id,idroom)
+      const response = await favoriteService.remove(user?.userDTO?.id,idroom)
       setReloadPage(!reloadPage)
       openNotificationIcon("success" , "Success" , "Remove Favority Success")
     } catch (error) {

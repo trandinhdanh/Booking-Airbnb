@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { Modal, notification } from 'antd';
+import React, { useState } from "react";
+import { Modal, notification } from "antd";
+import { t } from "i18next";
 export default function Collection() {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const openModal = () => {
@@ -13,8 +14,15 @@ export default function Collection() {
   };
   return (
     <>
-      <Modal className="modalUploadImg" open={isOpenModal} onOk={handleOk} onCancel={handleCancel}>
-        <h1 className="text-base font-bold mb-5">Rất tiếc, hãy quay lại sau để trải nghiệm nhé?</h1>
+      <Modal
+        className="modalUploadImg"
+        open={isOpenModal}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <h1 className="text-base font-bold mb-5">
+          Rất tiếc, hãy quay lại sau để trải nghiệm nhé?
+        </h1>
       </Modal>
       <div className="flex gap-5 overflow-x-auto justify-between">
         <div className="relative lg:w-[50%] md:w-full sm:w-full mb:w-full h-[370px]  animate__animated animate__fadeInLeft">
@@ -30,8 +38,11 @@ export default function Collection() {
             </h1>
           </div>
           <div className="absolute bottom-10 left-10">
-            <button onClick={openModal} className="py-2 px-5 bg-white font-medium rounded">
-              Show All
+            <button
+              onClick={openModal}
+              className="py-2 px-5 bg-white font-medium rounded"
+            >
+              {t("Show All")}
             </button>
           </div>
         </div>
@@ -48,8 +59,11 @@ export default function Collection() {
             </h1>
           </div>
           <div className="absolute bottom-10 left-10">
-            <button onClick={openModal} className="py-2 px-5 bg-white font-medium rounded">
-              Show All
+            <button
+              onClick={openModal}
+              className="py-2 px-5 bg-white font-medium rounded"
+            >
+              {t("Show All")}
             </button>
           </div>
         </div>
