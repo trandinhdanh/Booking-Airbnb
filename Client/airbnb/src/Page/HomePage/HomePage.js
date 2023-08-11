@@ -53,9 +53,11 @@ function HomePage() {
   }, []);
 
   const renderRoomItem = () => {
-    return Array.isArray(currentItems) ? currentItems.map((roomInfor, index) => (
-      <CardItem key={index} roomInfor={roomInfor} />
-    )) : null;
+    return Array.isArray(currentItems)
+      ? currentItems.map((roomInfor, index) => (
+          <CardItem key={index} roomInfor={roomInfor} />
+        ))
+      : null;
   };
 
   const handleDecrease = () => {
@@ -101,18 +103,18 @@ function HomePage() {
       </div>
       <div className="container mb-5 m-auto mt-10 flex justify-end space-x-3 ">
         <Button
-        className="font-bold text-primary"
+          className="font-bold text-primary"
           onClick={handleDecrease}
           icon={<AiOutlineSortAscending />}
         >
-          Decrease
+          {t("Decrease")}
         </Button>
         <Button
-        className="font-bold text-primary"
+          className="font-bold text-primary"
           onClick={handleIncrease}
           icon={<AiOutlineSortDescending />}
         >
-         Increase
+          {t("Increase")}
         </Button>
       </div>
       <div className="container  m-auto  grid mb:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-6 gap-6 ">
