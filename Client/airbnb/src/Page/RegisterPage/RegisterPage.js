@@ -5,7 +5,7 @@ import { Form, Input, Button, Select, DatePicker, Col, Row, Modal } from 'antd';
 
 import './Register.scss';
 import { useTranslation } from 'react-i18next';
-import { loginUser, registerUser } from '../../Redux/auth/authSlice';
+import { loginUser } from '../../Redux/auth/authSlice';
 import { authService } from '../../services/authService';
 import { useState } from 'react';
 import { IoIosMailOpen } from 'react-icons/io';

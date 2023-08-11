@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import UserNav from './UserNav';
 import { FaSearch } from 'react-icons/fa';
-import { DatePicker, message, Space, Select, notification, InputNumber } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
+import { DatePicker, Space, Select, InputNumber } from 'antd';
 import './Header.module.scss';
-import { NavLink, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { locationService } from '../../services/locationService';
 import { roomService } from '../../services/RoomService';
@@ -30,7 +29,6 @@ export default function Header() {
 
   useEffect(() => {
     locationService.getLocationList().then((res) => {
-      console.log(res);
       setLocation(res.data)
     })
       .catch((err) => {
@@ -62,7 +60,6 @@ export default function Header() {
   const [endDay, setEndDay] = useState();
 
   const onChangeRangePicker = (dates, dateStrings) => {
-    console.log('Selected Dates:', dateStrings);
     setStartDay(dateStrings[0])
     setEndDay(dateStrings[1])
   };

@@ -28,7 +28,7 @@ public class WishlistAPI {
         } else
             return ResponseEntity.ok(wishlistDTO);
     }
-    @DeleteMapping("{idUser}/delete")
+        @DeleteMapping("{idUser}/delete")
     public ResponseEntity<?> delete(@PathVariable Long idUser, @RequestParam(name = "roomId") Long roomId){
         return ResponseEntity.ok(iWishlistService.removeToWishlist(idUser,roomId));
     }

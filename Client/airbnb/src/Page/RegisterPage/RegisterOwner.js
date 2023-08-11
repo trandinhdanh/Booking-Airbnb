@@ -1,11 +1,11 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { Form, Input, Button, Select, DatePicker, Col, Row, Modal } from 'antd';
+import { Form, Input, Button, Select, Modal } from 'antd';
 
 import './Register.scss';
 import { useTranslation } from 'react-i18next';
-import { loginUser, registerUser } from '../../Redux/auth/authSlice';
+import { loginUser } from '../../Redux/auth/authSlice';
 import { authService } from '../../services/authService';
 import { useState } from 'react';
 import { IoIosMailOpen } from 'react-icons/io';
@@ -78,9 +78,7 @@ export default function RegisterOwner() {
   
       await authService.delete(email)
         .then((res) => {
-          console.log(res);
           setModalOpen(false);
-  
         })
         .catch((err) => {
           console.log(err);
@@ -91,7 +89,6 @@ export default function RegisterOwner() {
   
     useEffect(() => {
       const role = localStorageService.get('USER')?.userDTO?.role?.[0];
-      console.log(role);
       if (isLoggedIn && role) {
         if (role === "CUSTOMER") {
           navigate("/");

@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { FaFacebook, FaInstagram, FaGithub } from 'react-icons/fa';
-import { localStorageService } from '../../services/localStorageService';
+import React from 'react';
 import './Footer.scss';
 
 function Footer() {

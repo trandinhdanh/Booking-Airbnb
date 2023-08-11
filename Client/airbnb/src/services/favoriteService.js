@@ -7,7 +7,7 @@ export let favoriteService = {
   add: (idUser, data) => {
     return https.post(`/api/v1/wishlist/${idUser}/addWishlist`, data );
   },
-  remove: (idUser, data) => {
-    return https.delete(`/api/v1/wishlist/${idUser}/delete`, data );
+  remove: (idUser, idRoom) => {
+    return https.delete(`/api/v1/wishlist/${idUser}/delete?roomId=${idRoom}` );
   },
 };

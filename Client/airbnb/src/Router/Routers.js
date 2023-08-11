@@ -24,6 +24,7 @@ import BlogDetailPage from "../Page/BlogDetailPage/BlogDetailPage";
 import ConfirmOrderPage from "../Page/ConfirmOrderPage/ConfirmOrderPage";
 import RegisterOwner from "../Page/RegisterPage/RegisterOwner";
 import StatisticalManager from "../Page/Manager/StatisticalManager";
+import UserManagemer from "../Page/Manager/UserManager";
 
 export default function Routers() {
   return (
@@ -52,6 +53,7 @@ export default function Routers() {
               element={<UpdateHouseManager />}
             />
             <Route path="/manager/calendar" element={<BookingCalendar />} />
+            <Route path="/manager/user" element={<UserManagemer />} />
             <Route path="/manager/order" element={<OrderManager />} />
             <Route path="/manager/feedback" element={<FeedbackManager />} />
             <Route path="/manager/blog" element={<BlogManagerPage />} />

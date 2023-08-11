@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { localStorageService } from '../../services/localStorageService';
-import { Avatar, Button, Image, Table, Tabs } from 'antd';
+import {  Button, Image, Table, Tabs } from 'antd';
 import TabPane from 'antd/es/tabs/TabPane';
 import OrderPage from '../OrderPage/OrderPage';
 import { FaHeart } from 'react-icons/fa';
 import { IoMdCart } from 'react-icons/io';
 import { userService } from '../../services/userService';
 import { favoriteService } from '../../services/favoriteService';
-import CardItem from '../../Components/CardItem/CardItem';
 import { Link } from 'react-router-dom';
 import { openNotificationIcon } from '../../Components/NotificationIcon/NotificationIcon';
 
@@ -74,14 +73,12 @@ export default function ProfilePage() {
 
   const handleRemoveFavorite = async (idroom) => {
     try {
-      const formData = new FormData();
-      formData.append("roomId", idroom);
       console.log(idroom);
-      const response = await favoriteService.remove(user.userDTO.id,formData)
+      const response = await favoriteService.remove(user.userDTO.id,idroom)
       console.log(response);
-      openNotificationIcon("success" , "Success" , "Add Favority Success")
+      openNotificationIcon("success" , "Success" , "Remove Favority Success")
     } catch (error) {
-      openNotificationIcon("error" , "Error" , "Add Favority Error")
+      openNotificationIcon("error" , "Error" , "Remove Favority Error")
       console.log(error);
     }
   };

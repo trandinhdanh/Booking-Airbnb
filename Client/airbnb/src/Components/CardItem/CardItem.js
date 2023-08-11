@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import './CardItem.scss';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -7,10 +7,8 @@ import 'swiper/css/pagination';
 import { FaStar } from 'react-icons/fa';
 import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper';
 import { Link } from 'react-router-dom';
-import { dataIMG } from '../../Data/Data';
 import { useTranslation } from 'react-i18next';
-import { favoryteService } from '../../services/favoriteService';
-import { localStorageService } from '../../services/localStorageService';
+import { Image } from 'antd';
 
 function CardItem({ roomInfor }) {
   const { t } = useTranslation();
@@ -25,10 +23,10 @@ function CardItem({ roomInfor }) {
             className="max-h-[270px] rounded-[0.8rem] object-cover h-full w-full"
           >
             <div className="flex items-center justify-center h-full w-full">
-              <img
+              <Image
                 src={image}
                 alt=""
-                className="rounded-[0.8rem] object-cover max-h-full"
+                className="rounded-[0.8rem] object-cover h-full"
               />
             </div>
           </SwiperSlide>
@@ -49,11 +47,8 @@ function CardItem({ roomInfor }) {
   };
   
   return (
-    <Link
-      to={`/detail-room/${roomInfor.id}`}
-      className="relative text-black hover:text-black bg-white rounded-[2rem]"
-    >
-      <div className="h-[270px]">
+    <div className='relative text-black hover:text-black bg-white rounded-[2rem]'>
+      <div className="h-[270px] ">
         <Swiper
           loop={true}
           cssMode={true}
@@ -90,7 +85,10 @@ function CardItem({ roomInfor }) {
       >
         <path d="m16 28c7-4.733 14-10 14-17 0-1.792-.683-3.583-2.05-4.95-1.367-1.366-3.158-2.05-4.95-2.05-1.791 0-3.583.684-4.949 2.05l-2.051 2.051-2.05-2.051c-1.367-1.366-3.158-2.05-4.95-2.05-1.791 0-3.583.684-4.949 2.05-1.367 1.367-2.051 3.158-2.051 4.95 0 7 7 12.267 14 17z" />
       </svg>
-
+      <Link
+      to={`/detail-room/${roomInfor.id}`}
+      className=""
+    >
       <div className="mt-[8px]">
         <div className="w-full flex justify-between">
           <h1 className="text-[1rem] font-[500]">{roomInfor.name.length > 25 ? roomInfor.name.slice(0, 25) + "..." : roomInfor.name}</h1>
@@ -112,6 +110,7 @@ function CardItem({ roomInfor }) {
         </div>
       </div>
     </Link>
+    </div>
   );
 }
 

@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.*;
 public class UserAPI {
     @Autowired
     private IUserService userService;
-@GetMapping("/{idUser}")
-public ResponseEntity<?> getInformation(@PathVariable("idUser") Long idUser){
-    return ResponseEntity.ok(userService.getInformation(idUser));
-}
+
+    @GetMapping("/{idUser}")
+    public ResponseEntity<?> getInformation(@PathVariable("idUser") Long idUser) {
+        return ResponseEntity.ok(userService.getInformation(idUser));
+    }
+
     @GetMapping("/{idUser}/orders")
     public ResponseEntity<?> findAllOrders(@PathVariable("idUser") long idUser) {
         return ResponseEntity.ok(userService.findAllOrders(idUser));
@@ -36,14 +38,17 @@ public ResponseEntity<?> getInformation(@PathVariable("idUser") Long idUser){
     public ResponseEntity<?> findAllBookingsDate(@PathVariable("idUser") Long idUser) {
         return ResponseEntity.ok(userService.findAllBookingsDate(idUser));
     }
+
     @GetMapping("/{idUser}/feedback")
-    public ResponseEntity<?> findAllFeedback(@PathVariable("idUser") Long idUser){
+    public ResponseEntity<?> findAllFeedback(@PathVariable("idUser") Long idUser) {
         return ResponseEntity.ok(userService.findAllFeedbackByCustomer(idUser));
     }
+
     @GetMapping("/{idUser}/manager-feedback")
-    public ResponseEntity<?> getAllFeedbackByOwner(@PathVariable("idUser") Long idUser){
+    public ResponseEntity<?> getAllFeedbackByOwner(@PathVariable("idUser") Long idUser) {
         return ResponseEntity.ok(userService.getAllFeedbackByOwner(idUser));
     }
+
     @PutMapping("/{idUser}")
     public ResponseEntity<?> updateStatus(@PathVariable("idUser") long idUser,
                                           @RequestParam("status") Status status) {

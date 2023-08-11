@@ -10,6 +10,8 @@ import Feedback from './Feedback/Feedback';
 import { localStorageService } from '../../services/localStorageService';
 import { favoriteService } from '../../services/favoriteService';
 import { openNotificationIcon } from '../../Components/NotificationIcon/NotificationIcon';
+import Map from '../SearchPage/Map';
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 
 export default function DetailRoomPage() {
     const {id} = useParams();
@@ -18,11 +20,37 @@ export default function DetailRoomPage() {
     const [isFetch,setIsFecth] = useState(false) 
     const {t} = useTranslation()
     const navigate = useNavigate()
+    const containerStyle = {
+      width: '100%',
+      height: '500px'
+    };
+    const options = {
+      styles: [
+        {
+          featureType: 'poi',
+          elementType: 'labels',
+          stylers: [{ visibility: 'off' }]
+        }
+      ],
+      // mapTypeControlOptions: {
+      //   mapTypeIds: ['roadmap', 'hybrid'], // Chỉ hiển thị kiểu bản đồ roadmap và hybrid
+      //   style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+      //   position: google.maps.ControlPosition.TOP_LEFT
+      // },
+    };
+    const icon = {
+      url: '/img/airbnb.png',
+      scaledSize: {
+        width: 45,
+        height: 45
+      },
+    };
     useEffect(() => { 
         setIsFecth(true)
         roomService.getHouseById(id)
             .then((res) => {
                 setRoomDetail(res.data)
+                console.log(res.data);
                 setIsFecth(false)
               })
               .catch((err) => {
@@ -218,6 +246,25 @@ export default function DetailRoomPage() {
               </div>
             </div>
         </>}
+        <div className='container mx-auto pb-5 mb:pt-[0px] sm:pt-[0px] md:pt-[6rem]'>
+        {/* <Map address={address} /> */}
+        <LoadScript
+      googleMapsApiKey="AIzaSyAuLeNevWVQJMYM7GBtmRa9yXNyP96Cnd8">
+      <GoogleMap
+        mapContainerStyle={containerStyle}
+        center={{
+          lat: roomDetail?.address?.lat, lng: roomDetail?.address?.lng
+        }}
+        zoom={13}
+        options={options}
+      >
+          <Marker
+            icon={icon}
+            position={{ lat: roomDetail?.address?.lat, lng: roomDetail?.address?.lng }}
+          />
+      </GoogleMap>
+    </LoadScript>
+        </div>
     </div>
     
   )
