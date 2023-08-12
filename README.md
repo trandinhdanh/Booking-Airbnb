@@ -9,6 +9,9 @@
 - Đặt phòng: Người dùng có thể đặt phòng trực tuyến thông qua giao diện đơn giản và an toàn.
 - Đánh giá và nhận xét: Người dùng có thể đánh giá và viết nhận xét về chỗ ở mà họ đã trải nghiệm.
 - Quản lý tài khoản: Người dùng có thể tạo tài khoản, chỉnh sửa thông tin cá nhân và quản lý các đặt phòng của mình.
+- Áp dụng Google Map giúp người dùng biết rõ địa điểm và đường đi.
+- Viết Blog chia sẽ về địa điểm du lịch giúp người dùng hình dung rõ hơn về nơi mình muốn đến.
+- Đa ngôn ngữ: có thể chuyển đổi các ngôn ngữ khác nhau
 
 ### Dự án sử dụng các công nghệ sau:
 - Back End: Spring Boot
